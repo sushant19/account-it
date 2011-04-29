@@ -72,11 +72,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bg_bt.jpg" />
-    <Content Include="Content\bg_bt_lt.png" />
-    <Content Include="Content\bg_tp_rt.jpg" />
-    <Content Include="Content\Copy of Main.css" />
-    <Content Include="Content\header_bg.jpg" />
+    <Content Include="Content\images\bg_bt.jpg" />
+    <Content Include="Content\images\bg_bt_lt.png" />
+    <Content Include="Content\images\bg_tp_rt.jpg" />
+    <Content Include="Content\images\Copy of Main.css" />
+    <Content Include="Content\images\header_bg.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.5.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.5.2.js" />
