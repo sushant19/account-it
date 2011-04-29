@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banking.Domain", "Banking.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banking.EFData", "Banking.EFData\Banking.EFData.csproj", "{FC7D4E18-EE68-4B44-8E5A-8DEAEB40E5BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banking.EFStorage.Test", "Banking.EFStorage.Test\Banking.EFStorage.Test.csproj", "{9094422D-BF94-4B9A-8A64-B9F310B5191B}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -53,16 +51,6 @@ Global
 		{FC7D4E18-EE68-4B44-8E5A-8DEAEB40E5BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FC7D4E18-EE68-4B44-8E5A-8DEAEB40E5BB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FC7D4E18-EE68-4B44-8E5A-8DEAEB40E5BB}.Release|x86.ActiveCfg = Release|Any CPU
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Debug|x86.ActiveCfg = Debug|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Debug|x86.Build.0 = Debug|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Release|Any CPU.ActiveCfg = Release|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Release|Mixed Platforms.Build.0 = Release|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Release|x86.ActiveCfg = Release|x86
-		{9094422D-BF94-4B9A-8A64-B9F310B5191B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
