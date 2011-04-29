@@ -28,5 +28,7 @@ namespace Banking.Domain
         {
             return Amount / Participants.Count;
         }
+
+        //public Deci
     }
 }

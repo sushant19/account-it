@@ -2,7 +2,7 @@
 
 <tr data-id=@Model.ID>        
     <td>@Html.EditorFor(op => op.Name)</td>
-    <td>@Model.GetBalance().ToString()</td>
+    <td>@Math.Round(Model.GetBalance(), 2)</td>
     <td>
         <input type="button" value="Save" class="saveButton"/>
         <input type="button" value="Cancel" class="cancelButton"/>
