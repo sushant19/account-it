@@ -68,7 +68,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\OperationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,25 +77,8 @@
     <Content Include="Content\images\Copy of Main.css" />
     <Content Include="Content\images\header_bg.jpg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.5.2-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.5.2.js" />
-    <Content Include="Scripts\jquery-1.5.2.min.js" />
     <Content Include="Scripts\jquery-1.6rc1.js" />
-    <Content Include="Scripts\jquery-ui-1.8.11.js" />
-    <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
-    <Content Include="Scripts\jquery.form.js" />
-    <Content Include="Scripts\jquery.ui.core.js" />
-    <Content Include="Scripts\jquery.ui.core.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Main.js" />
-    <Content Include="Scripts\modernizr-1.7.js" />
-    <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -108,9 +90,7 @@
     </Content>
     <Content Include="Content\Main.css" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\About.cshtml" />
     <Content Include="Views\Operation\AllOperations.cshtml" />
-    <Content Include="Views\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
@@ -118,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Banking.Domain\Banking.Domain.csproj">
@@ -128,9 +109,6 @@
       <Project>{FC7D4E18-EE68-4B44-8E5A-8DEAEB40E5BB}</Project>
       <Name>Banking.EFData</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\OperationsTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Operation\EditOperation.cshtml" />
