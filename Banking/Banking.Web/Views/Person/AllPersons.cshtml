@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Banking.Domain.Person>
+
+@{
+    ViewBag.Title = "AllPersons";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        assignBehavior('Person');
+    });
+
+    function parseFields(target) {
+        var fields = target.find('input');
+        var query = {
+            ID: Number(target.attr('data-id')),
+            Name: fields[0].value
+        }
+        return query;
+    }
+
+</script>
+<h1>All Persons</h1>
+<p>
+@Html.ActionLink("Operations", "AllOperations", "Operation")
+</p>
+<p>
+<input type="button" value="Create" class="createButton" />
+</p>
+<table id="persons">
+  <caption>
+    Persons
+  </caption>
+  <tr id="headings">
+    <th scope="col">Name</th>
+    <th scope="col">Balance</th>
+    <th scope="col">Action</th>
+  </tr>
+  @foreach (var man in Model)
+  {
+    @Html.Partial("ViewPerson", man)
+  }
+</table>
+

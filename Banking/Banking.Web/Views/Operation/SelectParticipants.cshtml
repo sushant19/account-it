@@ -1,0 +1,20 @@
+﻿@model Dictionary<Banking.Domain.Person, bool>
+
+<ul>
+    @foreach (var pair in Model)
+    {
+        <li>
+            <label>
+                @if (pair.Value)
+                {
+                    <input data-id=@pair.Key.ID type="checkbox" checked />
+                }
+                else
+                {
+                   <input data-id=@pair.Key.ID type="checkbox" />
+                }
+                @pair.Key.Name
+            </label> 
+        </li>
+    }
+</ul>

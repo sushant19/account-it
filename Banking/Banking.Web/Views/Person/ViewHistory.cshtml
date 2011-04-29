@@ -1,0 +1,56 @@
+﻿@model Banking.Domain.Person
+
+@{
+    ViewBag.Title = "ViewHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // getting all operations in which current person participate
+    var ops = Model.Operations.
+        Where(op => op.Participants.
+            Any(man => man.Name == Model.Name));
+}
+<p>
+@Html.ActionLink("Operations", "AllOperations", "Operation")
+@Html.ActionLink("Persons", "AllPersons", "Person")
+</p>
+<p>
+@Model.Name
+</p>
+<p>
+Balance: @Math.Round(Model.GetBalance(), 2);
+</p>
+
+
+<table id="history">
+  <caption>
+    History
+  </caption>
+  <tr id="headings">
+    <th scope="col">Date</th>
+    <th scope="col">Share</th>
+    <th scope="col">Total</th>
+    <th scope="col">Mark</th>
+    <th scope="col">Description</th>
+    <th scope="col">Others</th>
+  </tr>
+  @foreach (var op in ops)
+  {
+  <tr>
+    <td>@op.Date.ToShortDateString()</td>
+    <td>@Math.Round(op.GetPersonShare(), 2).ToString()</td>
+    <td>@Math.Round(op.Amount, 2)</td>
+    <td>@op.Mark</td>
+    <td>@op.Description</td>
+    <td>
+    <ul>
+    @foreach (var man in op.Participants)
+    {
+        if (man.ID != Model.ID)
+        {
+        <li>@Html.ActionLink(man.Name, "ViewHistory", new { ID = man.ID })</li>
+        }
+    }
+    </ul>
+    </td>
+  </tr>
+  }
+</table>

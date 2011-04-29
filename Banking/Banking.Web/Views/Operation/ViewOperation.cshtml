@@ -1,0 +1,24 @@
+﻿@model Banking.Domain.Operation
+    
+<tr data-id=@Model.ID>
+    <td>@Model.Date.ToShortDateString()</td>
+    <td>@Math.Round(Model.Amount, 2).ToString()</td>
+    <td>@Model.Mark</td>
+    <td>@Model.Description</td>
+    <td>
+    <ul>
+    @foreach (var man in Model.Participants)
+    {
+        <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { ID = man.ID }, null)</li>
+    }
+    </ul>
+    </td>
+    <td>
+        <input type="button" value="Edit" class="editButton"/>
+        <input type="button" value="Delete" class="deleteButton"/>
+    </td>
+</tr>      
+    
+
+
+

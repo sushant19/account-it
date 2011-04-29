@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Banking.Domain.Operation>
+
+@{
+    ViewBag.Title = "AllOperations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        assignBehavior('Operation');
+    });
+
+    function parseFields(target) {
+        var fields = target.find('input[type="text"]');
+        var flags = target.find('input[type="checkbox"]');
+        var selected = new Array();
+        for (i = 0; i < flags.length; i++) {
+            if (flags[i].checked == true) {
+                selected.push(jQuery(flags[i]).attr('data-id'));
+            }
+        }
+        var query = {
+            ID: Number(target.attr('data-id')),
+            Date: fields[0].value,
+            Amount: fields[1].value,
+            Mark: fields[2].value,
+            Description: fields[3].value,
+            Participants: selected
+        }
+        return query;
+    }
+
+</script>
+
+
+<p>
+@Html.ActionLink("Persons", "AllPersons", "Person")
+</p>
+
+
+<p>
+<input type="button" value="Create" class="createButton" />
+</p>
+
+
+
+<table class="tableView" id="operations" align="center">
+
+  <caption>
+
+    Deals
+
+  </caption>
+
+  <tr id="headings">
+
+    <th scope="col">Start&nbsp;Date&nbsp;</th>
+
+    <th scope="col">Money,$</th>
+
+    <th scope="col">Mark</th>
+
+    <th scope="col">Description</th>
+
+    <th scope="col">Participants</th>
+
+    <th scope="col">Actions</th>
+
+  </tr>
+  @foreach (var op in Model)
+  {
+    @Html.Partial("ViewOperation", op)
+  }
+</table>
