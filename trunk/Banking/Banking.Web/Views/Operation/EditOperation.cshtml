@@ -1,0 +1,17 @@
+﻿@model Banking.Domain.Operation
+           
+@{
+    string participants = Model.ListParticipants();           
+}
+
+<tr data-id=@Model.ID>        
+    <td>@Html.EditorFor(op => op.Date)</td>
+    <td>@Html.EditorFor(op => op.Amount)</td>
+    <td>@Html.EditorFor(op => op.Mark)</td>  
+    <td>@Html.EditorFor(op => op.Description)</td>
+    <td>@Html.Action("SelectParticipants", new { id = Model.ID })</td>
+    <td>
+        <input type="button" value="Save" class="saveButton"/>
+        <input type="button" value="Cancel" class="cancelButton"/>
+    </td>
+</tr> 
