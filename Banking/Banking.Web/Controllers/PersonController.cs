@@ -21,6 +21,7 @@ namespace Banking.Web.Controllers
                  @"data source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=Banking21";
         }
 
+        //[RequireHttps]
         public ViewResult AllPersons()
         {
             return View(_storage.Persons.ToList());
@@ -66,6 +67,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
+        //[RequireHttps]
         public PartialViewResult SavePerson()
         {
 
@@ -97,6 +99,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
+        //[RequireHttps]
         public EmptyResult DeletePerson(int id)
         {
             Person man = _storage.Persons.Find(id);

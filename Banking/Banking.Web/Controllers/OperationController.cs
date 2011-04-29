@@ -14,8 +14,6 @@ namespace Banking.Web.Controllers
     {
         private EFStorage _storage = new EFStorage();
 
-        private int delay = 0;
-
         public OperationController()
         {
            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EFStorage>());
@@ -23,6 +21,7 @@ namespace Banking.Web.Controllers
                 @"data source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=Banking21";
         }
 
+        //[RequireHttps]
         public ViewResult AllOperations()
         {
             return View(_storage.Operations.ToList());
@@ -59,6 +58,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
+        //[RequireHttps]
         public PartialViewResult SaveOperation()
         {
             
@@ -103,6 +103,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
+        //[RequireHttps]
         public EmptyResult DeleteOperation(int id)
         {
             Operation op = _storage.Operations.Find(id);
