@@ -10,6 +10,7 @@ using Banking.EFData;
 
 namespace Banking.Web.Controllers
 {
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
     public class OperationController : Controller
     {
         private EFStorage _storage = new EFStorage();
@@ -19,15 +20,18 @@ namespace Banking.Web.Controllers
            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EFStorage>());
            _storage.Database.Connection.ConnectionString =
                 @"data source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=Banking21";
+           //Session.
         }
 
         //[RequireHttps]
+        [RequireSecurityCode]
         public ViewResult AllOperations()
         {
             return View(_storage.Operations.ToList());
         }
 
         [HttpPost]
+        [RequireSecurityCode]
         public ActionResult ViewOperation(int id)
         {
             Operation operation = _storage.Operations.Find(id);
@@ -37,12 +41,14 @@ namespace Banking.Web.Controllers
                 return new EmptyResult();
         }
 
+        [RequireSecurityCode]
         public PartialViewResult ViewOperation(Operation op)
         {
             return PartialView("ViewOperation", op);
         }
 
         [HttpPost]
+        [RequireSecurityCode]
         public ActionResult EditOperation(int id)
         {
             Operation operation = _storage.Operations.Find(id);
@@ -52,6 +58,7 @@ namespace Banking.Web.Controllers
                 return new EmptyResult();
         }
 
+        [RequireSecurityCode]
         public PartialViewResult EditOperation(Operation op)
         {
             return PartialView("EditOperation", op);
@@ -59,9 +66,9 @@ namespace Banking.Web.Controllers
 
         [HttpPost]
         //[RequireHttps]
+        [RequireSecurityCode]
         public PartialViewResult SaveOperation()
         {
-            
             int opId = Convert.ToInt32(Request.Params["ID"]);
             Operation op = _storage.Operations.Find(opId);
             if (op == null)
@@ -94,6 +101,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
+        [RequireSecurityCode]
         public PartialViewResult CreateOperation()
         {
             Operation op = new Operation();
@@ -104,6 +112,7 @@ namespace Banking.Web.Controllers
 
         [HttpPost]
         //[RequireHttps]
+        [RequireSecurityCode]
         public EmptyResult DeleteOperation(int id)
         {
             Operation op = _storage.Operations.Find(id);
@@ -115,6 +124,7 @@ namespace Banking.Web.Controllers
             return new EmptyResult();
         }
 
+        [RequireSecurityCode]
         public ActionResult SelectParticipants(int id)
         {
             Operation op = _storage.Operations.Find(id);

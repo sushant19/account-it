@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "EnterCode";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    jQuery('#enter').live('click', function () {
+        var query = { code: jQuery('#code').prop('value') };
+        jQuery.post('/Home/EnterCode', query, function (data) {
+            if (data.Success == true) {
+                window.location = '/Operation/AllOperations';
+            } else {
+                alert('invalid code');
+            }
+        }).error(function () { alert('fck'); })
+    })
+</script>
+
+<h2>EnterCode</h2>
+
+<input id="code" type="password" /> 
+<input id="enter" type="button" value="Enter" />
