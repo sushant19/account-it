@@ -112,7 +112,7 @@ namespace Banking.Web.Controllers
 
         [HttpPost]
         //[RequireHttps]
-        [RequireSecurityCode]
+        //[RequireSecurityCode]
         public EmptyResult DeleteOperation(int id)
         {
             Operation op = _storage.Operations.Find(id);
