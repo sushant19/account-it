@@ -24,7 +24,7 @@
     $('.deleteButton').live('click', function () {
         var sure = confirm('Are you sure?');
         if (sure == true) {
-            var url = makeUrl('Edit');
+            var url = makeUrl('Delete');
             var target = $(this).parent().parent();
             var query = parseId(target);
             //var before = new Date();
