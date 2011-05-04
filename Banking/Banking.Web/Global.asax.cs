@@ -22,9 +22,34 @@ namespace Banking.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "EnterCode",
+                "authorize",
+                new { controller = "Home", action = "EnterCode" }
+            );
+
+            routes.MapRoute(
+                "AllOperations",
+                "operations",
+                new { controller = "Operation", action = "AllOperations" }
+            );
+
+            routes.MapRoute(
+                "AllPersons",
+                "persons",
+                new { controller = "Person", action = "AllPersons" }
+            );
+
+            routes.MapRoute(
+                "History",
+                "history/{name}",
+                new { controller = "Person", action = "ViewHistory" }
+            );
+
+            
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Operation", action = "AllOperations", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Home", action = "Redirect", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

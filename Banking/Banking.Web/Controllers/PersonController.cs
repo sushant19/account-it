@@ -30,9 +30,10 @@ namespace Banking.Web.Controllers
         }
 
         [RequireSecurityCode]
-        public ActionResult ViewHistory(int id)
+        public ActionResult ViewHistory(string name)
         {
-            Person man = _storage.Persons.Find(id);
+            Person man = _storage.Persons.
+                SingleOrDefault(p => p.Name == name);
             if (man != null)
                 return View("ViewHistory", man);
             else

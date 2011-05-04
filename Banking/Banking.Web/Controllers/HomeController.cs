@@ -35,5 +35,10 @@ namespace Banking.Web.Controllers
                 return Json(new { Success = false });
         }
 
+        public RedirectToRouteResult Redirect()
+        {
+            return new RedirectToRouteResult("AllOperations", null);
+        }
+
     }
 }
