@@ -14,10 +14,10 @@ namespace Banking.Web
             var key = filterContext.HttpContext.Session["Key"];
             if (key == null || key.ToString() != Security.Key.ToString())
             {
-                RouteValueDictionary redir = new RouteValueDictionary();
+                /*RouteValueDictionary redir = new RouteValueDictionary();
                 redir.Add("action", "EnterCode");
-                redir.Add("controller", "Home");
-                filterContext.Result = new RedirectToRouteResult(redir);
+                redir.Add("controller", "Home");*/
+                filterContext.Result = new RedirectToRouteResult("EnterCode", null);
             }
 
         }

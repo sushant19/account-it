@@ -9,7 +9,7 @@
     <ul>
     @foreach (var man in Model.Participants)
     {
-        <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { ID = man.ID }, null)</li>
+        <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)</li>
     }
     </ul>
     </td>

@@ -8,7 +8,7 @@
         var query = { code: jQuery('#code').prop('value') };
         jQuery.post('/Home/EnterCode', query, function (data) {
             if (data.Success == true) {
-                window.location = '/Operation/AllOperations';
+                window.location = '/operations';
             } else {
                 alert('invalid code');
             }
