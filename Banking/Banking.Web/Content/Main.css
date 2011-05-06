@@ -51,10 +51,9 @@ table {
 body {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 16px;
-	background: url(images/bg_bt.jpg) repeat-x bottom;
 	padding-bottom: 40px;	
 }
-#header {
+header {
 	background: url(images/header_bg.jpg) repeat-x top;
 	height: 100px;
 }
@@ -103,20 +102,28 @@ h1 {
 	vertical-align: middle;
 }
 #bgwrap {
-	background: url(images/bg_tp_rt.jpg) no-repeat top right;
+	background: url(images/bg_tp_rt.png) no-repeat top right;
 	position: absolute;
 	right: 0px;
 	top: 400px;
 	z-index: -1;
-	width: 292px;
+	width: 254px;
 	height: 275px;
 }
 #bgfooterwrap {
-	background: url(images/bg_bt_lt.png) no-repeat bottom left;
+	background: url(images/bg_bt_lt.jpg) no-repeat bottom left;
 	position: fixed;
 	bottom: 0px;
 	left: 0px;
-	width: 187px;
+	width: 155px;
 	height: 313px;
 	z-index: -1;
 }
+footer 
+{
+   height: 129px;
+   width: 100%;
+   z-index: -2;
+   position: fixed;
+   bottom: 0;
+   background: url(images/bg_bt.jpg) repeat-x bottom left;
