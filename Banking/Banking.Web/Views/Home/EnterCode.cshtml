@@ -4,16 +4,21 @@
 }
 
 <script type="text/javascript">
-    jQuery('#enter').live('click', function () {
-        var query = { code: jQuery('#code').prop('value') };
-        jQuery.post('/Home/EnterCode', query, function (data) {
-            if (data.Success == true) {
-                window.location = '/operations';
-            } else {
-                alert('invalid code');
-            }
-        }).error(function () { alert('fck'); })
-    })
+    $(document).ready(function () {
+        $("nav").css("display", "none");
+        $("#enter_code_form").submit(function (e) {
+            e.preventDefault();
+            var query = { code: jQuery('#code').prop('value') };
+            jQuery.post('/Home/EnterCode', query, function (data) {
+                if (data.Success == true) {
+                    window.location = '/operations';
+                } else {
+                    alert('invalid code');
+                    dialog("asd");
+                }
+            }).error(function () { alert('For some strange(probably, magic?) reason, ajax reqest could not reach the server. Please, inform system administrator.'); })
+        });
+    });
 </script>
 
 <h2>For access enter code</h2>
@@ -21,8 +26,10 @@
 <div class="enter_code">
     <div id="enter_code_inner">
         <ul>
-            <li><input id="code" type="password" /> </li>
-            <li><input id="enter" type="button" value="Enter" /></li>
+            <form id="enter_code_form">
+                <li><input id="code" type="password" /> </li>
+                <li><input id="enter" type="submit" value="Enter" /></li>
+            </form>
         </ul>
     </div>
 </div>
