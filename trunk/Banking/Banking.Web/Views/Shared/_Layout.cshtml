@@ -5,7 +5,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="@Url.Content("~/Content/Main.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/jquery-1.6rc1.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-ui-1.8.12.custom.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/Main.js")" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        $("a").filter("[href=\"" + window.location.href + "\"], [href=\"" + window.location.pathname + window.location.search.substring() + "\"]").each(function () { $(this).replaceWith($(this).html())});
+    });
+</script>
 <title>@ViewBag.Title</title>
 </head>
 
@@ -20,6 +26,12 @@
   <h1>Account.it</h1>
 
 </header>
+<nav>
+    <menu>
+        <li><a href="/operations">operations</a></li>
+        <li><a href="/persons">persons</a></li>
+    </menu>
+</nav>
     @RenderBody()
 <footer></footer>
 </body>
