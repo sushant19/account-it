@@ -5,29 +5,32 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("nav").css("display", "none");
+        $("menu").children().each(function () { $(this).remove(); });
+        $("menu").append("<h3>For access enter code</h3>");
+        $("#codeInput").focus();
         $("#enter_code_form").submit(function (e) {
             e.preventDefault();
-            var query = { code: jQuery('#code').prop('value') };
+            $("input").each(function () { $(this).attr("disabled", "disabled"); });
+            $("body").after("<div style=\"position:absolute; background-image:url(content/images/loader.gif); width:100px; height: 100px; position:absolute;top:0;left:0;\"></div>")
+            var query = { code: jQuery('#codeInput').prop('value') };
             jQuery.post('/Home/EnterCode', query, function (data) {
                 if (data.Success == true) {
                     window.location = '/operations';
                 } else {
                     alert('invalid code');
-                    dialog("asd");
+                    $("input").each(function () { $(this).removeAttr("disabled"); });
                 }
             }).error(function () { alert('For some strange(probably, magic?) reason, ajax reqest could not reach the server. Please, inform system administrator.'); })
         });
     });
 </script>
 
-<h2>For access enter code</h2>
-
-<div class="enter_code">
+<div id="enter_code">
     <div id="enter_code_inner">
+        <h2>Letters / digits(dunno 'bout symbols) will be ok...</h2>
         <ul>
             <form id="enter_code_form">
-                <li><input id="code" type="password" /> </li>
+                <li><input id="codeInput" type="password"/> </li>
                 <li><input id="enter" type="submit" value="Enter" /></li>
             </form>
         </ul>
