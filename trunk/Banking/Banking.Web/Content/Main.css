@@ -17,7 +17,6 @@ time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-	vertical-align: baseline;
 }
  /*HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -55,16 +54,23 @@ body {
 	font-size: 16px;
 	height: 100%;	
 }
+a {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 2px dashed #ffd;
+    
+}
 header {
 	background: url(images/header_bg.jpg) repeat-x top;
 	height: 100px;
+	width: 100%;
 }
 h1 {
 	padding: 20px;
 	color: #300;
 	font-size: 4em;
 	text-align: center;
-	text-shadow:0px 1px #fff;
+	text-shadow:0 1px #fff;
 }
 h2 {
 	padding: 15px;
@@ -72,6 +78,31 @@ h2 {
 	font-size: 3em;
 	text-align: center;
 }
+
+/*  navigation block  */
+nav {
+    padding: 10px;
+    color: #ffd;
+    height: 65px;
+}
+menu {
+    list-style-type: none;
+    font-size: 2em;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #300;
+}
+menu>* {
+    padding: 15px;
+}
+menu li {
+    display: inline-block;
+}
+menu li:before {
+    content: "/";
+}
+/*  navigation block  */
 
 /* table */
 .tableView {
@@ -86,16 +117,19 @@ h2 {
 	border-radius: 20px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+	position: relative;
+	z-index: 3;
 }
 .tableView caption {
 	background:rgba(90, 90, 90, 0.9);
 	color: #111;
 	font-size: 2.3em;
-	text-shadow: 0px 1px 0px #777;
+	text-shadow: 0 1px 0 #777;
 	padding: 10px;	
 	border-radius: 10px;
 	margin-bottom: 5px;	
 }
+
 .tableView th {
 	border-bottom: 1px solid #FFD;
 	font-style:oblique;
@@ -108,23 +142,32 @@ h2 {
 	font-size: 1.5em;
 	vertical-align: middle;
 }
+
+.actionsMenu {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+.actionsMenu input {
+        
+}
 /* table */
 
 /* bg / footer */
-#bgwrap {
+#bgwrap { /*dollar-made house*/
 	background: url(images/bg_tp_rt.png) no-repeat top right;
 	position: absolute;
-	right: 0px;
-	top: 400px;
-	z-index: -1;
+	right: 0;
+	top: 20px;
+	z-index: 1;
 	width: 254px;
 	height: 275px;
 }
 #bgfooterwrap {
 	background: url(images/bg_bt_lt.jpg) no-repeat bottom left;
 	position: fixed;
-	bottom: 0px;
-	left: 0px;
+	bottom: 0;
+	left: 0;
 	width: 155px;
 	height: 313px;
 	z-index: -1;
@@ -139,22 +182,23 @@ footer {
 }
 /* bg / footer */
 
-/* */
-.enter_code input {
+/* enter code section */
+#enter_code input {
     font-size: 4em;
 }
-.enter_code {
+#enter_code {
 	text-align: center;
 	width: 100%;
 	height: 100%;
 	display: table;
-	vertical-align: middle;
+	position: relative;
+	bottom: 185px;
 }
-.enter_code_inner {
+#enter_code_inner {
 	display: table-cell;
 	vertical-align: middle;
 }
-.enter_code ul {
+#enter_code ul {
 	list-style-type: none;
 }
-/* */
+/* enter code section */
