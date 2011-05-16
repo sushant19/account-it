@@ -11,14 +11,18 @@
         $("#enter_code_form").submit(function (e) {
             e.preventDefault();
             $("input").each(function () { $(this).attr("disabled", "disabled"); });
-            $("body").after("<div style=\"position:absolute; background-image:url(content/images/loader.gif); width:100px; height: 100px; position:absolute;top:0;left:0;\"></div>")
+
+            $("#codeInput").addClass("loading");
             var query = { code: jQuery('#codeInput').prop('value') };
             jQuery.post('/Home/EnterCode', query, function (data) {
                 if (data.Success == true) {
                     window.location = '/operations';
                 } else {
-                    alert('invalid code');
+                    
                     $("input").each(function () { $(this).removeAttr("disabled"); });
+                    $("#codeInput").removeClass("loading");
+                    $("#freeow").freeow("Error", "Invalid code!", { classes: ["smokey", "error"] });
+
                 }
             }).error(function () { alert('For some strange(probably, magic?) reason, ajax reqest could not reach the server. Please, inform system administrator.'); })
         });

@@ -75,12 +75,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\bg_bt.jpg" />
-    <Content Include="Content\images\bg_bt_lt.png" />
-    <Content Include="Content\images\bg_tp_rt.jpg" />
-    <Content Include="Content\images\Copy of Main.css" />
+    <Content Include="Content\images\bg_bt_lt.jpg" />
+    <Content Include="Content\images\bg_tp_rt.png" />
+    <Content Include="Content\images\freeow\close.png" />
+    <Content Include="Content\images\freeow\notice.png" />
+    <Content Include="Content\images\freeow\pushpin.png" />
+    <Content Include="Content\images\freeow\slide.png" />
     <Content Include="Content\images\header_bg.jpg" />
+    <Content Include="Content\images\loader.gif" />
+    <Content Include="Content\styles\freeow.css" />
+    <Content Include="Content\styles\Main.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.6rc1.js" />
+    <Content Include="Scripts\jquery-ui-1.8.12.custom.min.js" />
+    <Content Include="Scripts\jquery.freeow.min.js" />
     <Content Include="Scripts\Main.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -91,7 +99,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Main.css" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Operation\AllOperations.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
