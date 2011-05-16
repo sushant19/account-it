@@ -7,6 +7,6 @@ namespace Banking.Web
 {
     public static class Security
     {
-        public static object Key { get { return 111; } }
+        public static object Key { get { return 1111; } }
     }
 }

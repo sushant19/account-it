@@ -21,25 +21,26 @@
     }
 
 </script>
-<h1>All Persons</h1>
-<p>
-@Html.ActionLink("Operations", "AllOperations", "Operation")
-</p>
-<p>
-<input type="button" value="Create" class="createButton" />
-</p>
-<table id="persons">
+<table class="tableView" id="persons" align="center">
+
   <caption>
-    Persons
+    <p>Persons</p>
+    <p class="actionsMenu"><input type="button" value="Create" class="createButton" id="createPersonButton"/></p>
   </caption>
+
   <tr id="headings">
+
     <th scope="col">Name</th>
-    <th scope="col">Balance</th>
-    <th scope="col">Action</th>
+
+    <th scope="col">Ballance,$</th>
+
+    <th scope="col">Actions</th>
+
   </tr>
   @foreach (var man in Model)
   {
     @Html.Partial("ViewPerson", man)
   }
 </table>
+
 
