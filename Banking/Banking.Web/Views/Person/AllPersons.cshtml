@@ -21,26 +21,25 @@
     }
 
 </script>
-<table class="tableView" id="persons" align="center">
+<table class="tableView tablesorter" id="persons">
 
   <caption>
     <p>Persons</p>
     <p class="actionsMenu"><input type="button" value="Create" class="createButton" id="createPersonButton"/></p>
   </caption>
-
+<thead>
   <tr id="headings">
-
     <th scope="col">Name</th>
-
     <th scope="col">Ballance,$</th>
-
     <th scope="col">Actions</th>
-
   </tr>
+</thead>
+<tbody>
   @foreach (var man in Model)
   {
     @Html.Partial("ViewPerson", man)
   }
+</tbody>
 </table>
 
 
