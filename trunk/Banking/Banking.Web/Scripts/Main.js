@@ -1,4 +1,8 @@
-﻿function assignBehavior(entityName) {
+﻿function showError(message) {
+    $('#freeow').freeow("Error", message, { classes: ["smokey", "error"] });
+}
+
+function assignBehavior(entityName) {
 
     function parseId(target) {
         var query = { id: Number(target.attr('data-id')) }
@@ -8,11 +12,6 @@
     function makeUrl(actionName) {
         return '/' + entityName + '/' + actionName + entityName;
     }
-
-    function showError(message) {
-        $('#freeow').freeow("Error", message, { classes: ["smokey", "error"] });
-    }
-
 
     $('.editButton').live('click', function () {
         var url = makeUrl('Edit');
