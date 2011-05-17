@@ -1,7 +1,7 @@
 ﻿@model Banking.Domain.Operation
     
 <tr data-id=@Model.ID>
-    <td><input type="checkbox" id=@(Model.ID+"_chk") /></td>
+    <td><input type="checkbox" class="itemCheck" /></td>
     <td>@Model.Date.ToShortDateString()</td>
     <td>@Math.Round(Model.Amount, 2).ToString()</td>
     <td>@Model.Mark</td>

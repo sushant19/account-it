@@ -20,6 +20,7 @@ namespace Banking.Web.Controllers
             return View(Storage.Operations.ToList());
         }
 
+        [HttpPost]
         public ActionResult ViewOperation(int id)
         {
             Operation operation = Storage.Operations.Find(id);
@@ -34,6 +35,7 @@ namespace Banking.Web.Controllers
             return PartialView("ViewOperation", op);
         }
 
+        [HttpPost]
         public ActionResult EditOperation(int id)
         {
             Operation operation = Storage.Operations.Find(id);
