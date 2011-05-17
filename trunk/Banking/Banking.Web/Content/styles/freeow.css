@@ -94,7 +94,7 @@ member of the options object when calling freeow().
 	color: white;
 }
 .freeow .smokey .background {
-    border: 2px solid #000;
+    border: 2px solid #c80000;
     -moz-border-radius: 12px;
 	border-radius: 12px;
     background: #c80000;
