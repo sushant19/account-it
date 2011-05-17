@@ -13,16 +13,16 @@ function assignBehavior(entityName) {
         return '/' + entityName + '/' + actionName + entityName;
     }
 
-    $('tr').live('dblclick', function () {
+    $('tr[data-id]').find('div').live('dblclick', function () {
         var url = makeUrl('Edit');
-        var target = $(this)
+        var target = $(this).parent().parent();
         var query = parseId(target);
         //var before = new Date();
         $.post(url, query, function (data) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
             target.replaceWith(data);
-        }).error(function () { alert('fck...'); });
+        }).error(function () { showError('Edit request failed'); });
     });
 
     $('.editButton').live('click', function () {
@@ -51,27 +51,13 @@ function assignBehavior(entityName) {
             });
             var url = makeUrl('Delete');
             for (var i = 0; i < ids.length; i++) {
-                
+                var query = { id: ids[i] };
+                $.post(url, query, function (response) {
+                    $('tr').filter('[data-id=\"' + response.id + '\"]').remove();
+                }).error(function () { showError('Delete request failed'); });
             }
         }
     });
-
-    $('.deleteButtonXXXX').live('click', function () {
-        var sure = confirm('Are you sure?');
-        if (sure == true) {
-            var url = makeUrl('Delete');
-            var target = $(this).parent().parent();
-            var query = parseId(target);
-            //var before = new Date();
-            $.post(url, query, function () {
-               // var after = new Date()
-                //alert(after.getTime() - before.getTime());
-                target.remove();
-            }).error(function () { alert('fck...'); })
-        }
-    });
-
-
 
     $('.saveButton').live('click', function () {
         var url = makeUrl('Save');
@@ -82,7 +68,7 @@ function assignBehavior(entityName) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
             target.replaceWith(data);
-        }).error(function () { alert('fck...'); })
+        }).error(function () { showError('Save request failed'); })
     });
 
     $('.cancelButton').live('click', function () {
@@ -94,7 +80,7 @@ function assignBehavior(entityName) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
             target.replaceWith(data);
-        }).error(function () { alert('fck...'); })
+        }).error(function () { showError('Cancel request failed'); })
     });
 
     $('.createButton').live('click', function () {
@@ -104,7 +90,7 @@ function assignBehavior(entityName) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
             $('#headings').after(data);
-        }).error(function () { alert('fck...'); })
+        }).error(function () { showError('Create request failed'); })
     });
 
 }

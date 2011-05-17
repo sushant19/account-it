@@ -2,17 +2,19 @@
     
 <tr data-id=@Model.ID>
     <td><input type="checkbox" class="itemCheck" /></td>
-    <td>@Model.Date.ToShortDateString()</td>
-    <td>@Math.Round(Model.Amount, 2).ToString()</td>
-    <td>@Model.Mark</td>
-    <td>@Model.Description</td>
+    <td><div>@Model.Date.ToShortDateString()</div></td>
+    <td><div>@Math.Round(Model.Amount, 2).ToString()</div></td>
+    <td><div>@Model.Mark</div></td>
+    <td><div>@Model.Description</div></td>
     <td>
-    <ul>
-    @foreach (var man in Model.Participants)
-    {
-        <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)</li>
-    }
-    </ul>
+        <div class="itemText">
+            <ul>
+                @foreach (var man in Model.Participants)
+                {
+                    <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)</li>
+                }
+            </ul>
+        </div>
     </td>
 </tr>      
     

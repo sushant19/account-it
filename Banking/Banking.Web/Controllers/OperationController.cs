@@ -94,7 +94,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public EmptyResult DeleteOperation(int id)
+        public JsonResult DeleteOperation(int id)
         {
             Operation op = Storage.Operations.Find(id);
             if (op != null)
@@ -102,7 +102,7 @@ namespace Banking.Web.Controllers
                 Storage.Operations.Remove(op);
                 Storage.SaveChanges();
             }
-            return new EmptyResult();
+            return Json(new { id = id });
         }
 
         public ActionResult SelectParticipants(int id)
