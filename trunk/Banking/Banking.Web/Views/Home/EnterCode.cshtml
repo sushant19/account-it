@@ -16,9 +16,9 @@
             var query = { code: jQuery('#codeInput').prop('value') };
             $.post('/Home/EnterCode', query, function (data) {
                 if (data.Success == true) {
+                    localStorage["account-it.SessionId"] = data.SessionId;
                     window.location = '/operations';
                 } else {
-
                     $("input").each(function () { $(this).removeAttr("disabled"); });
                     $("#codeInput").removeClass("loading");
                     showError("Invalid code!");

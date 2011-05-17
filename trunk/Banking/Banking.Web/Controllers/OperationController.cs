@@ -10,21 +10,19 @@ using Banking.EFData;
 
 namespace Banking.Web.Controllers
 {
-    [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     //[RequireHttps]
     [RequireSecurityCode]
-    public class OperationController : Controller
+    public class OperationController : BankingControllerBase
     {
-        private EFStorage _storage = new EFStorage();
-
         public ViewResult AllOperations()
         {
-            return View(_storage.Operations.ToList());
+            return View(Storage.Operations.ToList());
         }
 
         public ActionResult ViewOperation(int id)
         {
-            Operation operation = _storage.Operations.Find(id);
+            Operation operation = Storage.Operations.Find(id);
             if (operation != null)
                 return ViewOperation(operation);
             else
@@ -38,7 +36,7 @@ namespace Banking.Web.Controllers
 
         public ActionResult EditOperation(int id)
         {
-            Operation operation = _storage.Operations.Find(id);
+            Operation operation = Storage.Operations.Find(id);
             if (operation != null)
                 return EditOperation(operation);
             else
@@ -54,11 +52,11 @@ namespace Banking.Web.Controllers
         public PartialViewResult SaveOperation()
         {
             int opId = Convert.ToInt32(Request.Params["ID"]);
-            Operation op = _storage.Operations.Find(opId);
+            Operation op = Storage.Operations.Find(opId);
             if (op == null)
             {
                 op = new Operation();
-                _storage.Operations.Add(op);
+                Storage.Operations.Add(op);
             }
             op.Date = Convert.ToDateTime(Request.Params["Date"]);
             op.Amount = Convert.ToDecimal(Request.Params["Amount"]);
@@ -75,12 +73,12 @@ namespace Banking.Web.Controllers
                     Split(',').Select(str => Convert.ToInt32(str));
                 foreach (int id in ids)
                 {
-                    Person person = _storage.Persons.Find(id);
+                    Person person = Storage.Persons.Find(id);
                     if (person != null)
                         op.Participants.Add(person);
                 }
             }
-            _storage.SaveChanges();
+            Storage.SaveChanges();
             return PartialView("ViewOperation", op);
         }
 
@@ -96,21 +94,21 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public EmptyResult DeleteOperation(int id)
         {
-            Operation op = _storage.Operations.Find(id);
+            Operation op = Storage.Operations.Find(id);
             if (op != null)
             {
-                _storage.Operations.Remove(op);
-                _storage.SaveChanges();
+                Storage.Operations.Remove(op);
+                Storage.SaveChanges();
             }
             return new EmptyResult();
         }
 
         public ActionResult SelectParticipants(int id)
         {
-            Operation op = _storage.Operations.Find(id);
+            Operation op = Storage.Operations.Find(id);
             if (op != null)
             {
-                var selection = _storage.Persons.
+                var selection = Storage.Persons.
                     ToList().
                         ToDictionary(man => man, man => op.Participants.
                             Any(p => p.Name == man.Name));

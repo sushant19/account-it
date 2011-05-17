@@ -10,21 +10,19 @@ using Banking.EFData;
 
 namespace Banking.Web.Controllers
 {
-    [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     //[RequireHttps]
     [RequireSecurityCode]
-    public class PersonController : Controller
+    public class PersonController : BankingControllerBase
     {
-        private EFStorage _storage = new EFStorage();
-
         public ViewResult AllPersons()
         {
-            return View(_storage.Persons.ToList());
+            return View(Storage.Persons.ToList());
         }
 
         public ActionResult ViewHistory(string name)
         {
-            Person man = _storage.Persons.
+            Person man = Storage.Persons.
                 SingleOrDefault(p => p.Name == name);
             if (man != null)
                 return View("ViewHistory", man);
@@ -35,7 +33,7 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult ViewPerson(int id)
         {
-            Person person = _storage.Persons.Find(id);
+            Person person = Storage.Persons.Find(id);
             if (person != null)
                 return ViewPerson(person);
             else
@@ -50,7 +48,7 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult EditPerson(int id)
         {
-            Person person = _storage.Persons.Find(id);
+            Person person = Storage.Persons.Find(id);
             if (person != null)
                 return EditPerson(person);
             else
@@ -67,21 +65,21 @@ namespace Banking.Web.Controllers
         {
 
             int id = Convert.ToInt32(Request.Params["ID"]);
-            Person man = _storage.Persons.Find(id);
+            Person man = Storage.Persons.Find(id);
             if (man == null)
             {
                 man = new Person();
-                _storage.Persons.Add(man);
+                Storage.Persons.Add(man);
             }
             man.Name = Request.Params["Name"];
             if (man.Operations == null)
                 man.Operations = new List<Operation>();
-            var ops = _storage.Operations.
+            var ops = Storage.Operations.
                 Where(op => op.Participants.
                     Any(p => p.Name == man.Name));
             foreach (Operation op in ops)
                 man.Operations.Add(op);
-            _storage.SaveChanges();
+            Storage.SaveChanges();
             return PartialView("ViewPerson", man);
         }
 
@@ -96,11 +94,11 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public EmptyResult DeletePerson(int id)
         {
-            Person man = _storage.Persons.Find(id);
+            Person man = Storage.Persons.Find(id);
             if (man != null)
             {
-                _storage.Persons.Remove(man);
-                _storage.SaveChanges();
+                Storage.Persons.Remove(man);
+                Storage.SaveChanges();
             }
             return new EmptyResult();
         }
