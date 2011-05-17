@@ -7,13 +7,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         assignBehavior('Operation');
-        $("#allOperationsCheck").click(function () {
-            var checked_status = this.checked;
-            $("#operations :checkbox").each(function () {
-                this.checked = checked_status;
-            });
-            //$("#operations").find("input").filter("[type=\"checkbox\"]").attr("checked", "checked");
-        });
     });
 
     function parseFields(target) {
@@ -50,7 +43,7 @@
   </caption>
   <thead>
     <tr id="headings">
-        <th scope="col" class="checkCol"><input type="checkbox" id="allOperationsCheck" /></th>
+        <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" /></th>
         <th scope="col">Start&nbsp;Date&nbsp;</th>
         <th scope="col">Money,$</th>
         <th scope="col">Mark</th>
