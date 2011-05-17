@@ -18,10 +18,10 @@
                 if (data.Success == true) {
                     window.location = '/operations';
                 } else {
-                    
+
                     $("input").each(function () { $(this).removeAttr("disabled"); });
                     $("#codeInput").removeClass("loading");
-                    $("#freeow").freeow("Error", "Invalid code!", { classes: ["smokey", "error"] });
+                    showError("Invalid code!");
 
                 }
             }).error(function () { alert('For some strange(probably, magic?) reason, ajax reqest could not reach the server. Please, inform system administrator.'); })
