@@ -11,6 +11,8 @@ using Banking.EFData;
 namespace Banking.Web.Controllers
 {
     [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
+    //[RequireHttps]
+    [RequireSecurityCode]
     public class PersonController : Controller
     {
         private EFStorage _storage = new EFStorage();
@@ -22,14 +24,11 @@ namespace Banking.Web.Controllers
                  @"data source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=Banking21";
         }
 
-        //[RequireHttps]
-        [RequireSecurityCode]
         public ViewResult AllPersons()
         {
             return View(_storage.Persons.ToList());
         }
 
-        [RequireSecurityCode]
         public ActionResult ViewHistory(string name)
         {
             Person man = _storage.Persons.
@@ -41,7 +40,6 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        [RequireSecurityCode]
         public ActionResult ViewPerson(int id)
         {
             Person person = _storage.Persons.Find(id);
@@ -51,14 +49,12 @@ namespace Banking.Web.Controllers
                 return new EmptyResult();
         }
 
-        [RequireSecurityCode]
         public PartialViewResult ViewPerson(Person man)
         {
             return PartialView("ViewPerson", man);
         }
 
         [HttpPost]
-        [RequireSecurityCode]
         public ActionResult EditPerson(int id)
         {
             Person person = _storage.Persons.Find(id);
@@ -68,15 +64,12 @@ namespace Banking.Web.Controllers
                 return new EmptyResult();
         }
 
-        [RequireSecurityCode]
         public PartialViewResult EditPerson(Person man)
         {
             return PartialView("EditPerson", man);
         }
 
         [HttpPost]
-        //[RequireHttps]
-        [RequireSecurityCode]
         public PartialViewResult SavePerson()
         {
 
@@ -100,7 +93,6 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        [RequireSecurityCode]
         public PartialViewResult CreatePerson()
         {
             Person man = new Person();
@@ -109,8 +101,6 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        //[RequireHttps]
-        [RequireSecurityCode]
         public EmptyResult DeletePerson(int id)
         {
             Person man = _storage.Persons.Find(id);

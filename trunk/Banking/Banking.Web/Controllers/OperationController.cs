@@ -11,6 +11,8 @@ using Banking.EFData;
 namespace Banking.Web.Controllers
 {
     [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
+    //[RequireHttps]
+    [RequireSecurityCode]
     public class OperationController : Controller
     {
         private EFStorage _storage = new EFStorage();
@@ -23,15 +25,11 @@ namespace Banking.Web.Controllers
            //Session.
         }
 
-        //[RequireHttps]
-        [RequireSecurityCode]
         public ViewResult AllOperations()
         {
             return View(_storage.Operations.ToList());
         }
 
-        [HttpPost]
-        [RequireSecurityCode]
         public ActionResult ViewOperation(int id)
         {
             Operation operation = _storage.Operations.Find(id);
@@ -41,14 +39,11 @@ namespace Banking.Web.Controllers
                 return new EmptyResult();
         }
 
-        [RequireSecurityCode]
         public PartialViewResult ViewOperation(Operation op)
         {
             return PartialView("ViewOperation", op);
         }
 
-        [HttpPost]
-        [RequireSecurityCode]
         public ActionResult EditOperation(int id)
         {
             Operation operation = _storage.Operations.Find(id);
@@ -58,15 +53,12 @@ namespace Banking.Web.Controllers
                 return new EmptyResult();
         }
 
-        [RequireSecurityCode]
         public PartialViewResult EditOperation(Operation op)
         {
             return PartialView("EditOperation", op);
         }
 
         [HttpPost]
-        //[RequireHttps]
-        [RequireSecurityCode]
         public PartialViewResult SaveOperation()
         {
             int opId = Convert.ToInt32(Request.Params["ID"]);
@@ -101,7 +93,6 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        [RequireSecurityCode]
         public PartialViewResult CreateOperation()
         {
             Operation op = new Operation();
@@ -111,8 +102,6 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        //[RequireHttps]
-        //[RequireSecurityCode]
         public EmptyResult DeleteOperation(int id)
         {
             Operation op = _storage.Operations.Find(id);
@@ -124,7 +113,6 @@ namespace Banking.Web.Controllers
             return new EmptyResult();
         }
 
-        [RequireSecurityCode]
         public ActionResult SelectParticipants(int id)
         {
             Operation op = _storage.Operations.Find(id);

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 namespace Banking.Web.Controllers
 {
     [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
+    //[RequireHttps]
     public class HomeController : Controller
     {
         //
