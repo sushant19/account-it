@@ -90,7 +90,7 @@
     <Content Include="Scripts\jquery-1.6.1.js" />
     <Content Include="Scripts\jquery-1.6.1.min.js" />
     <Content Include="Scripts\jquery.freeow.min.js" />
-    <Content Include="Scripts\Main.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
