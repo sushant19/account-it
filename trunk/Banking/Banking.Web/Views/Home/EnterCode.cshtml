@@ -8,7 +8,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("menu").children().each(function () { $(this).remove(); });
-        $("menu").append("<h3>For access enter code</h3>");
+        $("menu").append("<h3>Welcome to the point of entrance</h3>");
         $("#codeInput").focus();
         $("#enter_code_form").submit(function (e) {
             e.preventDefault();
@@ -33,7 +33,7 @@
 
 <div id="enter_code">
     <div id="enter_code_inner">
-        <h2>Letters / digits(dunno 'bout symbols) will be ok...</h2>
+        <h2>Please, enter code-that-no-one-but-you-should-know</h2>
         <form id="enter_code_form">
             <ul>            
                 <li><input id="codeInput" type="password"/> </li>
