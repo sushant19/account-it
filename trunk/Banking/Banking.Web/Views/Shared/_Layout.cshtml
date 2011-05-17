@@ -17,6 +17,12 @@
         $("a").filter("[href=\"" + window.location.href + "\"], [href=\"" + window.location.pathname + window.location.search.substring() + "\"]").each(function () { $(this).replaceWith($(this).html()) });
         //Add sorter to data tables
         $(".tableView").tablesorter({ headers: { 0: { sorter: false}} });
+        $("#selectAll").click(function () {
+            var checked_status = this.checked;
+            $(".tableView :checkbox").each(function () {
+                this.checked = checked_status;
+            });
+        });
     });
 </script>
 <title>@ViewBag.Title</title>
