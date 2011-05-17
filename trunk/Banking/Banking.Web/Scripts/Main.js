@@ -9,6 +9,17 @@ function assignBehavior(entityName) {
         return query;
     }
 
+    // if session expired, then EnterCode will be returned
+    // instead of whatever requested, so we need redirect...
+    function filterResponse(data) {
+        if (data.indexOf("DOCTYPE") == -1) {
+            return data;
+        } else {
+            window.location.href = "/authorize";
+        }
+    }
+
+    // /{Operation}/{View}{Operation}
     function makeUrl(actionName) {
         return '/' + entityName + '/' + actionName + entityName;
     }
@@ -21,7 +32,7 @@ function assignBehavior(entityName) {
         $.post(url, query, function (data) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
-            target.replaceWith(data);
+            target.replaceWith(filterResponse(data));
         }).error(function () { showError('Edit request failed'); });
     });
 
@@ -33,7 +44,7 @@ function assignBehavior(entityName) {
         $.post(url, query, function (data) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
-            target.replaceWith(data);
+            target.replaceWith(filterResponse(data));
         }).error(function () { alert('fck...'); })
     });
 
@@ -67,7 +78,7 @@ function assignBehavior(entityName) {
         $.post(url, query, function (data) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
-            target.replaceWith(data);
+            target.replaceWith(filterResponse(data));
         }).error(function () { showError('Save request failed'); })
     });
 
@@ -79,7 +90,7 @@ function assignBehavior(entityName) {
         $.post(url, query, function (data) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
-            target.replaceWith(data);
+            target.replaceWith(filterResponse(data));
         }).error(function () { showError('Cancel request failed'); })
     });
 
@@ -89,7 +100,7 @@ function assignBehavior(entityName) {
         $.post(url, {}, function (data) {
             //var after = new Date()
             //alert(after.getTime() - before.getTime());
-            $('#headings').after(data);
+            $('#headings').after(filterResponse(data));
         }).error(function () { showError('Create request failed'); })
     });
 
