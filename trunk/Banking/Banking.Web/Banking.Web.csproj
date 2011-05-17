@@ -84,8 +84,12 @@
     <Content Include="Content\images\freeow\slide.png" />
     <Content Include="Content\images\header_bg.jpg" />
     <Content Include="Content\images\loader.gif" />
+    <Content Include="Content\images\tablesorter\asc.gif" />
+    <Content Include="Content\images\tablesorter\bg.gif" />
+    <Content Include="Content\images\tablesorter\desc.gif" />
     <Content Include="Content\styles\freeow.css" />
     <Content Include="Content\styles\Main.css" />
+    <Content Include="Content\styles\tablesorter.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.6.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.1.js" />
