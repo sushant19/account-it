@@ -8,16 +8,10 @@
         Where(op => op.Participants.
             Any(man => man.Name == Model.Name));
 }
-<p>
-@Html.ActionLink("Operations", "AllOperations", "Operation")
-@Html.ActionLink("Persons", "AllPersons", "Person")
-</p>
-<p>
-@Model.Name
-</p>
-<p>
-Balance: @Math.Round(Model.GetBalance(), 2);
-</p>
+
+<h2>
+@Model.Name : <h3>$@Math.Round(Model.GetBalance(), 2)</h3>
+</h2>
 
 
 <table id="history">
