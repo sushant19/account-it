@@ -9,6 +9,11 @@
         return '/' + entityName + '/' + actionName + entityName;
     }
 
+    function showError(message) {
+        $('#freeow').freeow("Error", message, { classes: ["smokey", "error"] });
+    }
+
+
     $('.editButton').live('click', function () {
         var url = makeUrl('Edit');
         var target = $(this).parent().parent();
