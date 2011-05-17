@@ -17,13 +17,6 @@ namespace Banking.Web.Controllers
     {
         private EFStorage _storage = new EFStorage();
 
-        public PersonController()
-        {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EFStorage>());
-            _storage.Database.Connection.ConnectionString =
-                 @"data source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=Banking21";
-        }
-
         public ViewResult AllPersons()
         {
             return View(_storage.Persons.ToList());
