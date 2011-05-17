@@ -32,30 +32,26 @@
 </script>
 
 
-<table class="tableView" id="operations" align="center">
+<table class="tableView tablesorter" id="operations" align="center">
 
   <caption>
     <p>Deals</p>
     <p class="actionsMenu"><input type="button" value="Create" class="createButton" id="createOperationButton"/></p>
   </caption>
-
-  <tr id="headings">
-
-    <th scope="col">Start&nbsp;Date&nbsp;</th>
-
-    <th scope="col">Money,$</th>
-
-    <th scope="col">Mark</th>
-
-    <th scope="col">Description</th>
-
-    <th scope="col">Participants</th>
-
-    <th scope="col">Actions</th>
-
-  </tr>
+  <thead>
+    <tr id="headings">
+        <th scope="col">Start&nbsp;Date&nbsp;</th>
+        <th scope="col">Money,$</th>
+        <th scope="col">Mark</th>
+        <th scope="col">Description</th>
+        <th scope="col">Participants</th>
+        <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
   @foreach (var op in Model)
   {
     @Html.Partial("ViewOperation", op)
   }
+  </tbody>
 </table>
