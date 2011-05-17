@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript" src="@Url.Content("~/Scripts/crypto-sha256.js")"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("menu").children().each(function () { $(this).remove(); });
@@ -13,10 +15,11 @@
             $("input").each(function () { $(this).attr("disabled", "disabled"); });
 
             $("#codeInput").addClass("loading");
-            var query = { code: jQuery('#codeInput').prop('value') };
+            var code = jQuery('#codeInput').prop('value');
+            var hash = Crypto.SHA256(code);
+            var query = { code: hash };
             $.post('/Home/EnterCode', query, function (data) {
                 if (data.Success == true) {
-                    localStorage["account-it.SessionId"] = data.SessionId;
                     window.location = '/operations';
                 } else {
                     $("input").each(function () { $(this).removeAttr("disabled"); });
@@ -31,11 +34,11 @@
 <div id="enter_code">
     <div id="enter_code_inner">
         <h2>Letters / digits(dunno 'bout symbols) will be ok...</h2>
-        <ul>
-            <form id="enter_code_form">
+        <form id="enter_code_form">
+            <ul>            
                 <li><input id="codeInput" type="password"/> </li>
-                <li><input id="enter" type="submit" value="Enter" /></li>
-            </form>
-        </ul>
+                <li><input id="enter" type="submit" value="Enter" /></li>            
+            </ul>
+        </form>
     </div>
 </div>

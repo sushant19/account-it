@@ -14,15 +14,14 @@ namespace Banking.Web
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             HttpCookie cookie = filterContext.HttpContext.Request.Cookies["account-it.SessionId"];
-            string ssid = cookie.Value;
             var controller = filterContext.Controller as BankingControllerBase;
-            if (cookie == null || !controller.IsValidSession(ssid))
+            if (cookie == null || !controller.IsValidSession(cookie.Value))
             {
                 filterContext.Result = new RedirectToRouteResult("EnterCode", null);
             }
             else
             {
-                controller.UpdateSession(ssid);
+                controller.UpdateSession(cookie.Value);
             }
         }
     }

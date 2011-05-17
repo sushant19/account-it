@@ -91,6 +91,8 @@
     <Content Include="Content\styles\Main.css" />
     <Content Include="Content\styles\tablesorter.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\crypto-sha1-hmac-pbkdf2-ofb-aes.js" />
+    <Content Include="Scripts\crypto-sha256.js" />
     <Content Include="Scripts\jquery-1.6.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.1.js" />
     <Content Include="Scripts\jquery-1.6.1.min.js" />
