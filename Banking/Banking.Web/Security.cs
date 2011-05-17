@@ -7,6 +7,7 @@ namespace Banking.Web
 {
     public static class Security
     {
-        public static object Key { get { return 1111; } }
+        public static string Key { get { return "111"; } }
+        public static TimeSpan Timeout { get { return TimeSpan.FromMinutes(1); } }
     }
 }

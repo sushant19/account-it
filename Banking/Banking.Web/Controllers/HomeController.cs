@@ -4,20 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Banking.Domain;
+using Banking.EFData;
+
 namespace Banking.Web.Controllers
 {
-    [SessionState(System.Web.SessionState.SessionStateBehavior.Required)]
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     //[RequireHttps]
-    public class HomeController : Controller
+    public class HomeController : BankingControllerBase
     {
-        //
-        // GET: /Home/
-
-        public HomeController()
-        {
-            //Session.Timeout = 20;
-        }
-
         public ViewResult EnterCode()
         {
             return View("EnterCode");
@@ -26,10 +21,16 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult EnterCode(string code)
         {
-            var p = Request.Params;
-            if (code == Security.Key.ToString())
+            if (code == Security.Key)
             {
-                Session["Key"] = code;
+                var session = new Session()
+                { 
+                    SessionId = Guid.NewGuid(),
+                    ExpiresAt = DateTime.Now + Security.Timeout
+                };
+                Storage.Sessions.Add(session);
+                Storage.SaveChanges();
+                Response.Cookies.Add(new HttpCookie("account-it.SessionId", session.SessionId.ToString()));
                 return Json(new { Success = true });
             }
             else
