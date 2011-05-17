@@ -56,7 +56,6 @@ member of the options object when calling freeow().
 .freeow p {
     margin: 0;
     padding: 0;
-
 }
 .freeow .icon {
     position: absolute;
@@ -94,7 +93,7 @@ member of the options object when calling freeow().
 	color: white;
 }
 .freeow .smokey .background {
-    border: 3px solid #f00;
+    border: 2px solid #000;
     -moz-border-radius: 12px;
 	border-radius: 12px;
     background: #c80000;
