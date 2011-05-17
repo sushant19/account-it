@@ -142,7 +142,9 @@ menu li:before {
 	font-size: 1.5em;
 	vertical-align: middle;
 }
-
+.tableView .checkCol {
+    width: 10px;
+}
 .actionsMenu {
     text-align: left;
     padding: 0;
