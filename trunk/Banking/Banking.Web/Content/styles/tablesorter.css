@@ -14,9 +14,7 @@ table.tablesorter thead tr .header:after {
     float: right;
     margin-left: 10px;
 }
-table.tablesorter tbody tr.odd td {
-	background-color: rgba(0, 0, 0, 0.1);
-} /* To do */
+/* To do */
 /*table.tablesorter thead tr .headerSortUp {
 	background-image: url(../images/tablesorter/asc.gif);
 }*/
