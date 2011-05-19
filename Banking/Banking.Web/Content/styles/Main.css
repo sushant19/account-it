@@ -129,6 +129,7 @@ menu li:before {
 	padding: 10px;	
 	border-radius: 10px;
 	margin-bottom: 5px;	
+	border-spacing: 0;
 }
 .tableView th {
 	border-bottom: 1px solid #FFD;
@@ -150,8 +151,10 @@ menu li:before {
     padding: 0;
     margin: 0;
     background-color: rgba(0, 0, 0, 0.1);
-    display: table-cell;
+    
     vertical-align: middle;  
+    font-size: 0.5em;
+    width: 100%;
 }
 .actionsMenu input {
       
