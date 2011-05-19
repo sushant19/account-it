@@ -149,9 +149,12 @@ menu li:before {
     text-align: left;
     padding: 0;
     margin: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: table-cell;
+    vertical-align: middle;  
 }
 .actionsMenu input {
-        
+      
 }
 /* table */
 
@@ -215,7 +218,7 @@ footer {
 /* enter code section */
 
 .loading {
-    background-image:url(../images/loader.gif);
-    background-position: right top;
+    background-image:url(../images/pacman.gif);
+    background-position: right;
     background-repeat: no-repeat;
 }
