@@ -9,7 +9,7 @@
     <td>@Html.EditorFor(op => op.Amount)</td>
     <td>@Html.EditorFor(op => op.Mark)</td>  
     <td>@Html.EditorFor(op => op.Description)</td>
-    <td>@Html.Action("SelectParticipants", new { id = Model.ID })</td>
+    <td>@Html.Action("SelectParticipants", new { operation = Model })</td>
     <td>
         <input type="button" value="Save" class="saveButton"/>
         <input type="button" value="Cancel" class="cancelButton"/>

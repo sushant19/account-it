@@ -105,21 +105,19 @@ namespace Banking.Web.Controllers
             return Json(new { id = id });
         }
 
-        public ActionResult SelectParticipants(int id)
+        public PartialViewResult SelectParticipants(Operation op)
         {
-            Operation op = Storage.Operations.Find(id);
-            if (op != null)
-            {
-                var selection = Storage.Persons.
-                    ToList().
-                        ToDictionary(man => man, man => op.Participants.
-                            Any(p => p.Name == man.Name));
-                return PartialView("SelectParticipants", selection);
-            }
+            var allPersons = Storage.Persons.ToList();
+            Func<Person, bool> selector;
+            if (op.Participants != null)
+                selector = man => op.Participants.Any(p => p.Name == man.Name);
             else
-            {
-                return new EmptyResult();
-            }
+                selector = man => false;
+            var participants = Storage.Persons.
+                ToList().
+                    ToDictionary(man => man, selector);
+            return PartialView("SelectParticipants", participants);
+            
         }
     }
 }
