@@ -17,7 +17,7 @@ namespace Banking.Web
         private static string _key;
         
         public static string Key { get { return _key; } }
-        public static TimeSpan Timeout { get { return TimeSpan.FromMinutes(1); } }
+        public static TimeSpan Timeout { get { return TimeSpan.FromMinutes(5); } }
 
         private static string HashOf(string str)
         {
