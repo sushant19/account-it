@@ -24,9 +24,12 @@ function assignBehavior(entityName) {
         return '/' + entityName + '/' + actionName + entityName;
     }
 
-    $('tr[data-id]').find('div').live('dblclick', function () {
-        var url = makeUrl('Edit');
+    $('tr[data-id]').find('div').live('click', function () {
         var target = $(this).parent().parent();
+        target.prop("data-is-editing", "true");
+        alert(target.prop("data-is-editing"))
+        var url = makeUrl('Edit');
+
         var query = parseId(target);
         //var before = new Date();
         $.post(url, query, function (data) {
@@ -36,17 +39,17 @@ function assignBehavior(entityName) {
         }).error(function () { showError('Edit request failed'); });
     });
 
-    $('.editButton').live('click', function () {
-        var url = makeUrl('Edit');
-        var target = $(this).parent().parent();
-        var query = parseId(target);
-        //var before = new Date();
-        $.post(url, query, function (data) {
-            //var after = new Date()
-            //alert(after.getTime() - before.getTime());
-            target.replaceWith(filterResponse(data));
-        }).error(function () { alert('fck...'); })
-    });
+//    $('.editButton').live('click', function () {
+//        var url = makeUrl('Edit');
+//        var target = $(this).parent().parent();
+//        var query = parseId(target);
+//        //var before = new Date();
+//        $.post(url, query, function (data) {
+//            //var after = new Date()
+//            //alert(after.getTime() - before.getTime());
+//            target.replaceWith(filterResponse(data));
+//        }).error(function () { alert('fck...'); })
+//    });
 
     $('.deleteButton').live('click', function () {
         var sure = confirm('Are you sure?');
@@ -105,3 +108,25 @@ function assignBehavior(entityName) {
     });
 
 }
+$(document).ready(function () {
+    var target = $(".actionsMenu");
+    $(target)
+    if (target.length == 0) { return; }
+    var topOffset = target.offset().top;
+    var leftOffset = target.offset().left;
+    var docked = false;
+    $(document).scroll(function () {
+        var docOffset = $(document).scrollTop();
+        if (!docked && docOffset > topOffset - 11) { // 11 cause .actionsMenu_fixed has 10px padding + 1 px for magic, yes this is hardcoding so what?!
+            target.parent().append(target.clone().prop("data-cloned", "true").css("visibility", "hidden"));
+            target.addClass("actionsMenu_fixed");
+            target.css({ top: '0px', left: leftOffset - 11 + 'px' })
+            docked = true;
+        }
+        else if (docked && docOffset <= topOffset - 11) {
+            target.removeClass("actionsMenu_fixed");
+            $(".actionsMenu").filter("[data-cloned]").remove();
+            docked = false;
+        }
+    });
+});
