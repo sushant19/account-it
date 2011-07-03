@@ -13,8 +13,9 @@ namespace Banking.Web
         static Security()
         {
             _key = HashOf("111");
-            _timeout = TimeSpan.FromMinutes(5);
+            _timeout = TimeSpan.FromMinutes(1);
         }
+
         private static string _key;
         private static TimeSpan _timeout;
         
