@@ -18,7 +18,7 @@
             var code = jQuery('#codeInput').prop('value');
             var hash = Crypto.SHA256(code);
             var query = { code: hash };
-            $.post('/Home/EnterCode', query, function (data) {
+            $.post('/authorize', query, function (data) {
                 if (data.Success == true) {
                     window.location = '/operations';
                 } else {
