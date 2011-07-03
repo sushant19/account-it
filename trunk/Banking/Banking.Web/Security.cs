@@ -13,11 +13,13 @@ namespace Banking.Web
         static Security()
         {
             _key = HashOf("111");
+            _timeout = TimeSpan.FromMinutes(5);
         }
         private static string _key;
+        private static TimeSpan _timeout;
         
         public static string Key { get { return _key; } }
-        public static TimeSpan Timeout { get { return TimeSpan.FromMinutes(5); } }
+        public static TimeSpan Timeout { get { return _timeout; } }
 
         private static string HashOf(string str)
         {
