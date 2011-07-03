@@ -27,7 +27,6 @@ function assignBehavior(entityName) {
     $('tr[data-id]').find('div').live('click', function () {
         var target = $(this).parent().parent();
         target.prop("data-is-editing", "true");
-        alert(target.prop("data-is-editing"))
         var url = makeUrl('Edit');
 
         var query = parseId(target);
