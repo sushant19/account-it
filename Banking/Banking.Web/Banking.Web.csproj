@@ -93,9 +93,9 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\crypto-sha1-hmac-pbkdf2-ofb-aes.js" />
     <Content Include="Scripts\crypto-sha256.js" />
-    <Content Include="Scripts\jquery-1.6.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.1.js" />
-    <Content Include="Scripts\jquery-1.6.1.min.js" />
+    <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.2.js" />
+    <Content Include="Scripts\jquery-1.6.2.min.js" />
     <Content Include="Scripts\jquery.freeow.min.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\main.js" />
