@@ -88,7 +88,8 @@
     <Content Include="Content\images\tablesorter\bg.gif" />
     <Content Include="Content\images\tablesorter\desc.gif" />
     <Content Include="Content\styles\freeow.css" />
-    <Content Include="Content\styles\Main.css" />
+    <Content Include="Content\styles\main.css" />
+    <Content Include="Content\styles\simplemodal.css" />
     <Content Include="Content\styles\tablesorter.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\crypto-sha1-hmac-pbkdf2-ofb-aes.js" />
@@ -97,6 +98,7 @@
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js" />
     <Content Include="Scripts\jquery.freeow.min.js" />
+    <Content Include="Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Web.config">
