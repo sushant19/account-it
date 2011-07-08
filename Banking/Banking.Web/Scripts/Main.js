@@ -52,26 +52,17 @@ function assignBehavior(entityName) {
         var url = makeUrl('Edit');
 
         var query = parseId(target);
-        //var before = new Date();
         $.post(url, query, function (data) {
-            //var after = new Date()
-            //alert(after.getTime() - before.getTime());
-            //target.replaceWith(filterResponse(data));
             var data_filtered = filterResponse(data);
             showModal(data_filtered);
         }).error(function () { showError('Edit request failed'); });
-    }).css('cursor', 'pointer');
-//    $('.editButton').live('click', function () {
-//        var url = makeUrl('Edit');
-//        var target = $(this).parent().parent();
-//        var query = parseId(target);
-//        //var before = new Date();
-//        $.post(url, query, function (data) {
-//            //var after = new Date()
-//            //alert(after.getTime() - before.getTime());
-//            target.replaceWith(filterResponse(data));
-//        }).error(function () { alert('fck...'); })
-//    });
+    }).css('cursor', 'pointer').attr('title', 'Edit');
+
+    $('tr[data-id]').find('div[class="personDeals"] > ul').children().each(function () {
+        $(this).live('click', function () {
+            //TODO: ajax request and modal for deal  
+        }).css('cursor', 'pointer').attr('title', 'Edit');
+    });
 
     $('.deleteButton').live('click', function () {
         var ids = $.map($('tr'), function (row) {
@@ -105,11 +96,7 @@ function assignBehavior(entityName) {
         id = target.attr('data-id');
         var views = $('[data-id=' + id + ']');
         var query = parseFields(target);
-        //var before = new Date();
         $.post(url, query, function (data) {
-            //var after = new Date()
-            //alert(after.getTime() - before.getTime());
-            //target.replaceWith(filterResponse(data));
             $.modal.close();
             var data_filtered = filterResponse(data);
             if (views.length > 1) {
@@ -122,27 +109,12 @@ function assignBehavior(entityName) {
     });
 
     $('.cancelButton').live('click', function () {
-//        var url = makeUrl('View');
-//        var target = $(this).parent().parent();
-//        var query = parseId(target);
-//        //var before = new Date();
-//        $.post(url, query, function (data) {
-//            //var after = new Date()
-//            //alert(after.getTime() - before.getTime());
-//            //target.replaceWith(filterResponse(data));
-//            $.modal.close();
-//        }).error(function () { showError('Cancel request failed'); })
-//request not needed — we only hide modal dialog
         $.modal.close();
     });
 
     $('.createButton').live('click', function () {
         var url = makeUrl('Create');
-        //var before = new Date();
         $.post(url, {}, function (data) {
-            //var after = new Date()
-            //alert(after.getTime() - before.getTime());
-            //$('#headings').after(filterResponse(data)); this is old version with putting new item within existing ones table
             var data_filtered = filterResponse(data);
             showModal(data_filtered);
         }).error(function () { showError('Create request failed'); })
