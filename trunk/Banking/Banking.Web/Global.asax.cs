@@ -49,7 +49,7 @@ namespace Banking.Web
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Redirect", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Operation", action = "AllOperations", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

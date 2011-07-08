@@ -21,9 +21,21 @@ namespace Banking.Web.Controllers
             return View("EnterCode");
         }
 
+        public ViewResult TestDb()
+        {
+            var loh = new Person() { Name = "loh" };
+            Storage.Persons.Add(loh);
+            Storage.SaveChanges();
+            loh = Storage.Persons.SingleOrDefault(p => p.Name == "loh");
+            Storage.Persons.Remove(loh);
+            Storage.SaveChanges();
+            return View("TestDb");
+        }
+
         [HttpPost]
         public ActionResult EnterCode(string code)
         {
+            //return Json(new { Success = false });
             if (code == Security.Key)
             {
                 var session = new Session()
