@@ -1,0 +1,236 @@
+﻿@charset "utf-8";
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong,  tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+}
+ /*HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/* ~~ reset ends here ~~ */
+
+
+html {
+	height: 100%;
+}
+body {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 16px;
+	height: 100%;	
+	min-width: 800px;
+}
+a {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 2px dashed #ffd;
+    
+}
+header {
+	background: url(../images/header_bg.jpg) repeat-x top;
+	height: 100px;
+	width: 100%;
+}
+h1 {
+	padding: 20px;
+	color: #300;
+	font-size: 4em;
+	text-align: center;
+	text-shadow:0 1px #fff;
+}
+h2 {
+	padding: 15px;
+	color: #333;
+	font-size: 3em;
+	text-align: center;
+}
+
+/*  navigation block  */
+nav {
+    padding: 10px;
+    color: #ffd;
+    height: 65px;
+}
+menu {
+    list-style-type: none;
+    font-size: 2em;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #300;
+}
+menu>* {
+    padding: 15px;
+}
+menu li {
+    display: inline-block;
+}
+menu li:before {
+    content: "/";
+}
+/*  navigation block  */
+
+/* table */
+.tableView {
+	border-spacing: 20px;
+	border-collapse: separate;
+	width: 90%;
+	margin: 0 auto;
+	background: rgba(40, 40, 40, 0.9);
+	color: #ccc;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	position: relative;
+	z-index: 3;
+}
+.tableView caption {
+	background: rgba(90, 90, 90, 0.9);
+	color: #111;
+	font-size: 2.3em;
+	text-shadow: 0 1px 0 #777;
+	padding: 10px;	
+	border-radius: 10px;
+	margin-bottom: 5px;	
+	border-spacing: 0;
+}
+.tableView th {
+	border-bottom: 1px solid #FFD;
+	font-style:oblique;
+	color: #fec;
+	font-size: 1.2em;
+}
+.tableView td {
+	padding-bottom: 3px;
+	border-bottom: 2px dotted #222;
+	font-size: 1.5em;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.tableView .operationPersons li {
+    display: inline-block;
+}
+.tableView .checkCol {
+    width: 10px;
+}
+.actionsMenu {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    vertical-align: middle;  
+    font-size: 0.5em;
+    width: 100%;
+}
+.actionsMenu_fixed {
+    position: fixed !important;
+    background-color: rgba(51, 0, 0, 0.9);
+    padding: 10px;
+    z-index: 5;
+}
+.actionsMenu input {
+      
+}
+/* table */
+
+/* bg / footer */
+#bgwrap { /*dollar-made house*/
+	background: url(../images/bg_tp_rt.png) no-repeat top right;
+	position: absolute;
+	right: 0;
+	top: 20px;
+	z-index: 1;
+	width: 254px;
+	height: 275px;
+}
+#bgfooterwrap {
+	background: url(../images/bg_bt_lt.jpg) no-repeat bottom left;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 155px;
+	height: 313px;
+	z-index: -1;
+}
+footer {
+   height: 129px;
+   width: 100%;
+   z-index: -2;
+   position: fixed;
+   bottom: 0;
+   background: url(../images/bg_bt.jpg) repeat-x bottom left;
+}
+/* bg / footer */
+
+/* enter code section */
+#enter_code input {
+    font-size: 4em;
+}
+#enter_code {
+	text-align: center;
+	width: 80%;
+	height: 100%;
+	display: table;
+	position: relative;
+	bottom: 185px;
+	z-index: 3;
+	box-sizing: border-box;
+	padding-top: 185px;
+	margin: 0 auto;
+	padding-bottom: 20px;
+}
+#enter_code_inner 
+{
+    background-color:rgba(255, 255, 221, 0.7);
+    border-radius: 20px;
+	display: table-cell;
+	vertical-align: middle;
+	padding-bottom: 100px;
+}
+#enter_code ul {
+	list-style-type: none;
+}
+/* enter code section */
+
+.loading {
+    background-image:url(../images/pacman.gif);
+    background-position: right;
+    background-repeat: no-repeat;
+}
