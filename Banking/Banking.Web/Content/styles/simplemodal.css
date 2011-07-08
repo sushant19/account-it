@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* styles for jQuery plugin simple modal */
+
+.simplemodal-overlay {
+    background-color: Black;
+}
+.simplemodal-container
+{
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    color: #ffd;
+}
+.simplemodal-wrap {
+}
+.simplemodal-data {
+}
+.simplemodal-data div {
+    margin: 10px;
+}
+.simplemodal-data .editOperationPersons {
+    margin-left: 20px;
+    border-left: 1px solid #ffd;
+}
+.simplemodal-data .editOperationButtons {
+    margin-top: 10px;
+    text-align: center;
+}
