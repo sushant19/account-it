@@ -46,7 +46,7 @@ function assignBehavior(entityName) {
         return '/' + entityName + '/' + actionName + entityName;
     }
 
-    $('tr[data-id]').find('div').live('click', function () {
+    $('tr[data-id]').find('div:not([class])').live('click', function () {
         var target = $(this).parent().parent();
         target.prop("data-is-editing", "true");
         var url = makeUrl('Edit');
@@ -60,7 +60,7 @@ function assignBehavior(entityName) {
             var data_filtered = filterResponse(data);
             showModal(data_filtered);
         }).error(function () { showError('Edit request failed'); });
-    });
+    }).css('cursor', 'pointer');
 //    $('.editButton').live('click', function () {
 //        var url = makeUrl('Edit');
 //        var target = $(this).parent().parent();
