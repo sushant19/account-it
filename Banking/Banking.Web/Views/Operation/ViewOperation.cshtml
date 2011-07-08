@@ -3,7 +3,7 @@
 <tr data-id=@Model.ID>
     <td><input type="checkbox" class="itemCheck" /></td>
     <td><div>@Model.Date.ToShortDateString()</div></td>
-    <td><div>@Math.Round(Model.Amount, 2).ToString()</div></td>
+    <td><div>@Model.Amount.ToString("F2")</div></td>
     <td><div>@Model.Mark</div></td>
     <td><div>@Model.Description</div></td>
     <td>
