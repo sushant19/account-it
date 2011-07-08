@@ -113,9 +113,7 @@ namespace Banking.Web.Controllers
                 selector = man => op.Participants.Any(p => p.Name == man.Name);
             else
                 selector = man => false;
-            var participants = Storage.Persons.
-                ToList().
-                    ToDictionary(man => man, selector);
+            var participants = Storage.Persons.ToList().ToDictionary(man => man, selector);
             return PartialView("SelectParticipants", participants);
             
         }
