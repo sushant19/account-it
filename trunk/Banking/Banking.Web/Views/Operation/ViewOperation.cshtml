@@ -7,11 +7,11 @@
     <td><div>@Model.Mark</div></td>
     <td><div>@Model.Description</div></td>
     <td>
-        <div class="itemText">
+        <div class="operationPersons">
             <ul>
                 @foreach (var man in Model.Participants)
                 {
-                    <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)</li>
+                    <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)@if (Model.Participants.Last() != man) { Write(","); } </li>
                 }
             </ul>
         </div>
