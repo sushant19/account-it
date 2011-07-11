@@ -51,35 +51,31 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult SaveOperation()
+        public PartialViewResult SaveOperation(int id, DateTime date,
+            decimal amount, string mark, string description, int[] participants)
         {
-            int opId = Convert.ToInt32(Request.Params["ID"]);
-            Operation op = Storage.Operations.Find(opId);
+            Operation op = Storage.Operations.Find(id);
             if (op == null)
             {
                 op = new Operation();
                 Storage.Operations.Add(op);
             }
-            op.Date = Convert.ToDateTime(Request.Params["Date"]);
-            op.Amount = Convert.ToDecimal(Request.Params["Amount"]);
-            op.Mark = Request.Params["Mark"];
-            op.Description = Request.Params["Description"];
+            op.Date = date;
+            op.Amount = amount;
+            op.Mark = mark;
+            op.Description = description;
             if (op.Participants == null)
                 op.Participants = new List<Person>();
             else
                 op.Participants.Clear();
-            string people = Request.Params["Participants[]"];
-            if (people != null)
+            
+            foreach (int pid in participants)
             {
-                var ids = Request.Params["Participants[]"].
-                    Split(',').Select(str => Convert.ToInt32(str));
-                foreach (int id in ids)
-                {
-                    Person person = Storage.Persons.Find(id);
-                    if (person != null)
-                        op.Participants.Add(person);
-                }
+                Person person = Storage.Persons.Find(pid);
+                if (person != null)
+                    op.Participants.Add(person);
             }
+            
             Storage.SaveChanges();
             return PartialView("ViewOperation", op);
         }

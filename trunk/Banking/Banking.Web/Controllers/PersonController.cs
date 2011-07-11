@@ -61,17 +61,15 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult SavePerson()
+        public PartialViewResult SavePerson(int id, string name)
         {
-
-            int id = Convert.ToInt32(Request.Params["ID"]);
             Person man = Storage.Persons.Find(id);
             if (man == null)
             {
                 man = new Person();
                 Storage.Persons.Add(man);
             }
-            man.Name = Request.Params["Name"];
+            man.Name = name;
             if (man.Operations == null)
                 man.Operations = new List<Operation>();
             var ops = Storage.Operations.
