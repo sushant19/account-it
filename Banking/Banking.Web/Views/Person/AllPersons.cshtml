@@ -17,7 +17,7 @@
             ID: Number(target.attr('data-id')),
             Name: fields[0].value
         }
-        return query;
+        return $.param(query, true);
     }
 
 </script>
