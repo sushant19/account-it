@@ -149,6 +149,9 @@ menu li:before {
 .tableView .checkCol {
     width: 10px;
 }
+.tableView tr div {
+    cursor: pointer;
+}
 .actionsMenu {
     text-align: left;
     padding: 0;

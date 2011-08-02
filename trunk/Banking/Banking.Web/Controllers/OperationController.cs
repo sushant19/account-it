@@ -51,15 +51,19 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult SaveOperation(int id, DateTime date,
+        public ActionResult SaveOperation(int? id, DateTime date,
             decimal amount, string mark, string description, int[] participants)
         {
-            Operation op = Storage.Operations.Find(id);
-            if (op == null)
+
+            // operation should have at least one participant
+            if (participants == null || participants.Length == 0)
             {
-                op = new Operation();
-                Storage.Operations.Add(op);
+                var result = Json(new { error = "EmptyParticipantsList" });
+                string data = result.Data.ToString();
+                return result;
             }
+
+            var op = Storage.ReadOrCreate<Operation>(id);
             op.Date = date;
             op.Amount = amount;
             op.Mark = mark;
@@ -84,7 +88,6 @@ namespace Banking.Web.Controllers
         public PartialViewResult CreateOperation()
         {
             Operation op = new Operation();
-            op.ID = Int32.MaxValue;
             op.Date = DateTime.Today;
             return EditOperation(op);
         }

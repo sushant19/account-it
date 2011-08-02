@@ -61,14 +61,17 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult SavePerson(int id, string name)
+        public ActionResult SavePerson(int? id, string name)
         {
-            Person man = Storage.Persons.Find(id);
-            if (man == null)
+            var man = Storage.ReadOrCreate<Person>(id);
+
+            // persons with equal names not allowed
+            var sameNamed = Storage.Persons.SingleOrDefault(p => p.Name == name);
+            if (sameNamed != null)
             {
-                man = new Person();
-                Storage.Persons.Add(man);
+                return Json(new { error = "PersonWithSameNameAlreadyExists" });
             }
+
             man.Name = name;
             if (man.Operations == null)
                 man.Operations = new List<Operation>();
@@ -85,16 +88,19 @@ namespace Banking.Web.Controllers
         public PartialViewResult CreatePerson()
         {
             Person man = new Person();
-            man.ID = Int32.MaxValue;
             return EditPerson(man);
         }
 
         [HttpPost]
-        public EmptyResult DeletePerson(int id)
+        public ActionResult DeletePerson(int id)
         {
             Person man = Storage.Persons.Find(id);
             if (man != null)
             {
+                if (man.Operations != null && man.Operations.Count > 0)
+                {
+                    return Json(new { error = "CannotDeletePersonThatHasOperations" });
+                }
                 Storage.Persons.Remove(man);
                 Storage.SaveChanges();
             }

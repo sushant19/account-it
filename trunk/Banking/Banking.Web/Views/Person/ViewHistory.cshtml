@@ -17,6 +17,9 @@
 <table class="tableView tablesorter" id="history">
     <caption>
         <p>History</p>
+        <p class="actionsMenu">
+            <input type="button" value="Delete selected" class="deleteButton" id="deleteOperationButton"/>
+        </p>
     </caption>
     <thead>
         <tr id="headings">
@@ -33,6 +36,7 @@
         @foreach (var op in ops)
         {
             <tr>
+                <td><input type="checkbox" class="itemCheck" /></td>
                 <td>@op.Date.ToShortDateString()</td>
                 <td>@Math.Round(op.GetPersonShare(), 2).ToString()</td>
                 <td>@Math.Round(op.Amount, 2)</td>

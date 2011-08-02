@@ -1,10 +1,12 @@
 ﻿@model Banking.Domain.Person
 
-<tr data-id=@Model.ID>        
-    <td>@Html.EditorFor(op => op.Name)</td>
-    <td>@Math.Round(Model.GetBalance(), 2)</td>
-    <td>
-        <input type="button" value="Save" class="saveButton"/>
-        <input type="button" value="Cancel" class="cancelButton"/>
-    </td>
-</tr> 
+<div data-id=@Model.ID>  
+    <form>      
+        <div>@Html.EditorFor(op => op.Name)</div>
+        <div>@Math.Round(Model.GetBalance(), 2)</div>
+        <div>
+            <input type="button" value="Save" class="saveButton"/>
+            <input type="button" value="Cancel" class="cancelButton"/>
+        </div>
+    </form>
+</div> 

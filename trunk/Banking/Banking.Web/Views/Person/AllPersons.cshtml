@@ -5,27 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        assignBehavior('Person');
-    });
-
-    function parseFields(target) {
-        var fields = target.find('input');
-        var query = {
-            ID: Number(target.attr('data-id')),
-            Name: fields[0].value
-        }
-        return $.param(query, true);
-    }
-
-</script>
 <table class="tableView tablesorter" id="persons">
 
   <caption>
     <p>Persons</p>
-    <p class="actionsMenu"><input type="button" value="Create" class="createButton" id="createPersonButton"/></p>
+    <p class="actionsMenu">
+        <input type="button" value="Create" class="createButton" id="createPersonButton"/>
+        <input type="button" value="Delete selected" class="deleteButton" id="deletePersonButton"/>
+    </p>
+
   </caption>
 <thead>
   <tr id="headings">
@@ -42,5 +30,3 @@
   }
 </tbody>
 </table>
-
-

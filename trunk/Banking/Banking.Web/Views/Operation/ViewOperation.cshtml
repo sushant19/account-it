@@ -1,17 +1,22 @@
 ﻿@model Banking.Domain.Operation
     
-<tr data-id=@Model.ID>
-    <td><input type="checkbox" class="itemCheck" /></td>
-    <td><div>@Model.Date.ToShortDateString()</div></td>
-    <td><div>@Model.Amount.ToString("F2")</div></td>
-    <td><div>@Model.Mark</div></td>
-    <td><div>@Model.Description</div></td>
+<tr data-entity="operation" data-view="viewRow" data-id=@Model.ID>
+    <td>
+        <input type="checkbox" class="itemCheck" data-action="select" data-event="click"/>
+    </td>
+    <td><div data-action='edit'>@Model.Date.ToShortDateString()</div></td>
+    <td><div data-action='edit'>@Model.Amount.ToString("F2")</div></td>
+    <td><div data-action='edit'>@Model.Mark</div></td>
+    <td><div data-action='edit'>@Model.Description</div></td>
     <td>
         <div class="operationPersons">
             <ul>
                 @foreach (var man in Model.Participants)
                 {
-                    <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)@if (Model.Participants.Last() != man) { Write(","); } </li>
+                    <li>
+                        @Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)
+                        @if (Model.Participants.Last() != man) { Write(","); }
+                    </li>
                 }
             </ul>
         </div>

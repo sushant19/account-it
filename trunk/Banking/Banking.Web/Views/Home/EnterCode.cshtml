@@ -15,7 +15,7 @@
             $("input").each(function () { $(this).attr("disabled", "disabled"); });
 
             $("#codeInput").addClass("loading");
-            var code = jQuery('#codeInput').prop('value');
+            var code = $('#codeInput').prop('value');
             var hash = Crypto.SHA256(code);
             var query = { code: hash };
             $.post('Home/EnterCode', query, function (data) {
