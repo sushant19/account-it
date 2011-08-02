@@ -1,4 +1,8 @@
-﻿(function () {
+﻿/* dependencies */
+
+//  jQuery 1.6+
+
+(function () {
     var ui = {};
     this.ui = ui;
 

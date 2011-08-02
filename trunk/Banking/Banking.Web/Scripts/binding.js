@@ -21,7 +21,7 @@
     bindAction('selectAll', 'click', function () {
         var currentControl = $(this);
         var checked = currentControl.attr('checked');
-        var entityName = parseData(currentControl, 'entity');
+        var entityName = currentControl.parseData('entity');
         var views = $(document).findByData({ view: 'viewRow', entity: entityName });
         views.each(function () {
             var currentView = $(this);
@@ -41,10 +41,10 @@
     });
 
     bindAction('delete', 'click', function () {
-        var entityName = parseData(this, 'entity');
+        var entityName = $(this).parseData('entity');
         var selected = $(document).findByData({ view: 'viewRow', selected: 'true', entity: entityName });
         var count = selected.length;
-        if (confirm('Delete ' + count + ' operations forever?')) {        //TODO: rewrite confirmation to modal
+        if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {        //TODO: rewrite confirmation to modal
             selected.each(function () {
                 var current = $(this);
                 var id = current.attr('data-id');
@@ -115,14 +115,14 @@
     }
 
     function applySelection(view) {
-        var isSelected = parseData(view, 'selected');
+        var isSelected = view.parseData('selected');
         if (isSelected != 'true') {
             toggleSelection(view);
         }
     }
 
     function removeSelection(view) {
-        var isSelected = parseData(view, 'selected');
+        var isSelected = view.parseData('selected');
         if (isSelected == 'true') {
             toggleSelection(view);
         }
@@ -187,7 +187,7 @@
             ID: Number(view.attr('data-id')),
             Name: fields[0].value
         }
-        return $.data(query, true);
+        return $.param(data, true);
     }
 
     function findParentView(node, viewName) {

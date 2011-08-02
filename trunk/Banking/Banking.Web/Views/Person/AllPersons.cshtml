@@ -10,20 +10,20 @@
   <caption>
     <p>Persons</p>
     <p class="actionsMenu">
-        <input type="button" value="Create" class="createButton" id="createPersonButton"/>
-        <input type="button" value="Delete selected" class="deleteButton" id="deletePersonButton"/>
+        <input type="button" value="Create" class="createButton" id="createPersonButton" data-action="create" data-entity="person"/>
+        <input type="button" value="Delete selected" class="deleteButton" id="deletePersonButton" data-action="delete" data-entity="person" disabled/>
     </p>
 
   </caption>
 <thead>
   <tr id="headings">
-    <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" /></th>
+    <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" data-action="selectAll" data-entity="person"/></th>
     <th scope="col">Name</th>
     <th scope="col">Ballance,$</th>
     <th scope="col">Deals</th>
   </tr>
 </thead>
-<tbody>
+<tbody data-list="person" data-view="viewRow">
   @foreach (var man in Model)
   {
     @Html.Partial("ViewPerson", man)
