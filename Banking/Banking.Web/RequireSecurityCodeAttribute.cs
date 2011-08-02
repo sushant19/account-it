@@ -17,7 +17,14 @@ namespace Banking.Web
             var controller = filterContext.Controller as BankingControllerBase;
             if (cookie == null || !controller.IsValidSession(cookie.Value))
             {
-                filterContext.Result = new RedirectToRouteResult("EnterCode", null);
+                if (filterContext.HttpContext.Request.IsAjaxRequest())
+                {
+                    filterContext.Result = controller.MakeJson(new { error = "NotAuthorizedOrSessionExpired" });
+                }
+                else
+                {
+                    filterContext.Result = new RedirectToRouteResult("EnterCode", null);
+                }
             }
             else
             {

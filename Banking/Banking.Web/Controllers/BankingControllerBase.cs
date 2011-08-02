@@ -8,6 +8,7 @@ using System.Web.Configuration;
 
 using Banking.Domain;
 using Banking.EFData;
+using System.Data.Entity;
 
 namespace Banking.Web.Controllers
 {
@@ -50,6 +51,12 @@ namespace Banking.Web.Controllers
             Session session = GetSession(ssid);
             session.ExpiresAt = DateTime.Now + Security.Timeout;
             Storage.SaveChanges();
+        }
+
+        [NonAction]
+        public JsonResult MakeJson(object data)
+        {
+            return Json(data);
         }
     }
 }
