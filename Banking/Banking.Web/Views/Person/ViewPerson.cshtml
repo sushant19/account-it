@@ -2,10 +2,10 @@
            
 @using Banking.Web
     
-<tr data-id=@Model.ID>
-    <td><input type="checkbox" class="itemCheck" /></td>
-    <td><div>@Html.ActionLink(Model.Name, "ViewHistory", new { name = Model.Name })</div></td>
-    <td><div>@Math.Round(Model.GetBalance(), 2).ToString()</div></td>
+<tr data-entity="person" data-view="viewRow" data-id=@Model.ID>
+    <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
+    <td><div data-action="edit">@Html.ActionLink(Model.Name, "ViewHistory", new { name = Model.Name })</div></td>
+    <td><div data-action="edit">@Math.Round(Model.GetBalance(), 2).ToString()</div></td>
     <td>
         <div class="personDeals">
             <ul>

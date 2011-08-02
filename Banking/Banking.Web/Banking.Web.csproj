@@ -104,7 +104,6 @@
     <Content Include="Scripts\jquery.freeow.min.js" />
     <Content Include="Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
-    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\ui.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
