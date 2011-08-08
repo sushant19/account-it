@@ -15,6 +15,20 @@ namespace Banking.Web.Controllers
     [RequireSecurityCode]
     public class OperationController : BankingControllerBase
     {
+        public ActionResult GetView(string viewName, int id)
+        {
+            Operation op = Storage.Operations.Find(id);
+            if (op != null)
+                return GetView(viewName, op);
+            else
+                return new EmptyResult();   //TODO: Not found behavior
+        }
+
+        public PartialViewResult GetView(string viewName, Operation op)
+        {
+            return PartialView(viewName, op);
+        }
+
         public ViewResult AllOperations()
         {
             return View(Storage.Operations.ToList());
@@ -33,6 +47,36 @@ namespace Banking.Web.Controllers
         public PartialViewResult ViewOperation(Operation op)
         {
             return PartialView("ViewOperation", op);
+        }
+
+        [HttpPost]
+        public ActionResult ViewOperationTitle(int id)
+        {
+            Operation operation = Storage.Operations.Find(id);
+            if (operation != null)
+                return ViewOperationTitle(operation);
+            else
+                return new EmptyResult();
+        }
+
+        public PartialViewResult ViewOperationTitle(Operation op)
+        {
+            return PartialView("ViewOperationTitle", op);
+        }
+
+        [HttpPost]
+        public ActionResult GetAllViews(int id)
+        {
+            Operation operation = Storage.Operations.Find(id);
+            if (operation != null)
+                return GetAllViews(operation);
+            else
+                return new EmptyResult();
+        }
+
+        public PartialViewResult GetAllViews(Operation op)
+        {
+            return PartialView("AllViews", op);
         }
 
         [HttpPost]
@@ -81,7 +125,7 @@ namespace Banking.Web.Controllers
             }
             
             Storage.SaveChanges();
-            return PartialView("ViewOperation", op);
+            return PartialView("AllOperationViews", op);
         }
 
         [HttpPost]
