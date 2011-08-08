@@ -50,13 +50,14 @@
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
                     current.remove();
+                    refreshDeleteControls();
                 });
             });
         }
     });
 
     bindAction('edit', 'click', function () {
-        var view = findParentView(this, 'viewRow');
+        var view = findParentView(this);
         var entityName = view.parseData('entity');
         var id = view.parseData('id');
         sendRequest('edit', entityName, { id: id }, function (response) {
@@ -71,15 +72,7 @@
         // call by name...
         var data = act('parse_' + entityName, view);
         sendRequest('save', entityName, data, function (response) {
-            var viewName = $(response).parseData('view');
-            var id = $(response).parseData('id');
-            var sameId = $(document).findByData({ entity: entityName, view: viewName, id: id });
-            if (sameId.length > 0) {
-                sameId.replaceWith(response);
-            } else {
-                var list = $(document).findByData({ list: entityName, view: viewName });
-                list.append(response);
-            }
+            updateViews(entityName, response);
             $.modal.close();
         });
     });
@@ -89,6 +82,25 @@
     });
 
     // *** helper functions ***
+
+    function updateViews(entityName, data) {
+        var views = $(data).findByData({ entity: entityName });
+        views.each(function () {
+            var current = $(this);
+            var source = current.parent().html();   // requires view to be the only child
+            var viewName = current.parseData('view');
+            var id = current.parseData('id');
+            var existingViews = $(document)
+                .findByData({ entity: entityName, view: viewName, id: id });
+            if (existingViews.length != 0) {
+
+                existingViews.replaceWith(source);
+            } else {
+                var listViews = $(document).findByData({ list: entityName, view: viewName });
+                listViews.prepend(source);
+            }
+        });
+    }
 
     // envokes func when specified action occurs
     function bindAction(actionName, eventName, func) {
@@ -191,7 +203,13 @@
     }
 
     function findParentView(node, viewName) {
-        return $(node).parents('[data-view=\"' + viewName + '\"]').first();
+        var selector;
+        if (typeof (viewName) != 'undefined') {
+            selector = '[data-view=\"' + viewName + '\"]';
+        } else {
+            selector = '[data-view]';
+        }
+        return $(node).parents(selector).first();
     }
 
 })();

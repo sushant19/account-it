@@ -11,8 +11,8 @@
             <ul>
                 @foreach (var operation in Model.Operations)
                 {
-                    <li class="operationTitle" data-id=@operation.ID>@operation.GetTitle()</li>
-                    if (Model.Operations.Last() != operation) { Write(","); } 
+                    @Html.Action("ViewOperationTitle", "Operation", new { op = operation });
+                    if (Model.Operations.Last() != operation) { Write(","); }
                 }
             </ul>
         </div>
