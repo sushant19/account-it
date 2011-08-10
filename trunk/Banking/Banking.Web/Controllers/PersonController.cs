@@ -13,11 +13,11 @@ namespace Banking.Web.Controllers
     [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     //[RequireHttps]
     [RequireSecurityCode]
-    public class PersonController : BankingControllerBase
+    public class PersonController : EntityController<Person>
     {
         public ViewResult AllPersons()
         {
-            return View(Storage.Persons.ToList());
+            return View("AllPersons", Storage.Persons.ToList());
         }
 
         public ActionResult ViewHistory(string name)
@@ -31,33 +31,9 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewPerson(int id)
-        {
-            Person person = Storage.Persons.Find(id);
-            if (person != null)
-                return ViewPerson(person);
-            else
-                return new EmptyResult();
-        }
-
-        public PartialViewResult ViewPerson(Person man)
-        {
-            return PartialView("ViewPerson", man);
-        }
-
-        [HttpPost]
         public ActionResult EditPerson(int id)
         {
-            Person person = Storage.Persons.Find(id);
-            if (person != null)
-                return EditPerson(person);
-            else
-                return new EmptyResult();
-        }
-
-        public PartialViewResult EditPerson(Person man)
-        {
-            return PartialView("EditPerson", man);
+            return GetView("EditPerson", id);
         }
 
         [HttpPost]
@@ -81,14 +57,14 @@ namespace Banking.Web.Controllers
             foreach (Operation op in ops)
                 man.Operations.Add(op);
             Storage.SaveChanges();
-            return PartialView("ViewPerson", man);
+            return PartialView("AllPersonViews", man);
         }
 
         [HttpPost]
         public PartialViewResult CreatePerson()
         {
             Person man = new Person();
-            return EditPerson(man);
+            return PartialView("EditPerson", man);
         }
 
         [HttpPost]
@@ -104,7 +80,7 @@ namespace Banking.Web.Controllers
                 Storage.Persons.Remove(man);
                 Storage.SaveChanges();
             }
-            return new EmptyResult();
+            return Json(new { id = id });
         }
     }
 }

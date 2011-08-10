@@ -2,16 +2,16 @@
            
 @using Banking.Web
     
-<tr data-entity="person" data-view="viewRow" data-id=@Model.ID>
+<tr data-entity="person" data-view="view" data-id=@Model.ID>
     <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
     <td><div data-action="edit">@Html.ActionLink(Model.Name, "ViewHistory", new { name = Model.Name })</div></td>
-    <td><div data-action="edit">@Math.Round(Model.GetBalance(), 2).ToString()</div></td>
+    <td><div data-action="edit">@Model.GetBalance().ToString("F2")</div></td>
     <td>
         <div class="personDeals">
             <ul>
                 @foreach (var operation in Model.Operations)
                 {
-                    @Html.Action("ViewOperationTitle", "Operation", new { op = operation });
+                    @Html.Action("GetPartial", "Operation", new { viewName = "ViewOperationTitle", entity = operation });
                     if (Model.Operations.Last() != operation) { Write(","); }
                 }
             </ul>

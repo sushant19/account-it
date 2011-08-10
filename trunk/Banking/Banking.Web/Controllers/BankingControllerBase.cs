@@ -20,7 +20,7 @@ namespace Banking.Web.Controllers
             var config = WebConfigurationManager.OpenWebConfiguration("/"); // root
             string cs = config.ConnectionStrings.ConnectionStrings["BankingDebug"].ConnectionString;
             Storage.Database.Connection.ConnectionString = cs;
-            System.Data.Entity.Database.SetInitializer<EFStorage>(null);
+            System.Data.Entity.Database.SetInitializer<EFStorage>(new DropCreateDatabaseIfModelChanges<EFStorage>());
         }
 
         protected EFStorage Storage = new EFStorage();

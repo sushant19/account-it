@@ -1,8 +1,8 @@
 ﻿@model Banking.Domain.Operation
     
-<tr data-entity="operation" data-view="viewRow" data-id=@Model.ID>
+<tr data-entity="operation" data-view="view" data-id=@Model.ID>
     <td>
-        <input type="checkbox" class="itemCheck" data-action="select" data-event="click"/>
+        <input type="checkbox" class="itemCheck" data-action="select"/>
     </td>
     <td><div data-action='edit'>@Model.Date.ToShortDateString()</div></td>
     <td><div data-action='edit'>@Model.Amount.ToString("F2")</div></td>

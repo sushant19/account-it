@@ -1,0 +1,22 @@
+﻿@model Banking.Domain.PersonalOperation
+
+@{
+    string viewParams = Json.Encode(new { ownerId = Model.Owner.ID });
+}
+
+<tr data-entity="operation" data-view="viewPersonal" data-view-params=@viewParams data-id=@Model.ID>
+    <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
+    <td><div data-action="edit">@Model.Date.ToShortDateString()</div></td>
+    <td><div data-action="edit">@Model.GetPersonShare().ToString("F2")</div></td>
+    <td><div data-action="edit">@Model.Amount.ToString("F2")</div></td>
+    <td><div data-action="edit">@Model.Mark</div></td>
+    <td><div data-action="edit">@Model.Description</div></td>
+    <td>
+        <ul>
+            @foreach (var man in Model.Others)
+            {
+                <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { id = man.ID })</li>                
+            }
+        </ul>
+    </td>
+</tr>
