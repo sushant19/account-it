@@ -57,7 +57,7 @@ namespace Banking.Web.Controllers
             foreach (Operation op in ops)
                 man.Operations.Add(op);
             Storage.SaveChanges();
-            return PartialView("AllPersonViews", man);
+            return Json(new { id = man.ID });
         }
 
         [HttpPost]
