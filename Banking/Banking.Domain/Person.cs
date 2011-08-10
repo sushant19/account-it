@@ -14,6 +14,7 @@ namespace Banking.Domain
         public decimal GetBalance()
         {
             if (Operations != null)
+                // calculating sum of shares in all operations
                 return Operations.Aggregate(0m, (balance, op) => balance += op.GetPersonShare());
             else
                 return 0;

@@ -13,90 +13,46 @@ namespace Banking.Web.Controllers
     [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     //[RequireHttps]
     [RequireSecurityCode]
-    public class OperationController : BankingControllerBase
+    public class OperationController : EntityController<Operation>
     {
-        public ActionResult GetView(string viewName, int id)
-        {
-            Operation op = Storage.Operations.Find(id);
-            if (op != null)
-                return GetView(viewName, op);
-            else
-                return new EmptyResult();   //TODO: Not found behavior
-        }
-
-        public PartialViewResult GetView(string viewName, Operation op)
-        {
-            return PartialView(viewName, op);
-        }
 
         public ViewResult AllOperations()
         {
-            return View(Storage.Operations.ToList());
+            return View("AllOperations", Storage.Operations.ToList());
         }
 
         [HttpPost]
         public ActionResult ViewOperation(int id)
         {
-            Operation operation = Storage.Operations.Find(id);
-            if (operation != null)
-                return ViewOperation(operation);
-            else
+            return GetView("ViewOperation", id);
+        }
+
+        public ActionResult ViewTitleOperation(int id)
+        {
+            return GetView("ViewOperationTitle", id);
+        }
+
+        public ActionResult ViewPersonalOperation(int id, int ownerId)
+        {
+            Operation op = Storage.Operations.Find(id);
+            Person owner = Storage.Persons.Find(ownerId);
+            Func<Operation, Person, bool> opHasParticipant
+                = (o, man) => o.Participants.Any(p => p.ID == man.ID);
+            if (op == null || owner == null || !opHasParticipant(op, owner))
                 return new EmptyResult();
-        }
-
-        public PartialViewResult ViewOperation(Operation op)
-        {
-            return PartialView("ViewOperation", op);
-        }
-
-        [HttpPost]
-        public ActionResult ViewOperationTitle(int id)
-        {
-            Operation operation = Storage.Operations.Find(id);
-            if (operation != null)
-                return ViewOperationTitle(operation);
-            else
-                return new EmptyResult();
-        }
-
-        public PartialViewResult ViewOperationTitle(Operation op)
-        {
-            return PartialView("ViewOperationTitle", op);
-        }
-
-        [HttpPost]
-        public ActionResult GetAllViews(int id)
-        {
-            Operation operation = Storage.Operations.Find(id);
-            if (operation != null)
-                return GetAllViews(operation);
-            else
-                return new EmptyResult();
-        }
-
-        public PartialViewResult GetAllViews(Operation op)
-        {
-            return PartialView("AllViews", op);
+            var personalOp = new PersonalOperation() { Owner = owner }.Init(op);
+            return PartialView("ViewPersonalOperation", personalOp);
         }
 
         [HttpPost]
         public ActionResult EditOperation(int id)
         {
-            Operation operation = Storage.Operations.Find(id);
-            if (operation != null)
-                return EditOperation(operation);
-            else
-                return new EmptyResult();
-        }
-
-        public PartialViewResult EditOperation(Operation op)
-        {
-            return PartialView("EditOperation", op);
+            return GetView("EditOperation", id);
         }
 
         [HttpPost]
         public ActionResult SaveOperation(int? id, DateTime date,
-            decimal amount, string mark, string description, int[] participants)
+            decimal amount, string mark, string description, int[] participants, int? ownerId)
         {
 
             // operation should have at least one participant
@@ -123,9 +79,8 @@ namespace Banking.Web.Controllers
                 if (person != null)
                     op.Participants.Add(person);
             }
-            
             Storage.SaveChanges();
-            return PartialView("AllOperationViews", op);
+            return Json(new { id = op.ID });
         }
 
         [HttpPost]
@@ -133,7 +88,7 @@ namespace Banking.Web.Controllers
         {
             Operation op = new Operation();
             op.Date = DateTime.Today;
-            return EditOperation(op);
+            return PartialView("EditOperation", op);
         }
 
         [HttpPost]
@@ -160,5 +115,6 @@ namespace Banking.Web.Controllers
             return PartialView("SelectParticipants", participants);
             
         }
+
     }
 }

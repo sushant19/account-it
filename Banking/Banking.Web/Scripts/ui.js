@@ -33,7 +33,7 @@
         });
     }
 
-    ui.showError = function () {
+    ui.showError = function (message) {
         $('#freeow').freeow("Error", message, { classes: ["smokey", "error"] });
     }
 

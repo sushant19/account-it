@@ -14,7 +14,7 @@
     // *** binding user actions ***
 
     bindAction('select', 'click', function () {
-        var view = findParentView(this, 'viewRow');
+        var view = findParentView(this, 'view');
         toggleSelection(view);
     });
 
@@ -22,7 +22,7 @@
         var currentControl = $(this);
         var checked = currentControl.attr('checked');
         var entityName = currentControl.parseData('entity');
-        var views = $(document).findByData({ view: 'viewRow', entity: entityName });
+        var views = $(document).findByData({ view: 'view', entity: entityName });
         views.each(function () {
             var currentView = $(this);
             if (checked == 'checked') {
@@ -42,7 +42,7 @@
 
     bindAction('delete', 'click', function () {
         var entityName = $(this).parseData('entity');
-        var selected = $(document).findByData({ view: 'viewRow', selected: 'true', entity: entityName });
+        var selected = $(document).findByData({ view: 'view', selected: 'true', entity: entityName });
         var count = selected.length;
         if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {        //TODO: rewrite confirmation to modal
             selected.each(function () {
@@ -72,7 +72,10 @@
         // call by name...
         var data = act('parse_' + entityName, view);
         sendRequest('save', entityName, data, function (response) {
-            updateViews(entityName, response);
+            var id = response.id;
+            updateExistingViews(entityName, id);
+            complementLists(entityName, id);
+            //updateViews(entityName, response);
             $.modal.close();
         });
     });
@@ -83,22 +86,33 @@
 
     // *** helper functions ***
 
-    function updateViews(entityName, data) {
-        var views = $(data).findByData({ entity: entityName });
+    function updateExistingViews(entityName, id) {
+        var views = $(document).findByData({ entity: entityName, id: id });
         views.each(function () {
-            var current = $(this);
-            var source = current.parent().html();   // requires view to be the only child
-            var viewName = current.parseData('view');
-            var id = current.parseData('id');
-            var existingViews = $(document)
-                .findByData({ entity: entityName, view: viewName, id: id });
-            if (existingViews.length != 0) {
+            var view = $(this);
+            var viewName = view.parseData('view');
+            var data = parseViewData(view);
+            sendRequest(viewName, entityName, data, function (response) {
+                var existingViews = $(document)
+                    .findByData({ entity: entityName, view: viewName, id: id });
+                existingViews.replaceWith(response);
+            });
+        });
+    }
 
-                existingViews.replaceWith(source);
-            } else {
-                var listViews = $(document).findByData({ list: entityName, view: viewName });
-                listViews.prepend(source);
+    function complementLists(entityName, id) {
+        var lists = $(document).findByData({ list: entityName });
+        lists.each(function () {
+            var list = $(this);
+            // list should not contain entity with same id ...
+            var existing = list.findByData({ entity: entityName, id: id });
+            if (existing.length != 0) {
+                return;
             }
+            var viewName = list.parseData('view');
+            sendRequest(viewName, entityName, { id: id }, function (response) {
+                list.prepend(response);
+            });
         });
     }
 
@@ -111,18 +125,22 @@
     }
 
 
-    // Posts data to /{entity}/{action}{entity} and handles  errors
+    // Posts data to /{entity}/{action}{entity}
     function sendRequest(action, entity, data, successCallback) {
-        var url = '/' + entity + '/' + action + entity;
+        postData(entity, action + entity, data, successCallback);
+    }
+
+    // Sends post request to /{controller}/{action} and handles errors
+    function postData(controller, action, data, successCallback) {
+        var url = '/' + controller + '/' + action;
         $.post(url, data, function (response) {
-            if (data.error) {
-                ui.showError(data.error);
+            if (response.error) {
+                ui.showError(response.error);
             } else {
                 successCallback(response);
             }
         }).error(function () {
-            alert(data);
-            ui.showError('Request failed: ' + action + ' ' + entity);
+            ui.showError('Request failed: ' + url);
         });
     }
 
@@ -158,7 +176,7 @@
         var controls = $(document).findByData({ action: 'delete' });
         controls.each(function () {
             var entityName = $(this).parseData('entity');
-            var allViews = $(document).findByData({ view: 'viewRow', entity: entityName });
+            var allViews = $(document).findByData({ view: 'view', entity: entityName });
             var selectedViews = allViews.filterByData({ selected: true });
             var selectAllControls = $(document).findByData({ action: 'selectAll', entity: entityName });
             if (selectedViews.length == 0) {
@@ -188,7 +206,8 @@
             Amount: fields[1].value,
             Mark: fields[2].value,
             Description: fields[3].value,
-            Participants: selected
+            Participants: selected,
+            Owner: view.attr('data-owner')
         }
         return $.param(data, true);
     }
@@ -200,6 +219,28 @@
             Name: fields[0].value
         }
         return $.param(data, true);
+    }
+
+    // returns object with id and view params (if present) of the view
+    function parseViewData(view) {
+        var data = {};
+        var params = parseViewParams(view);
+        if (params != null) {
+            data = params;
+        }
+        var id = $(view).parseData('id');
+        data.id = id;
+        return data;
+    }
+
+    // returns object with props from 'data-view-params' attribute of the view
+    function parseViewParams(view) {
+        var paramsStr = $(view).parseData('view-params');
+        if (paramsStr != null) {
+            return $.parseJSON(paramsStr);
+        } else {
+            return null;
+        }
     }
 
     function findParentView(node, viewName) {

@@ -1,16 +1,19 @@
-﻿@model Banking.Domain.Person
+﻿@using Banking.Domain;
+
+@model Banking.Domain.Person
+
 
 @{
     ViewBag.Title = "ViewHistory";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    // getting all operations in which current person participate
+    // getting all operations in which current person participates
     var ops = Model.Operations.
         Where(op => op.Participants.
             Any(man => man.Name == Model.Name));
 }
 
 <h2>
-@Model.Name : $@Math.Round(Model.GetBalance(), 2)
+@Model.Name : $@Model.GetBalance().ToString("F2");
 </h2>
 
 
@@ -18,12 +21,12 @@
     <caption>
         <p>History</p>
         <p class="actionsMenu">
-            <input type="button" value="Delete selected" class="deleteButton" id="deleteOperationButton"/>
+            <input type="button" value="Delete selected" class="deleteButton" id="deleteOperationButton" data-action="delete" data-entity="operation" disabled/>
         </p>
     </caption>
     <thead>
         <tr id="headings">
-            <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" /></th>
+            <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" data-action="selectAll" data-entity="operation"/></th>
             <th scope="col">Date</th>
             <th scope="col">Part</th>
             <th scope="col">Total</th>
@@ -32,28 +35,10 @@
             <th scope="col">Others</th>
         </tr>
     </thead>
-    <tbody data-list="operation" data-view="viewRow">
+    <tbody data-list="operation" data-view="viewPersonalOperation">
         @foreach (var op in ops)
         {
-            <tr data-entity="operation" data-view="viewRow" data-id=@op.ID>
-                <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
-                <td><div data-action="edit">@op.Date.ToShortDateString()</div></td>
-                <td><div data-action="edit">@Math.Round(op.GetPersonShare(), 2).ToString()</div></td>
-                <td><div data-action="edit">@Math.Round(op.Amount, 2)</div></td>
-                <td><div data-action="edit">@op.Mark</div></td>
-                <td><div data-action="edit">@op.Description</div></td>
-                <td>
-                    <ul>
-                        @foreach (var man in op.Participants)
-                        {
-                            if (man.ID != Model.ID)
-                            {
-                                <li>@Html.ActionLink(man.Name, "ViewHistory", new { ID = man.ID })</li>
-                            }
-                        }
-                    </ul>
-                </td>
-            </tr>
+            @Html.Action("ViewPersonalOperation", "Operation", new { id=op.ID, ownerId=Model.ID });
         }
     </tbody>
 </table>
