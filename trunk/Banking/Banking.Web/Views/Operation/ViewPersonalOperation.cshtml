@@ -1,4 +1,5 @@
 ﻿@model Banking.Domain.PersonalOperation
+@using Banking.Web
 
 @{
     string viewParams = Json.Encode(new { ownerId = Model.Owner.ID });
@@ -6,11 +7,11 @@
 
 <tr data-entity="operation" data-view="viewPersonal" data-view-params=@viewParams data-id=@Model.ID>
     <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
-    <td><div data-action="edit">@Model.Date.ToShortDateString()</div></td>
-    <td><div data-action="edit">@Model.GetPersonShare().ToString("F2")</div></td>
-    <td><div data-action="edit">@Model.Amount.ToString("F2")</div></td>
     <td><div data-action="edit">@Model.Mark</div></td>
+    <td><div data-action="edit">@Model.Amount.ToString(Helper.DecimalFormat)</div></td>
+    <td><div data-action="edit">@Model.GetPersonShare().ToString(Helper.DecimalFormat)</div></td>
     <td><div data-action="edit">@Model.Description</div></td>
+    <td><div data-action="edit">@Model.Date.ToString(Helper.DateFormat)</div></td>
     <td>
         <ul>
             @foreach (var man in Model.Others)

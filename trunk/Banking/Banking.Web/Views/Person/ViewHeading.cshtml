@@ -1,5 +1,6 @@
 ﻿@model Banking.Domain.Person
+@using Banking.Web
 
 <h2 data-entity="person" data-view="viewHeading" data-id=@Model.ID>
-    @Model.Name : $@Model.GetBalance().ToString("F2");
+    @Model.Name : $@Model.GetBalance().ToString(Helper.DecimalFormat);
 </h2>

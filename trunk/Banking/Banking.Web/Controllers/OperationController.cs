@@ -52,15 +52,16 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(int? id, DateTime date, decimal amount,
+        public ActionResult Save(int? id, string date, decimal amount,
             string mark, string description, int[] participants)
         {
+            var dateTime = DateTime.Parse(date, Helper.DateFormat);
             // operation should have at least one participant
             if (participants == null || participants.Length == 0)
                 return Error("EmptyParticipantsList");
             // retrieving and initializing operation
             Operation op = Storage.ReadOrCreate<Operation>(id)
-                .Init(date, amount, mark, description);
+                .Init(dateTime, amount, mark, description);
             // retrieving new participants list
             var newParticipants = participants
                 .Select(pid => Storage.Persons.Find(pid))

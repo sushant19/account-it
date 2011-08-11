@@ -1,13 +1,14 @@
 ﻿@model Banking.Domain.Operation
+@using Banking.Web
     
 <tr data-entity="operation" data-view="view" data-id=@Model.ID>
     <td>
         <input type="checkbox" class="itemCheck" data-action="select"/>
     </td>
-    <td><div data-action='edit'>@Model.Date.ToShortDateString()</div></td>
-    <td><div data-action='edit'>@Model.Amount.ToString("F2")</div></td>
     <td><div data-action='edit'>@Model.Mark</div></td>
+    <td><div data-action='edit'>@Model.Amount.ToString(Helper.DecimalFormat)</div></td>
     <td><div data-action='edit'>@Model.Description</div></td>
+    <td><div data-action='edit'>@Model.Date.ToString(Helper.DateFormat)</div></td>
     <td>
         <div class="operationPersons">
             <ul>

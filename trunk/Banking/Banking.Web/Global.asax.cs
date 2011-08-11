@@ -12,6 +12,7 @@ namespace Banking.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public string DecimalFormat { get { return "G29"; } }
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());

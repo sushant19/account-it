@@ -1,12 +1,13 @@
 ﻿@model Banking.Domain.Person
 
-<div data-entity="person" data-view="edit" data-id=@Model.ID>  
+<div data-entity="person" data-view="edit" data-id=@Model.ID data-selected="true">  
     <form>      
         <div>@Html.EditorFor(op => op.Name)</div>
         <div>@Math.Round(Model.GetBalance(), 2)</div>
         <div>
             <input type="button" value="Save" class="saveButton" data-action="save"/>
             <input type="button" value="Cancel" class="cancelButton" data-action="cancel"/>
+            <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="person"/>
         </div>
     </form>
 </div> 
