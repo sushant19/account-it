@@ -131,13 +131,8 @@
     }
 
 
-    // Posts data to /{entity}/{action}{entity}
-    function sendRequest(action, entity, data, successCallback) {
-        postData(entity, action, data, successCallback);
-    }
-
-    // Sends post request to /{controller}/{action} and handles errors
-    function postData(controller, action, data, successCallback) {
+    // Posts data to /{controller}/{action} and handles response.error
+    function sendRequest(action, controller, data, successCallback) {
         var url = '/' + controller + '/' + action;
         $.post(url, data, function (response) {
             if (response.error) {
@@ -149,6 +144,7 @@
             ui.showError('Request failed: ' + url);
         });
     }
+
 
     function applySelection(view) {
         var isSelected = view.parseData('selected');

@@ -36,10 +36,11 @@ namespace Banking.Web.Controllers
         {
             Operation op = Storage.Operations.Find(id);
             Person owner = Storage.Persons.Find(ownerId);
+            // checks if person participates in operation
             Func<Operation, Person, bool> opHasParticipant
                 = (o, man) => o.Participants.Any(p => p.ID == man.ID);
             if (op == null || owner == null || !opHasParticipant(op, owner))
-                return new EmptyResult();
+                return Error("PersonalOperationNotFound");
             var personalOp = new PersonalOperation() { Owner = owner }.Init(op);
             return PartialView("ViewPersonalOperation", personalOp);
         }
@@ -56,31 +57,26 @@ namespace Banking.Web.Controllers
         {
             // operation should have at least one participant
             if (participants == null || participants.Length == 0)
-                return Json(new { error = "EmptyParticipantsList" });
-            
+                return Error("EmptyParticipantsList");
+            // retrieving and initializing operation
             Operation op = Storage.ReadOrCreate<Operation>(id)
                 .Init(date, amount, mark, description);
-
-            if (op.Participants == null)
-                op.Participants = new List<Person>();
-
+            // retrieving new participants list
             var newParticipants = participants
                 .Select(pid => Storage.Persons.Find(pid))
                     .Where(p => p != null);
-
+            // every participant is affected, no matter former or new one
+            if (op.Participants == null)
+                op.Participants = new List<Person>();
             var affectedPersons = op.Participants
-                .Union(newParticipants)
-                .Except(op.Participants
-                    .Intersect(newParticipants));
-
+                .Union(newParticipants);
+            // only new participants are left
             op.Participants = newParticipants.ToList();
             Storage.SaveChanges(); 
-
+            // returning affected entities descriptors
             var affectedData = affectedPersons
                 .Select(p => new { entity = "person", id = p.ID }).ToList();
             affectedData.Add(new { entity = "operation", id = op.ID });
-
-
             return Json(affectedData);
         }
 
@@ -107,12 +103,15 @@ namespace Banking.Web.Controllers
         public PartialViewResult SelectParticipants(Operation op)
         {
             var allPersons = Storage.Persons.ToList();
-            Func<Person, bool> selector;
+            // selecting nobody by default
+            Func<Person, bool> selector = (man => false);
+            // selecting those who participate in operation
             if (op.Participants != null)
                 selector = man => op.Participants.Any(p => p.Name == man.Name);
-            else
-                selector = man => false;
-            var participants = Storage.Persons.ToList().ToDictionary(man => man, selector);
+            //converting list of all persons to dictionary with
+            //all persons as keys and their participance in operation as values
+            Dictionary<Person, bool> participants = Storage.Persons.ToList()
+                .ToDictionary(man => man, selector);
             return PartialView("SelectParticipants", participants);
             
         }

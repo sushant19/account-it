@@ -1,0 +1,5 @@
+﻿@model Banking.Domain.Person
+
+<h2 data-entity="person" data-view="viewHeading" data-id=@Model.ID>
+    @Model.Name : $@Model.GetBalance().ToString("F2");
+</h2>

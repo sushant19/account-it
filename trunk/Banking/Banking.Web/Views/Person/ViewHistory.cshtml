@@ -12,9 +12,7 @@
             Any(man => man.Name == Model.Name));
 }
 
-<h2>
-@Model.Name : $@Model.GetBalance().ToString("F2");
-</h2>
+@Html.Partial("ViewHeading")
 
 
 <table class="tableView tablesorter" id="history">
