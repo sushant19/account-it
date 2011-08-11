@@ -54,9 +54,10 @@ namespace Banking.Web.Controllers
         }
 
         [NonAction]
-        public JsonResult MakeJson(object data)
+        public JsonResult Error(string text)
         {
-            return Json(data);
+            return Json(new { error = text });
         }
+
     }
 }

@@ -19,7 +19,7 @@ namespace Banking.Web
             {
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
-                    filterContext.Result = controller.MakeJson(new { error = "NotAuthorizedOrSessionExpired" });
+                    filterContext.Result = controller.Error("NotAuthorizedOrSessionExpired");
                 }
                 else
                 {

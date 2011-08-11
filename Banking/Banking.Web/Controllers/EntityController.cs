@@ -17,12 +17,7 @@ namespace Banking.Web.Controllers
             if (entity != null)
                 return PartialView(viewName, entity);
             else
-                return new EmptyResult();
-        }
-
-        public PartialViewResult GetPartial(string viewName, T entity)
-        {
-            return PartialView(viewName, entity);
+                return Error("ViewNotFound");
         }
     }
 }

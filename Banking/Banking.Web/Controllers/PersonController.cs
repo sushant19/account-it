@@ -25,6 +25,11 @@ namespace Banking.Web.Controllers
             return GetView("ViewPerson", id);
         }
 
+        public ActionResult ViewHeading(int id)
+        {
+            return GetView("ViewHeading", id);
+        }
+
         public ActionResult ViewHistory(string name)
         {
             Person man = Storage.Persons.
@@ -44,30 +49,19 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult Save(int? id, string name)
         {
+            // trying to retrive or creating new if null id
             var man = Storage.ReadOrCreate<Person>(id);
-
-            // persons with equal names not allowed
-            var sameNamed = Storage.Persons.SingleOrDefault(p => p.Name == name);
-            if (sameNamed != null)
-            {
-                return Json(new { error = "PersonWithSameNameAlreadyExists" });
-            }
-
+            // new persons with equal names not allowed
+            if (id == null && Storage.Persons.SingleOrDefault(p => p.Name == name) != null)
+                return Error("PersonWithSameNameAlreadyExists");
+            // updating
             man.Name = name;
-            if (man.Operations == null)
-                man.Operations = new List<Operation>();
-            var ops = Storage.Operations.
-                Where(op => op.Participants.
-                    Any(p => p.Name == man.Name));
-            foreach (Operation op in ops)
-                man.Operations.Add(op);
             Storage.SaveChanges();
-            
+            // given person is the only affected entity
             var affectedPersons = new List<Person>();
             affectedPersons.Add(man);
             var affectedData = affectedPersons
                 .Select(p => new { entity = "person", id = p.ID }).ToList();
-
             return Json(affectedData);
         }
 
@@ -84,14 +78,15 @@ namespace Banking.Web.Controllers
             Person man = Storage.Persons.Find(id);
             if (man != null)
             {
+                // deleting person with operations not allowed
                 if (man.Operations != null && man.Operations.Count > 0)
-                {
-                    return Json(new { error = "CannotDeletePersonThatHasOperations" });
-                }
+                    return Error("CannotDeletePersonThatHasOperations");
                 Storage.Persons.Remove(man);
                 Storage.SaveChanges();
+                return Json(new { id = id });
             }
-            return Json(new { id = id });
+            else
+                return Error("PersonNotFound");
         }
     }
 }
