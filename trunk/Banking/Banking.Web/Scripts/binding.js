@@ -14,7 +14,7 @@
     // *** binding user actions ***
 
     bindAction('select', 'click', function () {
-        var view = findParentView(this, 'view');
+        var view = findParentView(this);
         toggleSelection(view);
     });
 
@@ -22,7 +22,8 @@
         var currentControl = $(this);
         var checked = currentControl.attr('checked');
         var entityName = currentControl.parseData('entity');
-        var views = $(document).findByData({ view: 'view', entity: entityName });
+        var viewName = currentControl.parseData('view');
+        var views = $(document).findByData({ view: viewName, entity: entityName });
         views.each(function () {
             var currentView = $(this);
             if (checked == 'checked') {
@@ -42,15 +43,17 @@
 
     bindAction('delete', 'click', function () {
         var entityName = $(this).parseData('entity');
-        var selected = $(document).findByData({ view: 'view', selected: 'true', entity: entityName });
+        var selected = $(document).findByData({ selected: 'true', entity: entityName });
         var count = selected.length;
         if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {        //TODO: rewrite confirmation to modal
             selected.each(function () {
                 var current = $(this);
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
-                    current.remove();
+                    var allViews = $(document).findByData({ entity: entityName, id: id });
+                    allViews.remove();
                     refreshDeleteControls();
+                    $.modal.close();
                 });
             });
         }
@@ -72,10 +75,13 @@
         // call by name...
         var data = act('parse_' + entityName, view);
         sendRequest('save', entityName, data, function (response) {
-            var id = response.id;
-            updateExistingViews(entityName, id);
-            complementLists(entityName, id);
-            //updateViews(entityName, response);
+            // response is array of entity descriptors to update: [{entity: person, id: 1}, ...]
+            for (i in response) {
+                var e_name = response[i].entity;
+                var e_id = response[i].id;
+                updateExistingViews(e_name, e_id);
+                complementLists(e_name, e_id);
+            }
             $.modal.close();
         });
     });
@@ -176,7 +182,7 @@
         var controls = $(document).findByData({ action: 'delete' });
         controls.each(function () {
             var entityName = $(this).parseData('entity');
-            var allViews = $(document).findByData({ view: 'view', entity: entityName });
+            var allViews = $(document).findByData({ entity: entityName });
             var selectedViews = allViews.filterByData({ selected: true });
             var selectAllControls = $(document).findByData({ action: 'selectAll', entity: entityName });
             if (selectedViews.length == 0) {

@@ -4,7 +4,7 @@
     string participants = Model.ListParticipants();           
 }
 
-<div data-entity="operation" data-view="edit" data-id=@Model.ID>    
+<div data-entity="operation" data-view="edit" data-id=@Model.ID data-selected="true">    
     <form>
         <div>Date</div>
         <div>@Html.EditorFor(op => op.Date)</div>
@@ -17,6 +17,7 @@
         <div>Participiants</div>
         <div class="editOperationPersons">@Html.Action("SelectParticipants", new { op = Model })</div>
         <div class="editOperationButtons">
+            <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="operation"/>
             <input type="submit" value="Save" class="saveButton" data-action="save"/>
             <input type="button" value="Cancel" class="cancelButton" data-action="cancel"/>
         </div>

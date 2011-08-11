@@ -15,7 +15,7 @@
         <ul>
             @foreach (var man in Model.Others)
             {
-                <li>@Html.ActionLink(man.Name, "ViewHistory", "Person", new { id = man.ID })</li>                
+                <li><a href="/history/@man.Name">@man.Name</a></li>                
             }
         </ul>
     </td>

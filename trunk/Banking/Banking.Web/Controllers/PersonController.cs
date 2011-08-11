@@ -20,6 +20,11 @@ namespace Banking.Web.Controllers
             return View("AllPersons", Storage.Persons.ToList());
         }
 
+        public ActionResult ViewPerson(int id)
+        {
+            return GetView("ViewPerson", id);
+        }
+
         public ActionResult ViewHistory(string name)
         {
             Person man = Storage.Persons.
@@ -57,7 +62,13 @@ namespace Banking.Web.Controllers
             foreach (Operation op in ops)
                 man.Operations.Add(op);
             Storage.SaveChanges();
-            return Json(new { id = man.ID });
+            
+            var affectedPersons = new List<Person>();
+            affectedPersons.Add(man);
+            var affectedData = affectedPersons
+                .Select(p => new { entity = "person", id = p.ID }).ToList();
+
+            return Json(affectedData);
         }
 
         [HttpPost]

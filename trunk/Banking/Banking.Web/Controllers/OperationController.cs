@@ -52,35 +52,36 @@ namespace Banking.Web.Controllers
 
         [HttpPost]
         public ActionResult SaveOperation(int? id, DateTime date,
-            decimal amount, string mark, string description, int[] participants, int? ownerId)
+            decimal amount, string mark, string description, int[] participants)
         {
-
             // operation should have at least one participant
             if (participants == null || participants.Length == 0)
-            {
-                var result = Json(new { error = "EmptyParticipantsList" });
-                string data = result.Data.ToString();
-                return result;
-            }
+                return Json(new { error = "EmptyParticipantsList" });
+            
+            Operation op = Storage.ReadOrCreate<Operation>(id)
+                .Init(date, amount, mark, description);
 
-            var op = Storage.ReadOrCreate<Operation>(id);
-            op.Date = date;
-            op.Amount = amount;
-            op.Mark = mark;
-            op.Description = description;
             if (op.Participants == null)
                 op.Participants = new List<Person>();
-            else
-                op.Participants.Clear();
-            
-            foreach (int pid in participants)
-            {
-                Person person = Storage.Persons.Find(pid);
-                if (person != null)
-                    op.Participants.Add(person);
-            }
-            Storage.SaveChanges();
-            return Json(new { id = op.ID });
+
+            var newParticipants = participants
+                .Select(pid => Storage.Persons.Find(pid))
+                    .Where(p => p != null);
+
+            var affectedPersons = op.Participants
+                .Union(newParticipants)
+                .Except(op.Participants
+                    .Intersect(newParticipants));
+
+            op.Participants = newParticipants.ToList();
+            Storage.SaveChanges(); 
+
+            var affectedData = affectedPersons
+                .Select(p => new { entity = "person", id = p.ID }).ToList();
+            affectedData.Add(new { entity = "operation", id = op.ID });
+
+
+            return Json(affectedData);
         }
 
         [HttpPost]
