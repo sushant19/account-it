@@ -13,6 +13,16 @@ namespace Banking.Domain
         public String Description { get; set; }
         public virtual List<Person> Participants { get; set; }
 
+        public Operation Init(DateTime date, Decimal amount,
+            string mark, string description)
+        {
+            Date = date;
+            Amount = amount;
+            Mark = mark;
+            Description = description;
+            return this;
+        }
+
         public string ListParticipants()
         {
             StringBuilder builder = new StringBuilder();
@@ -28,7 +38,5 @@ namespace Banking.Domain
         {
             return Amount / Participants.Count;
         }
-
-        //public Deci
     }
 }
