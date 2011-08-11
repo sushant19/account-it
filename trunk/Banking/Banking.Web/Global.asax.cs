@@ -30,18 +30,18 @@ namespace Banking.Web
             routes.MapRoute(
                 "AllOperations",
                 "operations",
-                new { controller = "Operation", action = "AllOperations" }
+                new { controller = "Operation", action = "All" }
             );
 
             routes.MapRoute(
                 "AllPersons",
                 "persons",
-                new { controller = "Person", action = "AllPersons" }
+                new { controller = "Person", action = "All" }
             );
 
             routes.MapRoute(
                 "History",
-                "history/{name}",
+                "{name}",
                 new { controller = "Person", action = "ViewHistory" }
             );
 
@@ -49,7 +49,7 @@ namespace Banking.Web
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Operation", action = "AllOperations", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Operation", action = "All", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

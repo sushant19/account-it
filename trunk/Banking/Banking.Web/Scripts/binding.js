@@ -133,7 +133,7 @@
 
     // Posts data to /{entity}/{action}{entity}
     function sendRequest(action, entity, data, successCallback) {
-        postData(entity, action + entity, data, successCallback);
+        postData(entity, action, data, successCallback);
     }
 
     // Sends post request to /{controller}/{action} and handles errors

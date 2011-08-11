@@ -15,12 +15,12 @@ namespace Banking.Web.Controllers
     [RequireSecurityCode]
     public class PersonController : EntityController<Person>
     {
-        public ViewResult AllPersons()
+        public ViewResult All()
         {
             return View("AllPersons", Storage.Persons.ToList());
         }
 
-        public ActionResult ViewPerson(int id)
+        public ActionResult View(int id)
         {
             return GetView("ViewPerson", id);
         }
@@ -36,13 +36,13 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPerson(int id)
+        public ActionResult Edit(int id)
         {
             return GetView("EditPerson", id);
         }
 
         [HttpPost]
-        public ActionResult SavePerson(int? id, string name)
+        public ActionResult Save(int? id, string name)
         {
             var man = Storage.ReadOrCreate<Person>(id);
 
@@ -72,14 +72,14 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult CreatePerson()
+        public PartialViewResult Create()
         {
             Person man = new Person();
             return PartialView("EditPerson", man);
         }
 
         [HttpPost]
-        public ActionResult DeletePerson(int id)
+        public ActionResult Delete(int id)
         {
             Person man = Storage.Persons.Find(id);
             if (man != null)
