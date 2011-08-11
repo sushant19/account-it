@@ -68,7 +68,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OperationController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
-    <Compile Include="EntityExtensions.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -80,6 +80,7 @@
     <Content Include="Content\images\bg_bt.jpg" />
     <Content Include="Content\images\bg_bt_lt.jpg" />
     <Content Include="Content\images\bg_tp_rt.png" />
+    <Content Include="Content\images\calendar_icon.png" />
     <Content Include="Content\images\freeow\close.png" />
     <Content Include="Content\images\freeow\notice.png" />
     <Content Include="Content\images\freeow\pushpin.png" />
@@ -93,6 +94,7 @@
     <Content Include="Content\styles\main.css" />
     <Content Include="Content\styles\simplemodal.css" />
     <Content Include="Content\styles\tablesorter.css" />
+    <Content Include="Content\styles\zebra_datepicker.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\act.js" />
     <Content Include="Scripts\binding.js" />
@@ -105,7 +107,9 @@
     <Content Include="Scripts\jquery.freeow.min.js" />
     <Content Include="Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
+    <Content Include="Scripts\login.js" />
     <Content Include="Scripts\ui.js" />
+    <Content Include="Scripts\zebra_datepicker.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

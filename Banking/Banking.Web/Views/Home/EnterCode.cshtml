@@ -4,32 +4,7 @@
 }
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/crypto-sha256.js")"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("menu").children().each(function () { $(this).remove(); });
-        $("menu").append("<h3>Welcome to the point of entrance</h3>");
-        $("#codeInput").focus();
-        $("#enter_code_form").submit(function (e) {
-            e.preventDefault();
-            $("input").each(function () { $(this).attr("disabled", "disabled"); });
-
-            $("#codeInput").addClass("loading");
-            var code = $('#codeInput').prop('value');
-            var hash = Crypto.SHA256(code);
-            var query = { code: hash };
-            $.post('Home/EnterCode', query, function (data) {
-                if (data.Success == true) {
-                    window.location = '/operations';
-                } else {
-                    $("input").each(function () { $(this).removeAttr("disabled"); });
-                    $("#codeInput").removeClass("loading");
-                    showError("Invalid code!");
-                }
-            }).error(function () { alert('For some strange(probably, magic?) reason, ajax reqest could not reach the server. Please, inform system administrator.'); })
-        });
-    });
-</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/login.js")"></script>
 
 <div id="enter_code">
     <div id="enter_code_inner">

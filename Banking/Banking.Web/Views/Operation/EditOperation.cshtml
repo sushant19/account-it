@@ -1,13 +1,16 @@
 ﻿@model Banking.Domain.Operation
+
+@using Banking.Web;
            
 @{
-    string participants = Model.ListParticipants();           
+    string participants = Model.ListParticipants();
+    string date = Model.Date.ToString(Helper.DateFormat);       
 }
 
 <div data-entity="operation" data-view="edit" data-id=@Model.ID data-selected="true">    
     <form>
         <div>Date</div>
-        <div>@Html.EditorFor(op => op.Date)</div>
+        <div class="datePicker_wrapper">@Html.EditorFor(op => date)</div>
         <div>Amount</div>
         <div>@Html.EditorFor(op => op.Amount)</div>
         <div>Mark</div>
@@ -17,9 +20,9 @@
         <div>Participiants</div>
         <div class="editOperationPersons">@Html.Action("SelectParticipants", new { op = Model })</div>
         <div class="editOperationButtons">
-            <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="operation"/>
             <input type="submit" value="Save" class="saveButton" data-action="save"/>
             <input type="button" value="Cancel" class="cancelButton" data-action="cancel"/>
+            <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="operation"/>
         </div>
     </form>
 </div> 

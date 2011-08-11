@@ -20,6 +20,9 @@
                         dialog.data.fadeIn('normal');
                     });
                 });
+                $('.datePicker_wrapper>input').Zebra_DatePicker({
+                    format: 'j.m.Y'
+                });
             },
             onClose: function (dialog) {
                 dialog.data.fadeOut('normal', function () {
@@ -80,5 +83,7 @@
     function activateTableSorter() {
         $(".tableView").tablesorter({ headers: { 0: { sorter: false}} });
     }
+
+
 
 })();
