@@ -38,7 +38,7 @@
     <tbody data-list="operation" data-view="viewPersonalOperation">
         @foreach (var op in ops)
         {
-            @Html.Action("ViewPersonalOperation", "Operation", new { id=op.ID, ownerId=Model.ID });
+            @Html.Action("ViewPersonal", "Operation", new { id=op.ID, ownerId=Model.ID });
         }
     </tbody>
 </table>

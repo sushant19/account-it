@@ -16,23 +16,23 @@ namespace Banking.Web.Controllers
     public class OperationController : EntityController<Operation>
     {
 
-        public ViewResult AllOperations()
+        public ViewResult All()
         {
             return View("AllOperations", Storage.Operations.ToList());
         }
 
         [HttpPost]
-        public ActionResult ViewOperation(int id)
+        public ActionResult View(int id)
         {
             return GetView("ViewOperation", id);
         }
 
-        public ActionResult ViewTitleOperation(int id)
+        public ActionResult ViewTitle(int id)
         {
             return GetView("ViewOperationTitle", id);
         }
 
-        public ActionResult ViewPersonalOperation(int id, int ownerId)
+        public ActionResult ViewPersonal(int id, int ownerId)
         {
             Operation op = Storage.Operations.Find(id);
             Person owner = Storage.Persons.Find(ownerId);
@@ -45,14 +45,14 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditOperation(int id)
+        public ActionResult Edit(int id)
         {
             return GetView("EditOperation", id);
         }
 
         [HttpPost]
-        public ActionResult SaveOperation(int? id, DateTime date,
-            decimal amount, string mark, string description, int[] participants)
+        public ActionResult Save(int? id, DateTime date, decimal amount,
+            string mark, string description, int[] participants)
         {
             // operation should have at least one participant
             if (participants == null || participants.Length == 0)
@@ -85,7 +85,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult CreateOperation()
+        public PartialViewResult Create()
         {
             Operation op = new Operation();
             op.Date = DateTime.Today;
@@ -93,7 +93,7 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteOperation(int id)
+        public JsonResult Delete(int id)
         {
             Operation op = Storage.Operations.Find(id);
             if (op != null)

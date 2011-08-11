@@ -14,7 +14,7 @@
                 @foreach (var man in Model.Participants)
                 {
                     <li>
-                        @Html.ActionLink(man.Name, "ViewHistory", "Person", new { name = man.Name }, null)
+                        <a href="/@man.Name">@man.Name</a>
                         @if (Model.Participants.Last() != man) { Write(","); }
                     </li>
                 }
