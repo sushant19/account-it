@@ -3,6 +3,7 @@
 //  jQuery 1.6+ 
 //  jquery-data
 //  act.js
+//  ui.js
 
 (function () {
 
@@ -23,7 +24,7 @@
         var checked = currentControl.attr('checked');
         var entityName = currentControl.parseData('entity');
         var viewName = currentControl.parseData('view');
-        var views = $(document).findByData({ view: viewName, entity: entityName });
+        var views = $(document).findByData({ view: viewName, entity: entityName }).filter("[data-id]");
         views.each(function () {
             var currentView = $(this);
             if (checked == 'checked') {
@@ -39,6 +40,7 @@
         sendRequest('Create', entityName, {}, function (response) {
             ui.showModal(response);
         });
+
     });
 
     bindAction('delete', 'click', function () {
@@ -65,6 +67,10 @@
         var id = view.parseData('id');
         sendRequest('edit', entityName, { id: id }, function (response) {
             ui.showModal(response);
+            $('.datePicker_wrapper>input').Zebra_DatePicker({
+                format: 'j.m.Y',
+                readonly_element: false
+            });
         });
     });
 
@@ -72,10 +78,10 @@
         event.preventDefault();
         var view = findParentView(this, 'edit');
         var entityName = view.parseData('entity');
-        // call by name...
-        var data = act('parse_' + entityName, view);
+        view.removeAttr('data-selected'); // delete workaround no longer needed
+        var data = act('parse_' + entityName, view); // call by name
         sendRequest('save', entityName, data, function (response) {
-            // response is array of entity descriptors to update: [{entity: person, id: 1}, ...]
+            // response is array of descriptors to update: [{entity: person, id: 1}, ...]
             for (i in response) {
                 var e_name = response[i].entity;
                 var e_id = response[i].id;
@@ -83,6 +89,7 @@
                 complementLists(e_name, e_id);
             }
             $.modal.close();
+            refreshDeleteControls();
         });
     });
 
@@ -136,15 +143,16 @@
         var url = '/' + controller + '/' + action;
         $.post(url, data, function (response) {
             if (response.error) {
-                ui.showError(response.error);
+                ui.handleError(response.error);
+                //ui.showError(response.error);
             } else {
                 successCallback(response);
             }
         }).error(function () {
-            ui.showError('Request failed: ' + url);
+            ui.handleError('AjaxRequestFailure');
+            //ui.showError('Request failed: ' + url);
         });
     }
-
 
     function applySelection(view) {
         var isSelected = view.parseData('selected');
@@ -173,22 +181,23 @@
         refreshDeleteControls();
     }
 
-    // disables delete controls if nothing selected, changes selectAll checkbox state
+    // disables delete controls if nothing selected, changes selectAll checkboxes state
     function refreshDeleteControls() {
         var controls = $(document).findByData({ action: 'delete' });
         controls.each(function () {
-            var entityName = $(this).parseData('entity');
-            var allViews = $(document).findByData({ entity: entityName });
+            var entityName = $(this).attr('data-entity');
+            var allViews = $(document).findByData({ entity: entityName }).filter('[data-id]');
             var selectedViews = allViews.filterByData({ selected: true });
             var selectAllControls = $(document).findByData({ action: 'selectAll', entity: entityName });
             if (selectedViews.length == 0) {
-                $(this).attr("disabled", "disabled");
+                $(this).attr('disabled', 'disabled');
+                selectAllControls.removeAttr('checked');
+            } else if (selectedViews.length < allViews.length) {
+                $(this).removeAttr('disabled');
                 selectAllControls.removeAttr('checked');
             } else {
-                $(this).removeAttr("disabled");
-                if (selectedViews.length == allViews.length) {
-                    selectAllControls.attr('checked', 'checked');
-                }
+                $(this).removeAttr('disabled');
+                selectAllControls.attr('checked', 'checked');
             }
         });
     }

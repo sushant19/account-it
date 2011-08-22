@@ -20,13 +20,13 @@
             var code = $('#codeInput').prop('value');
             var hash = Crypto.SHA256(code);
             // sending login info
-            $.post('Home/EnterCode', { code: hash }, function (data) {
-                if (data.Success == true) {
+            $.post('Home/EnterCode', { code: hash }, function (response) {
+                if (!response.error) {
                     window.location = '/operations';
                 } else {
                     $("input").each(function () { $(this).removeAttr("disabled"); });
                     $("#codeInput").removeClass("loading");
-                    showError("Invalid code!");
+                    ui.handleError(response.error);
                 }
             }).error(function () { alert('For some strange(probably, magic?) reason, ajax reqest could not reach the server. Please, inform system administrator.'); })
         });

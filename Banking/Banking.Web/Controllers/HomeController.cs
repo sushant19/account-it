@@ -39,17 +39,17 @@ namespace Banking.Web.Controllers
             if (code == Security.Key)
             {
                 var session = new Session()
-                { 
+                {
                     SessionId = Guid.NewGuid(),
                     ExpiresAt = DateTime.Now + Security.Timeout
                 };
                 Storage.Sessions.Add(session);
                 Storage.SaveChanges();
                 Response.Cookies.Add(new HttpCookie("account-it.SessionId", session.SessionId.ToString()));
-                return Json(new { Success = true });
+                return new EmptyResult();
             }
             else
-                return Json(new { Success = false });
+                return Error("InvalidCode");
         }
 
         public RedirectToRouteResult Redirect()
