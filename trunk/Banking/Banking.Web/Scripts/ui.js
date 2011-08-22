@@ -12,6 +12,32 @@
         activateTableSorter();
     });
 
+    ui.handleError = function (err) {
+        switch (err) {
+            case 'NotAuthorizedOrSessionExpired':
+                window.location.href = '/authorize';
+                break;
+            case 'CannotDeletePersonThatHasOperations':
+                ui.showError('Person who has operations cannot be deleted. Uncheck or remove all his / her operations first.');
+                break;
+            case 'EmptyParticipantsList':
+                ui.showError('Operation should have at least one participant');
+                break;
+            case 'PersonalOperationNotFound':
+                ui.showError('Operation has no given participant');
+                break;
+            case 'ViewNotFound':
+                ui.showError('Requested view not found on the server');
+                break;
+            case 'InvalidCode':
+                ui.showError('Server doesn\'t know code you entered. Keep trying...');
+                break;
+
+            default:
+                ui.showError(err);
+        }
+    }
+
     ui.showModal = function (data) {
         $.modal(data, {
             onOpen: function (dialog) {
@@ -19,9 +45,6 @@
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
                     });
-                });
-                $('.datePicker_wrapper>input').Zebra_DatePicker({
-                    format: 'j.m.Y'
                 });
             },
             onClose: function (dialog) {

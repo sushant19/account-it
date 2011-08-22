@@ -2,10 +2,11 @@
 
 <div data-entity="person" data-view="edit" data-id=@Model.ID data-selected="true">  
     <form>      
+        <div>Name:</div>
         <div>@Html.EditorFor(op => op.Name)</div>
-        <div>@Math.Round(Model.GetBalance(), 2)</div>
+        <div>Balance: $@Math.Round(Model.GetBalance(), 2)</div>
         <div>
-            <input type="button" value="Save" class="saveButton" data-action="save"/>
+            <input type="submit" value="Save" class="saveButton" data-action="save"/>
             <input type="button" value="Cancel" class="cancelButton" data-action="cancel"/>
             <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="person"/>
         </div>
