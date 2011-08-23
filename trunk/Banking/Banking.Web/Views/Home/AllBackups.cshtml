@@ -19,7 +19,7 @@
         @foreach (string backupName in Model)
         {
             <li>
-                @Html.ActionLink(backupName, "RestoreBackup", new { name = backupName });
+                @Html.ActionLink(backupName, "RestoreBackup", new { name = backupName })
             </li>
         }
         </ul>

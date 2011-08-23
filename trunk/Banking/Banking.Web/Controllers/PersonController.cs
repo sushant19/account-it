@@ -15,6 +15,9 @@ namespace Banking.Web.Controllers
     [RequireSecurityCode]
     public class PersonController : EntityController<Person>
     {
+        // person cannot have any of these names
+        private string[] ReservedNames = { "operations, persons, backups" };
+
         public ViewResult All()
         {
             return View("AllPersons", Storage.Persons.ToList());
@@ -54,6 +57,9 @@ namespace Banking.Web.Controllers
             // new persons with equal names not allowed
             if (id == null && Storage.Persons.SingleOrDefault(p => p.Name == name) != null)
                 return Error("PersonWithSameNameAlreadyExists");
+            // person cannot have any of reserved names
+            if (ReservedNames.Contains(name.ToLower()))
+                return Error("PersonCannotHaveReservedName");
             BackupIfNecessary();
             // updating
             man.Name = name;
