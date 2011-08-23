@@ -12,6 +12,7 @@
 </head>
 <body>
     <h1>All backups</h1>
+    @Html.ActionLink("Make backup", "MakeBackup")
     @if (Model.Count() > 0)
     {
         <h3>Click to restore</h3>

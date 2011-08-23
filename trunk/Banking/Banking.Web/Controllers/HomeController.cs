@@ -61,10 +61,10 @@ namespace Banking.Web.Controllers
         }
 
         [RequireSecurityCode]
-        public ViewResult MakeBackup()
+        public ActionResult MakeBackup()
         {
             Backup();
-            return AllBackups();
+            return new RedirectToRouteResult("Backups", null);
         }
 
         [RequireSecurityCode]
