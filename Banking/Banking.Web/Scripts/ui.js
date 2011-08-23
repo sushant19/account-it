@@ -23,6 +23,12 @@
             case 'EmptyParticipantsList':
                 ui.showError('Operation should have at least one participant');
                 break;
+            case 'PersonWithSameNameAlreadyExists':
+                ui.showError('Person with same name already exists.');
+                break;
+            case 'PersonCannotHaveReservedName':
+                ui.showError('This name is reserved');
+                break;
             case 'PersonalOperationNotFound':
                 ui.showError('Operation has no given participant');
                 break;
