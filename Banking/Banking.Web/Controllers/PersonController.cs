@@ -16,7 +16,7 @@ namespace Banking.Web.Controllers
     public class PersonController : EntityController<Person>
     {
         // person cannot have any of these names
-        private string[] ReservedNames = { "operations, persons, backups" };
+        private string[] ReservedNames = { "operations", "persons", "backups" };
 
         public ViewResult All()
         {
