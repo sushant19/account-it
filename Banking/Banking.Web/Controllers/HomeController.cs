@@ -41,7 +41,7 @@ namespace Banking.Web.Controllers
                 var session = new Session()
                 {
                     SessionId = Guid.NewGuid(),
-                    ExpiresAt = DateTime.Now + Security.Timeout
+                    ExpiresAt = DateTime.Now + Security.SessionTimeout
                 };
                 Storage.Sessions.Add(session);
                 Storage.SaveChanges();
@@ -50,6 +50,28 @@ namespace Banking.Web.Controllers
             }
             else
                 return Error("InvalidCode");
+        }
+
+        [RequireSecurityCode]
+        public ViewResult AllBackups()
+        {
+            var backups = Directory.EnumerateFiles(ToLocalPath("backup"), "*.xml")
+                .Select(path => Path.GetFileNameWithoutExtension(path));
+            return View("AllBackups", backups);
+        }
+
+        [RequireSecurityCode]
+        public ViewResult MakeBackup()
+        {
+            Backup();
+            return AllBackups();
+        }
+
+        [RequireSecurityCode]
+        public ActionResult RestoreBackup(string name)
+        {
+            Restore(name);
+            return Redirect();
         }
 
         public RedirectToRouteResult Redirect()

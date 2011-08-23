@@ -41,12 +41,30 @@ namespace Banking.Web
             );
 
             routes.MapRoute(
+                "Backups",
+                "backups",
+                new { controller = "Home", action = "AllBackups" }
+            );
+
+            routes.MapRoute(
+                "MakeBackup",
+                "makeBackup",
+                new { controller = "Home", action = "MakeBackup" }
+            );
+
+            routes.MapRoute(
+                "RestoreBackup",
+                "restoreBackup/{name}",
+                new { controller = "Home", action = "RestoreBackup" }
+            );
+
+
+            routes.MapRoute(
                 "History",
                 "{name}",
                 new { controller = "Person", action = "ViewHistory" }
             );
 
-            
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters

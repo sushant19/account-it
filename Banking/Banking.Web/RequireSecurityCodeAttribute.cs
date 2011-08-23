@@ -13,22 +13,25 @@ namespace Banking.Web
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            HttpCookie cookie = filterContext.HttpContext.Request.Cookies["account-it.SessionId"];
-            var controller = filterContext.Controller as BankingControllerBase;
-            if (cookie == null || !controller.IsValidSession(cookie.Value))
+            if (Security.RequireKey)
             {
-                if (filterContext.HttpContext.Request.IsAjaxRequest())
+                HttpCookie cookie = filterContext.HttpContext.Request.Cookies["account-it.SessionId"];
+                var controller = filterContext.Controller as BankingControllerBase;
+                if (cookie == null || !controller.IsValidSession(cookie.Value))
                 {
-                    filterContext.Result = controller.Error("NotAuthorizedOrSessionExpired");
+                    if (filterContext.HttpContext.Request.IsAjaxRequest())
+                    {
+                        filterContext.Result = controller.Error("NotAuthorizedOrSessionExpired");
+                    }
+                    else
+                    {
+                        filterContext.Result = new RedirectToRouteResult("EnterCode", null);
+                    }
                 }
                 else
                 {
-                    filterContext.Result = new RedirectToRouteResult("EnterCode", null);
+                    controller.UpdateSession(cookie.Value);
                 }
-            }
-            else
-            {
-                controller.UpdateSession(cookie.Value);
             }
         }
     }

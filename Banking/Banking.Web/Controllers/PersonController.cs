@@ -54,6 +54,7 @@ namespace Banking.Web.Controllers
             // new persons with equal names not allowed
             if (id == null && Storage.Persons.SingleOrDefault(p => p.Name == name) != null)
                 return Error("PersonWithSameNameAlreadyExists");
+            BackupIfNecessary();
             // updating
             man.Name = name;
             Storage.SaveChanges();
@@ -81,6 +82,7 @@ namespace Banking.Web.Controllers
                 // deleting person with operations not allowed
                 if (man.Operations != null && man.Operations.Count > 0)
                     return Error("CannotDeletePersonThatHasOperations");
+                BackupIfNecessary();
                 Storage.Persons.Remove(man);
                 Storage.SaveChanges();
                 return Json(new { id = id });

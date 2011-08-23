@@ -59,6 +59,7 @@ namespace Banking.Web.Controllers
             // operation should have at least one participant
             if (participants == null || participants.Length == 0)
                 return Error("EmptyParticipantsList");
+            BackupIfNecessary();
             // retrieving and initializing operation
             Operation op = Storage.ReadOrCreate<Operation>(id)
                 .Init(dateTime, amount, mark, description);
@@ -95,6 +96,7 @@ namespace Banking.Web.Controllers
             Operation op = Storage.Operations.Find(id);
             if (op != null)
             {
+                BackupIfNecessary();
                 Storage.Operations.Remove(op);
                 Storage.SaveChanges();
             }
