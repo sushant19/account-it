@@ -24,6 +24,18 @@ namespace Banking.Web
             }
         }
 
+        public static DateTimeFormatInfo BackupTimeFormat
+        {
+            get
+            {
+                var formatInfo = new DateTimeFormatInfo();
+                formatInfo.FullDateTimePattern = "yyyy/MM/dd_HH/mm/ss";
+                formatInfo.DateSeparator = "-";
+                formatInfo.TimeSeparator = "-";
+                return formatInfo;
+            }
+        }
+
         public static string GetTitle(this Operation op)
         {
             if (String.IsNullOrEmpty(op.Mark))

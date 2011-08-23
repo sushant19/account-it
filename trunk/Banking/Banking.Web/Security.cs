@@ -12,15 +12,21 @@ namespace Banking.Web
     {
         static Security()
         {
-            _key = HashOf("111");
-            _timeout = TimeSpan.FromMinutes(1);
+            _requireKey = true;
+            _key = HashOf("Gfccrjlt");
+            _sessionTimeout = TimeSpan.FromMinutes(10);
+            _backupInterval = TimeSpan.FromMinutes(1);
         }
 
+        private static bool _requireKey;
         private static string _key;
-        private static TimeSpan _timeout;
-        
+        private static TimeSpan _sessionTimeout;
+        private static TimeSpan _backupInterval;
+
+        public static bool RequireKey { get { return _requireKey; } }
         public static string Key { get { return _key; } }
-        public static TimeSpan Timeout { get { return _timeout; } }
+        public static TimeSpan SessionTimeout { get { return _sessionTimeout; } }
+        public static TimeSpan BackupInterval { get { return _backupInterval; } }
 
         private static string HashOf(string str)
         {

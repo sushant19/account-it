@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityBase.cs" />
+    <Compile Include="EntitySet.cs" />
     <Compile Include="Operation.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PersonalOperation.cs" />
