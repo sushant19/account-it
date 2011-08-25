@@ -21,7 +21,7 @@ namespace Banking.Web.Controllers
         {
             base.Initialize(rc);
             var config = WebConfigurationManager.OpenWebConfiguration("/"); // root
-            string cs = config.ConnectionStrings.ConnectionStrings["BankingRelease"].ConnectionString;
+            string cs = config.ConnectionStrings.ConnectionStrings["BankingDebug"].ConnectionString;
             Storage.Database.Connection.ConnectionString = cs;
             System.Data.Entity.Database.SetInitializer<EFStorage>(null);
         }
@@ -69,20 +69,15 @@ namespace Banking.Web.Controllers
             DateTime lastBackup = Directory.GetLastWriteTime(ToLocalPath("backup"));
             if (DateTime.Now - lastBackup > Security.BackupInterval)
             {
-                Backup();
+                SaveBackup();
             }
         }
 
         [NonAction]
-        public void Backup()
+        public void SaveBackup()
         {
-            List<Person> allPersons = Storage.Persons.ToList();
-            List<Operation> allOperations = Storage.Operations.ToList();
-            var set = new EntitySet() { Persons = allPersons, Operations = allOperations };
-
-            var snapshot = Serializer.ToXml(set);
-            var fileName = String.Format("backup/{0}.xml",
-                DateTime.Now.ToString("F", Helper.BackupTimeFormat));
+            XDocument snapshot = CreateBackupXml();
+            var fileName = GetCurrentBackupName();
             try
             {
                 snapshot.Save(ToLocalPath(fileName));
@@ -91,10 +86,26 @@ namespace Banking.Web.Controllers
         }
 
         [NonAction]
+        protected string GetCurrentBackupName()
+        {
+            return String.Format("backup/{0}.xml",
+                DateTime.Now.ToString("F", Helper.BackupTimeFormat));
+        }
+
+        [NonAction]
+        public XDocument CreateBackupXml()
+        {
+            List<Person> allPersons = Storage.Persons.ToList();
+            List<Operation> allOperations = Storage.Operations.ToList();
+            var set = new EntitySet() { Persons = allPersons, Operations = allOperations };
+            return Serializer.ToXml(set);
+        }
+
+        [NonAction]
         public void Restore(string name)
         {
             // Always backup before restoring from backup
-            Backup();
+            SaveBackup();
             // loading entities from backup
             string path = ToLocalPath(String.Format("backup/{0}.xml", name));
             XDocument doc = XDocument.Load(path);

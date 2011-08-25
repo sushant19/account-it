@@ -83,15 +83,12 @@ namespace Banking.Web.Controllers
             var affectedData = affectedPersons
                 .Select(p => new { entity = "person", id = p.ID }).ToList();
             affectedData.Add(new { entity = "operation", id = op.ID });
-            return Json(affectedData);
+            return Json(new { affected = affectedData });
         }
 
         [HttpPost]
         public PartialViewResult Create()
         {
-            string text = System.IO.File.ReadAllText(ToLocalPath("operations.txt"));
-            List<Operation> ops = Parser.Parse(text);
-
             Operation op = new Operation();
             op.Date = DateTime.Today;
             return PartialView("EditOperation", op);
@@ -119,12 +116,13 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public JsonResult SaveImport(string text)
         {
-            List<Operation> ops = Parser.Parse(text);
-            foreach (Operation op in ops)
+            ParseResult parsed = Parser.Parse(text);
+            foreach (Operation op in parsed.Operations)
                 Storage.Operations.Add(op);
             Storage.SaveChanges();
-            var affectedData = ops.Select(op => new { entity = "operation", id = op.ID });
-            return Json(affectedData);
+            var affectedData = parsed.Operations
+                .Select(op => new { entity = "operation", id = op.ID });
+            return Json(new { affected = affectedData, textLeft = parsed.TextLeft });
         }
 
         public PartialViewResult SelectParticipants(Operation op)

@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using System.Xml.Linq;
 
 using Banking.Domain;
 using Banking.EFData;
+using System.Xml;
 
 namespace Banking.Web.Controllers
 {
@@ -63,8 +65,20 @@ namespace Banking.Web.Controllers
         [RequireSecurityCode]
         public ActionResult MakeBackup()
         {
-            Backup();
+            SaveBackup();
             return new RedirectToRouteResult("Backups", null);
+        }
+
+        [RequireSecurityCode]
+        public FileResult GetBackupFile()
+        {
+            XDocument snapshot = CreateBackupXml();
+            MemoryStream stream = new MemoryStream();
+            XmlWriter writer = XmlWriter.Create(stream);
+            snapshot.Save(stream);
+            writer.Close();
+            byte[] bytes = stream.ToArray();
+            return File(bytes, "text/xml", GetCurrentBackupName());
         }
 
         [RequireSecurityCode]
