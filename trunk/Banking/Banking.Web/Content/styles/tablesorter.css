@@ -10,8 +10,8 @@ table.tablesorter thead tr .header {
 }
 table.tablesorter thead tr .header:after {
     content: "↑↓";
-    position: absolute;
-    float: right;
+    /*position: absolute;
+    float: right;*/
     margin-left: 10px;
 }
 /* To do */

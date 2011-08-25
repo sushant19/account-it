@@ -67,10 +67,6 @@
         var id = view.parseData('id');
         sendRequest('edit', entityName, { id: id }, function (response) {
             ui.showModal(response);
-            $('.datePicker_wrapper>input').Zebra_DatePicker({
-                format: 'j.m.Y',
-                readonly_element: false
-            });
         });
     });
 
@@ -81,13 +77,7 @@
         view.removeAttr('data-selected'); // delete workaround no longer needed
         var data = act('parse_' + entityName, view); // call by name
         sendRequest('save', entityName, data, function (response) {
-            // response is array of descriptors to update: [{entity: person, id: 1}, ...]
-            for (i in response) {
-                var e_name = response[i].entity;
-                var e_id = response[i].id;
-                updateExistingViews(e_name, e_id);
-                complementLists(e_name, e_id);
-            }
+            updateEntities(response);
             $.modal.close();
             refreshDeleteControls();
         });
@@ -97,7 +87,35 @@
         $.modal.close();
     });
 
+    bindAction('import', 'click', function () {
+        sendRequest('import', 'operation', {}, function (response) {
+            ui.showModal(response);
+        });
+    });
+
+    bindAction('saveImport', 'click', function (event) {
+        event.preventDefault();
+        var view = findParentView(this, 'import');
+        var text = view.find('textarea').prop('value');
+        sendRequest('saveImport', 'operation', { text: text }, function (response) {
+            updateEntities(response);
+            $.modal.close();
+        });
+    });
+
     // *** helper functions ***
+
+    function updateEntities(data)
+    // data is array of descriptors to update: [{entity: person, id: 1}, ...]
+    {
+        for (i in data) {
+            var e_name = data[i].entity;
+            var e_id = data[i].id;
+            updateExistingViews(e_name, e_id);
+            complementLists(e_name, e_id);
+        }
+        refreshDeleteControls();
+    }
 
     function updateExistingViews(entityName, id) {
         var views = $(document).findByData({ entity: entityName, id: id });

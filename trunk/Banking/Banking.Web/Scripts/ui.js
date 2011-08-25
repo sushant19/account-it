@@ -36,7 +36,7 @@
                 ui.showError('Requested view not found on the server');
                 break;
             case 'InvalidCode':
-                ui.showError('Server doesn\'t know code you entered. Keep trying...');
+                ui.showError('Invalid code');
                 break;
 
             default:
@@ -63,6 +63,7 @@
                 });
             }
         });
+        ui.attachCalendar();
     }
 
     ui.showError = function (message) {
@@ -110,9 +111,14 @@
     }
 
     function activateTableSorter() {
-        $(".tableView").tablesorter({ headers: { 0: { sorter: false}} });
+        $(".tableView").tablesorter({ headers: { 0: { sorter: false} }, sortList: [[4, 1]] });
     }
 
-
+    ui.attachCalendar = function () {
+        $('.datePicker_wrapper>input').Zebra_DatePicker({
+            format: 'j.m.Y',
+            readonly_element: false
+        });
+    }
 
 })();

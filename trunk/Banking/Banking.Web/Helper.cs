@@ -35,14 +35,5 @@ namespace Banking.Web
                 return formatInfo;
             }
         }
-
-        public static string GetTitle(this Operation op)
-        {
-            if (String.IsNullOrEmpty(op.Mark))
-                return "deal #" + op.ID;
-            else
-                return op.Mark;
-        }
-
     }
 }

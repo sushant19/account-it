@@ -5,8 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 
+using System.Text;
+using System.IO;
+
 using Banking.Domain;
 using Banking.EFData;
+using Banking.Import;
 
 namespace Banking.Web.Controllers
 {
@@ -85,6 +89,9 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public PartialViewResult Create()
         {
+            string text = System.IO.File.ReadAllText(ToLocalPath("operations.txt"));
+            List<Operation> ops = Parser.Parse(text);
+
             Operation op = new Operation();
             op.Date = DateTime.Today;
             return PartialView("EditOperation", op);
@@ -101,6 +108,23 @@ namespace Banking.Web.Controllers
                 Storage.SaveChanges();
             }
             return Json(new { id = id });
+        }
+
+        [HttpPost]
+        public PartialViewResult Import()
+        {
+            return PartialView("ImportOperations");
+        }
+
+        [HttpPost]
+        public JsonResult SaveImport(string text)
+        {
+            List<Operation> ops = Parser.Parse(text);
+            foreach (Operation op in ops)
+                Storage.Operations.Add(op);
+            Storage.SaveChanges();
+            var affectedData = ops.Select(op => new { entity = "operation", id = op.ID });
+            return Json(affectedData);
         }
 
         public PartialViewResult SelectParticipants(Operation op)

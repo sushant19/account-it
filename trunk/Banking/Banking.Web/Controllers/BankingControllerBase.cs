@@ -83,7 +83,11 @@ namespace Banking.Web.Controllers
             var snapshot = Serializer.ToXml(set);
             var fileName = String.Format("backup/{0}.xml",
                 DateTime.Now.ToString("F", Helper.BackupTimeFormat));
-            snapshot.Save(ToLocalPath(fileName));
+            try
+            {
+                snapshot.Save(ToLocalPath(fileName));
+            } 
+            catch (IOException) { }
         }
 
         [NonAction]

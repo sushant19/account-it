@@ -42,8 +42,8 @@ namespace Banking.Web
                     new XAttribute("id", op.ID.ToString(NumberFormatInfo.InvariantInfo)),
                     new XAttribute("amount", op.Amount.ToString(NumberFormatInfo.InvariantInfo)),
                     new XAttribute("date", op.Date.ToString(DateTimeFormatInfo.InvariantInfo)),
-                    new XAttribute("description", op.Description),
-                    new XAttribute("mark", op.Mark),
+                    new XAttribute("description", op.Description ?? ""),
+                    new XAttribute("mark", op.Mark ?? ""),
                     new XAttribute("participants", ListIds(op.Participants)));
         }
 

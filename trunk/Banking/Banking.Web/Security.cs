@@ -15,7 +15,7 @@ namespace Banking.Web
             _requireKey = true;
             _key = HashOf("Gfccrjlt");
             _sessionTimeout = TimeSpan.FromMinutes(10);
-            _backupInterval = TimeSpan.FromMinutes(1);
+            _backupInterval = TimeSpan.FromMinutes(5);
         }
 
         private static bool _requireKey;
