@@ -69,7 +69,7 @@ namespace Banking.Web.Controllers
             affectedPersons.Add(man);
             var affectedData = affectedPersons
                 .Select(p => new { entity = "person", id = p.ID }).ToList();
-            return Json(affectedData);
+            return Json(new { affected = affectedData });
         }
 
         [HttpPost]

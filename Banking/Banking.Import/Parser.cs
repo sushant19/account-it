@@ -45,7 +45,7 @@ namespace Banking.Import
             "(?<amount>{amount})";              // Amount
 
         private static Regex _operationRegex;
-        private static Regex _wrongRegex;
+        private static Regex _blankRegex = new Regex(@"(?:\s*\n\s*){2,}"); // 2 or more blank lines
 
         private static DateTimeFormatInfo DateFormat = new DateTimeFormatInfo()
         {
@@ -66,22 +66,22 @@ namespace Banking.Import
             return new Regex(pattern);
         }
         
-        public static List<Operation> Parse(string text)
+        public static ParseResult Parse(string text)
         {
-            var result = new List<Operation>();
-            string rgx = _operationRegex.ToString();
+            var result = new ParseResult() { Operations = new List<Operation>() };
             foreach (Match m in _operationRegex.Matches(text))
             {
                 Func<string, string> groupValue =
                     groupName => m.Groups[groupName].Value.Trim();
-                result.Add(new Operation()
+                result.Operations.Add(new Operation()
                 {
                     Amount = Decimal.Parse(groupValue("amount"), AmountFormat),
                     Date = DateTime.Parse(groupValue("date"), DateFormat),
                     Mark = groupValue("mark")
                 });
             }
-            string left = _operationRegex.Replace(text, "");
+            // removing matched text and blank lines
+            result.TextLeft = _blankRegex.Replace(_operationRegex.Replace(text, ""), "\n");
             return result;
         }
     }

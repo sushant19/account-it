@@ -77,7 +77,7 @@
         view.removeAttr('data-selected'); // delete workaround no longer needed
         var data = act('parse_' + entityName, view); // call by name
         sendRequest('save', entityName, data, function (response) {
-            updateEntities(response);
+            updateEntities(response.affected);
             $.modal.close();
             refreshDeleteControls();
         });
@@ -96,10 +96,12 @@
     bindAction('saveImport', 'click', function (event) {
         event.preventDefault();
         var view = findParentView(this, 'import');
-        var text = view.find('textarea').prop('value');
+        var textarea = view.find('textarea');
+        var text = textarea.prop('value');
         sendRequest('saveImport', 'operation', { text: text }, function (response) {
-            updateEntities(response);
-            $.modal.close();
+            updateEntities(response.affected);
+            view.find('.textLeftMessage').html('Text left below was not recognized');
+            textarea.attr('value', response.textLeft);
         });
     });
 

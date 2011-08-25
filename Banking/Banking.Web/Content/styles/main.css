@@ -236,3 +236,7 @@ footer {
     background-position: right;
     background-repeat: no-repeat;
 }
+
+.textLeftMessage {
+    color:Red;
+}
