@@ -53,22 +53,7 @@ namespace Banking.Web.Controllers
             else
                 return Error("InvalidCode");
         }
-
-        [RequireSecurityCode]
-        public ViewResult AllBackups()
-        {
-            var backups = Directory.EnumerateFiles(ToLocalPath("backup"), "*.xml")
-                .Select(path => Path.GetFileNameWithoutExtension(path));
-            return View("AllBackups", backups);
-        }
-
-        [RequireSecurityCode]
-        public ActionResult MakeBackup()
-        {
-            SaveBackup();
-            return new RedirectToRouteResult("Backups", null);
-        }
-
+        /*
         [RequireSecurityCode]
         public FileResult GetBackupFile()
         {
@@ -80,14 +65,7 @@ namespace Banking.Web.Controllers
             byte[] bytes = stream.ToArray();
             return File(bytes, "text/xml", GetCurrentBackupName());
         }
-
-        [RequireSecurityCode]
-        public ActionResult RestoreBackup(string name)
-        {
-            Restore(name);
-            return Redirect();
-        }
-
+*/
         public RedirectToRouteResult Redirect()
         {
             return new RedirectToRouteResult("AllOperations", null);

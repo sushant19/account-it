@@ -15,7 +15,7 @@
     ui.handleError = function (err) {
         switch (err) {
             case 'NotAuthorizedOrSessionExpired':
-                window.location.href = '/authorize';
+                ui.showError('Session expired<form action="../authorize"><button>log in</button></form>', { autoHide: false })
                 break;
             case 'CannotDeletePersonThatHasOperations':
                 ui.showError('Person who has operations cannot be deleted. Uncheck or remove all his / her operations first.');
@@ -30,7 +30,7 @@
                 ui.showError('This name is reserved');
                 break;
             case 'PersonalOperationNotFound':
-                ui.showError('Operation has no given participant');
+                ui.showError('This person isn\'t participant anymore');
                 break;
             case 'ViewNotFound':
                 ui.showError('Requested view not found on the server');
@@ -61,13 +61,18 @@
                         });
                     });
                 });
-            }
+            },
+            closeHTML: '<span></span>'
         });
         ui.attachCalendar();
     }
 
-    ui.showError = function (message) {
-        $('#freeow').freeow("Error", message, { classes: ["smokey", "error"] });
+    ui.showError = function (message, options) {
+        defaultOptions = { classes: ["smokey", "error"] };
+        for (option in options) {
+            defaultOptions[option] = options[option];
+        }
+        $('#freeow').freeow("Error", message, defaultOptions);
     }
 
     function stickActionsMenu() {
@@ -119,6 +124,15 @@
             format: 'j.m.Y',
             readonly_element: false
         });
+    }
+
+    ui.refreshTableSorter = function () {
+        //alert("start")
+        //$('.tableView').trigger('update');
+        //$('.tableView').trigger('sorton', [$('.tableView')[0].config.sortList]);
+        //$('.tableView').trigger('appendCache')
+        $('.tableView').tablesorter();
+        //alert("stop")
     }
 
 })();

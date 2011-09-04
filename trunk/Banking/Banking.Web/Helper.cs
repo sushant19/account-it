@@ -8,6 +8,7 @@ using Banking.Domain;
 
 namespace Banking.Web
 {
+    //TODO: Get rid of Web.Helper class
     public static class Helper
     {
         public static string DecimalFormat { get { return "G29"; } }
@@ -28,11 +29,12 @@ namespace Banking.Web
         {
             get
             {
-                var formatInfo = new DateTimeFormatInfo();
-                formatInfo.FullDateTimePattern = "yyyy/MM/dd_HH/mm/ss";
-                formatInfo.DateSeparator = "-";
-                formatInfo.TimeSeparator = "-";
-                return formatInfo;
+                return new DateTimeFormatInfo()
+                {
+                    FullDateTimePattern = "yyyy/MM/dd HH/mm/ss",
+                    DateSeparator = ".",
+                    TimeSeparator = ":"
+                };
             }
         }
     }

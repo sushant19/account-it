@@ -8,10 +8,12 @@ using System.Web.Configuration;
 using System.Xml.Linq;
 using System.Text;
 using System.IO;
+using System.Data.Entity;
 
 using Banking.Domain;
 using Banking.EFData;
-using System.Data.Entity;
+using Banking.Backup;
+
 
 namespace Banking.Web.Controllers
 {
@@ -27,6 +29,7 @@ namespace Banking.Web.Controllers
         }
 
         protected EFStorage Storage = new EFStorage();
+        protected Backuper Backuper = new Backuper(ToLocalPath("backup"));
 
         [NonAction]
         private Session GetSession(string ssid)
@@ -64,69 +67,27 @@ namespace Banking.Web.Controllers
 
         // makes a database snapshot 
         [NonAction]
-        public void BackupIfNecessary()
+        public void BackupIfNecessary(string mark) //TODO: write BackupIfNecessary()
         {
-            DateTime lastBackup = Directory.GetLastWriteTime(ToLocalPath("backup"));
+            DateTime lastBackup = Directory.GetLastWriteTime(Backuper.Path);
             if (DateTime.Now - lastBackup > Security.BackupInterval)
+                Backuper.Save(CreateSnapshot(mark));
+        }
+
+        [NonAction]
+        protected Snapshot CreateSnapshot(string mark)
+        {
+            return new Snapshot()
             {
-                SaveBackup();
-            }
+                Operations = Storage.Operations.ToList(),
+                Persons = Storage.Persons.ToList(),
+                Mark = mark,
+                Time = DateTime.Now
+            };
         }
 
         [NonAction]
-        public void SaveBackup()
-        {
-            XDocument snapshot = CreateBackupXml();
-            var fileName = GetCurrentBackupName();
-            try
-            {
-                snapshot.Save(ToLocalPath(fileName));
-            } 
-            catch (IOException) { }
-        }
-
-        [NonAction]
-        protected string GetCurrentBackupName()
-        {
-            return String.Format("backup/{0}.xml",
-                DateTime.Now.ToString("F", Helper.BackupTimeFormat));
-        }
-
-        [NonAction]
-        public XDocument CreateBackupXml()
-        {
-            List<Person> allPersons = Storage.Persons.ToList();
-            List<Operation> allOperations = Storage.Operations.ToList();
-            var set = new EntitySet() { Persons = allPersons, Operations = allOperations };
-            return Serializer.ToXml(set);
-        }
-
-        [NonAction]
-        public void Restore(string name)
-        {
-            // Always backup before restoring from backup
-            SaveBackup();
-            // loading entities from backup
-            string path = ToLocalPath(String.Format("backup/{0}.xml", name));
-            XDocument doc = XDocument.Load(path);
-            EntitySet set = Serializer.FromXml(doc);
-            // clearing database
-            List<Person> allPersons = Storage.Persons.ToList();
-            List<Operation> allOperations = Storage.Operations.ToList();
-            foreach (Operation op in allOperations)
-                Storage.Operations.Remove(op);
-            foreach (Person man in allPersons)
-                Storage.Persons.Remove(man);
-            // filling database
-            foreach (Person man in set.Persons)
-                Storage.Persons.Add(man);
-            foreach (Operation op in set.Operations)
-                Storage.Operations.Add(op);
-            Storage.SaveChanges();
-        }
-
-        [NonAction]
-        protected string ToLocalPath(string path)
+        protected static string ToLocalPath(string path)
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
         }

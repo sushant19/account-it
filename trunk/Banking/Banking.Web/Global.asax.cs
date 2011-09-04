@@ -43,7 +43,7 @@ namespace Banking.Web
             routes.MapRoute(
                 "Backups",
                 "backups",
-                new { controller = "Home", action = "AllBackups" }
+                new { controller = "Backup", action = "All" }
             );
 
             routes.MapRoute(

@@ -60,7 +60,7 @@ namespace Banking.Web.Controllers
             // person cannot have any of reserved names
             if (ReservedNames.Contains(name.ToLower()))
                 return Error("PersonCannotHaveReservedName");
-            BackupIfNecessary();
+            BackupIfNecessary("!auto: Saved person: " + man.Name);
             // updating
             man.Name = name;
             Storage.SaveChanges();
@@ -88,7 +88,7 @@ namespace Banking.Web.Controllers
                 // deleting person with operations not allowed
                 if (man.Operations != null && man.Operations.Count > 0)
                     return Error("CannotDeletePersonThatHasOperations");
-                BackupIfNecessary();
+                BackupIfNecessary("!auto: Deleted person: " + man.Name);
                 Storage.Persons.Remove(man);
                 Storage.SaveChanges();
                 return Json(new { id = id });

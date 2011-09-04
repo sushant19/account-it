@@ -26,3 +26,12 @@
     margin-top: 10px;
     text-align: center;
 }
+.simplemodal-close {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-image: url(../images/freeow/close.png);
+    cursor: pointer;
+}

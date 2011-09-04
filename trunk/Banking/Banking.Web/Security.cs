@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 
 namespace Banking.Web
 {
+    //TODO: Move Web.Security to config
     public static class Security
     {
         static Security()

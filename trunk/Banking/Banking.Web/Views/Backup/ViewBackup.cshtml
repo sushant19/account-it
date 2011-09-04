@@ -1,0 +1,13 @@
+﻿@model Banking.Backup.SnapshotInfo
+           
+@using Banking.Web;
+
+<tr data-entity="backup" data-view="view" data-id=@Model.Time.Ticks>
+    <td>
+        <input type="checkbox" class="itemCheck" data-action="select"/>
+    </td>
+    <td><div data-action="edit">@Model.Time.ToString(Helper.BackupTimeFormat)</div></td>
+    <td><div data-action="edit">@Model.Mark</div></td>
+    <td><div data-action="edit">@Model.OperationsCount</div></td>
+    <td><div data-action="edit">@Model.PersonsCount</div></td>
+</tr>
