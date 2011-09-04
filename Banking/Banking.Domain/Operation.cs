@@ -34,6 +34,16 @@ namespace Banking.Domain
             return builder.ToString().TrimEnd(' ', ',');
         }
 
+        public string GetTitle()
+        {
+            if (!String.IsNullOrWhiteSpace(Description))           
+                return Description;            
+            else if (!String.IsNullOrWhiteSpace(Mark))
+                return Mark;
+            else
+                return "deal #" + ID;
+        }
+
         public Decimal GetPersonShare()
         {
             return Amount / Participants.Count;

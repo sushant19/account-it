@@ -63,10 +63,10 @@ namespace Banking.Web.Controllers
             // operation should have at least one participant
             if (participants == null || participants.Length == 0)
                 return Error("EmptyParticipantsList");
-            BackupIfNecessary();
-            // retrieving and initializing operation
-            Operation op = Storage.ReadOrCreate<Operation>(id)
-                .Init(dateTime, amount, mark, description);
+            // retrieving operation
+            Operation op = Storage.ReadOrCreate<Operation>(id);
+            BackupIfNecessary("!auto: Saved operation: " + op.GetTitle());
+            op.Init(dateTime, amount, mark, description);
             // retrieving new participants list
             var newParticipants = participants
                 .Select(pid => Storage.Persons.Find(pid))
@@ -100,7 +100,7 @@ namespace Banking.Web.Controllers
             Operation op = Storage.Operations.Find(id);
             if (op != null)
             {
-                BackupIfNecessary();
+                BackupIfNecessary("!auto: Deleted operation: " + op.GetTitle());
                 Storage.Operations.Remove(op);
                 Storage.SaveChanges();
             }

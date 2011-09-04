@@ -1,18 +1,8 @@
 ﻿@model Banking.Domain.Operation
-           
-@{
-    string title = "";
-    if (!String.IsNullOrEmpty(Model.Description)) {
-        title = Model.Description;
-    } else if (!String.IsNullOrEmpty(Model.Mark)) {
-        title = Model.Mark;
-    } else {
-        title = "deal #" + Model.ID;
-    }
-}
+         
 
 <li class="operationTitle" data-entity="operation" data-view="viewTitle" data-id=@Model.ID>
     <div data-action="edit">
-        @title
+        @Model.GetTitle()
     </div>
 </li>

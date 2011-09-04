@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banking.EFData", "Banking.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banking.Import", "Banking.Import\Banking.Import.csproj", "{5E9590C2-B34D-441C-AE53-541FC75BA2DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banking.Backup", "Banking.Backup\Banking.Backup.csproj", "{9F0C0723-E463-4610-999C-AF76688F14AC}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -79,6 +81,18 @@ Global
 		{5E9590C2-B34D-441C-AE53-541FC75BA2DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5E9590C2-B34D-441C-AE53-541FC75BA2DF}.Release|x64.ActiveCfg = Release|Any CPU
 		{5E9590C2-B34D-441C-AE53-541FC75BA2DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F0C0723-E463-4610-999C-AF76688F14AC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

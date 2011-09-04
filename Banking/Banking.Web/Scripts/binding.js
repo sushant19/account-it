@@ -11,6 +11,7 @@
 
     act.bind('parse_operation', parseOperation);
     act.bind('parse_person', parsePerson);
+    act.bind('parse_backup', parseBackup);
 
     // *** binding user actions ***
 
@@ -47,13 +48,15 @@
         var entityName = $(this).parseData('entity');
         var selected = $(document).findByData({ selected: 'true', entity: entityName });
         var count = selected.length;
-        if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {        //TODO: rewrite confirmation to modal
+        //TODO: rewrite confirmation to modal
+        if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {
             selected.each(function () {
                 var current = $(this);
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
                     var allViews = $(document).findByData({ entity: entityName, id: id });
                     allViews.remove();
+                    ui.refreshTableSorter();
                     refreshDeleteControls();
                     $.modal.close();
                 });
@@ -79,7 +82,6 @@
         sendRequest('save', entityName, data, function (response) {
             updateEntities(response.affected);
             $.modal.close();
-            refreshDeleteControls();
         });
     });
 
@@ -105,6 +107,26 @@
         });
     });
 
+    bindAction('backup', 'click', function (event) {
+        sendRequest('create', 'backup', {}, function (response) {
+            var backups = $(document).findByData({ list: 'backup' });
+            backups.prepend(response);
+        });
+    });
+
+    bindAction('restoreBackup', 'click', function (event) {
+        var message = 'Restore backup? All data will be replaced by data from backup, '
+            + 'but current snapshot will be taken.'
+        if (confirm(message)) {
+            var view = findParentView($(this));
+            var id = view.attr('data-id');
+            sendRequest('restore', 'backup', { id: id }, function (response) {
+                window.location = '/operations';
+            });
+        }
+    });
+
+
     // *** helper functions ***
 
     function updateEntities(data)
@@ -117,6 +139,7 @@
             complementLists(e_name, e_id);
         }
         refreshDeleteControls();
+        setTimeout("ui.refreshTableSorter()", 3000);
     }
 
     function updateExistingViews(entityName, id) {
@@ -248,6 +271,15 @@
         var data = {
             ID: Number(view.attr('data-id')),
             Name: fields[0].value
+        }
+        return $.param(data, true);
+    }
+
+    function parseBackup(view) {
+        var fields = view.find('input');
+        var data = {
+            ID: Number(view.attr('data-id')),
+            Mark: fields[0].value
         }
         return $.param(data, true);
     }

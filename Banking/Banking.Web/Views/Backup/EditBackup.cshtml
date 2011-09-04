@@ -1,0 +1,13 @@
+﻿@model Banking.Backup.SnapshotInfo
+
+<div data-entity="backup" data-view="edit" data-id=@Model.Time.Ticks data-selected="true">  
+    <form>      
+        <div>Mark:</div>
+        <div>@Html.EditorFor(op => op.Mark)</div>
+        <div>
+            <input type="submit" value="Save" class="saveButton" data-action="save"/>
+            <input type="button" value="Restore" class="cancelButton" data-action="restoreBackup"/>
+            <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="backup"/>
+        </div>
+    </form>
+</div>

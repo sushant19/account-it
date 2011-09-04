@@ -1,0 +1,38 @@
+﻿@using Banking.Backup
+
+@model IEnumerable<SnapshotInfo>
+
+@{
+    ViewBag.Title = "Backups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="tableView tablesorter" id="backups">
+
+  <caption>
+    <p>Deals</p>
+    <div class="actionsMenu">
+    
+        <input type="button" value="Create new" data-action="create" data-entity="backup"/>
+        <input type="button" value="Delete selected" data-action="delete" data-entity="backup" disabled/>
+
+    </div>
+  </caption>
+  <thead>
+    <tr id="headings">
+        <th scope="col" class="checkCol">
+            <input type="checkbox" id="selectAll" data-action="selectAll" data-entity="backup" data-view="view"/>
+        </th>
+        <th scope="col">Time</th>
+        <th scope="col">Mark</th>
+        <th scope="col">Operations</th>
+        <th scope="col">Persons</th>
+    </tr>
+  </thead>
+  <tbody data-list="backup" data-view="view">
+  @foreach (var backup in Model)
+  {
+    @Html.Partial("ViewBackup", backup)
+  }
+  </tbody>
+</table>

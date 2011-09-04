@@ -1,35 +1,44 @@
 ﻿@model IEnumerable<String>
-
 @{
-    Layout = null;
+    ViewBag.Title = "Backups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Backups</title>
-</head>
-<body>
-    <h1>All backups</h1>
-    @Html.ActionLink("Home", "Redirect")
-    @Html.ActionLink("Make backup", "MakeBackup")
-    @Html.ActionLink("Get backup file", "GetBackupFile")
-    @if (Model.Count() > 0)
-    {
-        <h3>Click to restore</h3>
-        <ul>
-        @foreach (string backupName in Model)
-        {
-            <li>
-                @Html.ActionLink(backupName, "RestoreBackup", new { name = backupName })
-            </li>
-        }
-        </ul>
-    }
-    else
-    {
-        <h3>No backups</h3>
-    }
-</body>
-</html>
+@if (Model.Count() > 0)
+{
+    <table class="tableView tablesorter" id="backups">
+        <caption>
+            <p>
+                Backups</p>
+            <p class="actionsMenu">
+                @Html.ActionLink("Make backup", "MakeBackup")
+                @Html.ActionLink("Get backup file", "GetBackupFile")
+                <input type="button" value="Create new" class="createButton" id="createPersonButton"
+                    data-action="create" data-entity="person" />
+                <input type="button" value="Delete selected" class="deleteButton" id="deletePersonButton"
+                    data-action="delete" data-entity="person" disabled />
+            </p>
+        </caption>
+        <thead>
+            <tr id="headings">
+                <th scope="col">
+                    backups(lolwut, one col?)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (string backupName in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink(backupName, "RestoreBackup", new { name = backupName })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>
+        No backups
+    </h3>
+}
