@@ -22,11 +22,11 @@
         <th scope="col" class="checkCol">
             <input type="checkbox" id="selectAll" data-action="selectAll" data-entity="operation" data-view="view"/>
         </th>
-        <th scope="col">Mark</th>
-        <th scope="col">Money,$</th>
-        <th scope="col">Description</th>
-        <th scope="col">Start&nbsp;Date&nbsp;</th>
-        <th scope="col">Participants</th>
+        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="mark" data-sort-key-type="string">Mark</th>
+        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="amount" data-sort-key-type="number">Money,$</th>
+        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="description" data-sort-key-type="string">Description</th>
+        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="date" data-sort-key-type="number">Start&nbsp;Date&nbsp;</th>
+        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="participants" data-sort-key-type="number">Participants</th>
     </tr>
   </thead>
   <tbody data-list="operation" data-view="view">

@@ -36,6 +36,46 @@
         });
     });
 
+    bindAction('sort', 'click', function () {
+        var control = $(this);
+        var listName = control.attr('data-sort-list');
+        var list = $(document).findByData({ list: listName });
+        var keyName = control.attr('data-sort-key');
+        var keyType = control.attr('data-sort-key-type');
+        var order = control.attr('data-sort-order');
+        // (elem, elem) => -1 or 0 or 1
+        var comparer = function (elem1, elem2) {
+            // needed for order control
+            var multiplier = (order === 'descending') ? 1 : -1;
+            // element => key (string or number)
+            var extractKey = function (elem, type) {
+                var keyContainer = $(elem).findByData({ 'sort-key': keyName });
+                var keyValue = keyContainer.attr('data-sort-value');
+                if (typeof (keyValue) === 'undefined') {
+                    keyValue = keyContainer.html();
+                }
+                return (keyType === 'number') ? Number(keyValue) : keyValue.toLowerCase();
+            };
+            // comparison
+            return (extractKey(elem1) > extractKey(elem2))
+                ? multiplier
+                : -multiplier;
+        };
+        // updating elements
+        var elems = $.makeArray(list.children());
+        elems.sort(comparer);
+        list.empty();
+        for (i in elems) {
+            list.append(elems[i]);
+        }
+        // changing sort order attribute for reversing in future
+        if (order === 'descending') {
+            control.attr('data-sort-order', 'ascending');
+        } else {
+            control.attr('data-sort-order', 'descending');
+        }
+    });
+
     bindAction('create', 'click', function () {
         var entityName = $(this).parseData('entity');
         sendRequest('Create', entityName, {}, function (response) {
@@ -56,7 +96,6 @@
                 sendRequest('Delete', entityName, { id: id }, function (response) {
                     var allViews = $(document).findByData({ entity: entityName, id: id });
                     allViews.remove();
-                    ui.refreshTableSorter();
                     refreshDeleteControls();
                     $.modal.close();
                 });
@@ -139,7 +178,6 @@
             complementLists(e_name, e_id);
         }
         refreshDeleteControls();
-        setTimeout("ui.refreshTableSorter()", 3000);
     }
 
     function updateExistingViews(entityName, id) {
