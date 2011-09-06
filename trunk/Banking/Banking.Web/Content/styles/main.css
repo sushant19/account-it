@@ -153,6 +153,7 @@ menu li:before {
     cursor: pointer;
 }
 .actionsMenu {
+    position: relative;
     text-align: left;
     padding: 0;
     margin: 0;

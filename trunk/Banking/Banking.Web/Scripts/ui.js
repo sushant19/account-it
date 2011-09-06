@@ -9,7 +9,7 @@
     $(document).ready(function () {
         stickActionsMenu();
         hideSelfLinks();
-        activateTableSorter();
+        //activateTableSorter();
     });
 
     ui.handleError = function (err) {
@@ -83,19 +83,24 @@
         var leftOffset = target.offset().left;
         var docked = false;
         $(document).scroll(function () {
+            var target = $(".actionsMenu");
+            if (target.length == 0) { return; }
+            var leftOffset = target.offset().left;
             var docOffset = $(document).scrollTop();
             if (!docked && docOffset > topOffset - padding) {
                 target.parent().append(
                 target.clone()
-                    .prop("data-cloned", "true")
+                    .attr("data-cloned", "true")
                     .css("visibility", "hidden"));
-                target.addClass("actionsMenu_fixed");
+                target.wrap('<div class="actionsMenu_fixed" />');
+                target.parent().css({ top: '0px', left: '0px', right: '0px' })
                 target.css({ top: '0px', left: leftOffset - padding + 'px' })
                 docked = true;
             }
             else if (docked && docOffset <= topOffset - padding) {
-                target.removeClass("actionsMenu_fixed");
-                $(".actionsMenu").filter("[data-cloned]").remove();     // reselecting because of cloning
+                $('.actionsMenu_fixed').remove()
+                $(".actionsMenu").filter("[data-cloned]").css('visibility', 'visible')
+                    .removeAttr('data-cloned');     // reselecting because of cloning  
                 docked = false;
             }
         });
@@ -115,24 +120,11 @@
                 });
     }
 
-    function activateTableSorter() {
-        $(".tableView").tablesorter({ headers: { 0: { sorter: false} }, sortList: [[4, 1]] });
-    }
-
     ui.attachCalendar = function () {
         $('.datePicker_wrapper>input').Zebra_DatePicker({
             format: 'j.m.Y',
             readonly_element: false
         });
-    }
-
-    ui.refreshTableSorter = function () {
-        //alert("start")
-        //$('.tableView').trigger('update');
-        //$('.tableView').trigger('sorton', [$('.tableView')[0].config.sortList]);
-        //$('.tableView').trigger('appendCache')
-        $('.tableView').tablesorter();
-        //alert("stop")
     }
 
 })();
