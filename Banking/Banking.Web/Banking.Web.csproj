@@ -119,6 +119,7 @@
     <Content Include="Content\styles\freeow.css" />
     <Content Include="Content\styles\main.css" />
     <Content Include="Content\styles\simplemodal.css" />
+    <Content Include="Content\styles\tablesort.css" />
     <Content Include="Content\styles\zebra_datepicker.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\act.js" />
@@ -214,9 +215,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Person\ViewHeading.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\AllBackups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Operation\ImportOperations.cshtml" />

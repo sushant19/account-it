@@ -28,11 +28,20 @@ function naturalSort(array, extractor) {
         var key = (typeof (extractor) === 'function') ?
 			extractor(item) :
 			item;
+        if (typeof(key) === 'string') {
+            key = trim(key);
+        } else {
+            throw new TypeError('Key should be String');
+        }
         this.key = key;
         // количество найденных фрагментов
         this.count = function () {
             return parts.length;
         };
+        // пустой ли ключ
+        this.isEmpty = function () {
+            return (key === '');
+        }
         // фрагмент по индексу (по возможности из parts[])
         this.part = function (i) {
             while (parts.length <= i && !completed) {
@@ -71,20 +80,31 @@ function naturalSort(array, extractor) {
             this.isNumber = isNumber;
             this.value = isNumber ? Number(text) : text;
         }
+        // убирает пробельные символы в начале и конце строки
+        function trim(str) {
+            return str.replace(/^\s+|\s+$/, "");
+        }
     }
     // сравнение сплиттеров
     function compareSplitters(sp1, sp2) {
+        // пустые строки должны быть в конце
+        if (sp1.isEmpty()) {
+            return 1;
+        } else if (sp2.isEmpty()) {
+            return -1;
+        }
+        // перебираем фрагменты
         var i = 0;
         do {
             var first = sp1.part(i);
             var second = sp2.part(i);
-            // если обе части существуют ...
+            // если оба фрагмента существуют ...
             if (null !== first && null !== second) {
-                // части разных типов (цифры либо нецифровые символы)	
+                // фрагменты разных типов (цифры либо нецифровые символы)	
                 if (xor(first.isNumber, second.isNumber)) {
                     // цифры всегда "меньше"			
                     return first.isNumber ? -1 : 1;
-                    // части одного типа  можно просто сравнить
+                    // фрагменты одного типа  можно просто сравнить
                 } else {
                     var comp = compare(first.value, second.value);
                     if (comp != 0) {

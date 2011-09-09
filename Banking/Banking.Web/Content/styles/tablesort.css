@@ -1,11 +1,11 @@
 ﻿@charset "utf-8";
 
 
-table.tableView thead tr .header {
+table.tableView thead tr .sortable {
 
 	cursor: pointer;
 }
-table.tableView thead tr .header:after {
+table.tableView thead tr .sortable:after {
     content: "↑↓";
     position: absolute;
     float: right;
@@ -17,6 +17,6 @@ table.tableView thead tr .headerSortUp:after {
 table.tableView thead tr .headerSortDown:after {
 	content: "↓";
 }
-table.tableView thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+table.tableView thead tr .headerSortDown, table.tableView thead tr .headerSortUp {
     color: #fff;
 }
