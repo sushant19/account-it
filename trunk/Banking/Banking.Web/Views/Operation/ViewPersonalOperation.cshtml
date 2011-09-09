@@ -7,13 +7,13 @@
 
 <tr data-entity="operation" data-view="viewPersonal" data-view-params=@viewParams data-id=@Model.ID>
     <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
-    <td><div data-action="edit">@Model.Mark</div></td>
-    <td><div data-action="edit">@Model.Amount.ToString(Helper.DecimalFormat)</div></td>
-    <td><div data-action="edit">@Model.GetPersonShare().ToString(Helper.DecimalFormat)</div></td>
-    <td><div data-action="edit">@Model.Description</div></td>
-    <td><div data-action="edit">@Model.Date.ToString(Helper.DateFormat)</div></td>
+    <td><div data-action="edit" data-sort-key="mark">@Model.Mark</div></td>
+    <td><div data-action="edit" data-sort-key="amount">@Model.Amount.ToString(Helper.DecimalFormat)</div></td>
+    <td><div data-action="edit" data-sort-key="share">@Model.GetPersonShare().ToString(Helper.DecimalFormat)</div></td>
+    <td><div data-action="edit" data-sort-key="description">@Model.Description</div></td>
+    <td><div data-action="edit"  data-sort-key="date" data-sort-value=@Model.Date.Ticks>@Model.Date.ToString(Helper.DateFormat)</div></td>
     <td>
-        <ul>
+        <ul data-sort-key = "others" data-sort-value=@Model.Others.Count>
             @foreach (var man in Model.Others)
             {
                 <li><a href="/@man.Name">@man.Name</a></li>                

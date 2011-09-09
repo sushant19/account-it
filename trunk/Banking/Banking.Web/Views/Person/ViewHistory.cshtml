@@ -25,15 +25,15 @@
     <thead>
         <tr id="headings">
             <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" data-action="selectAll" data-entity="operation" data-view="viewPersonal"/></th>
-            <th scope="col">Mark</th>
-            <th scope="col">Total</th>
-            <th scope="col">Part</th>
-            <th scope="col">Description</th>
-            <th scope="col">Date</th>
-            <th scope="col">Others</th>
+            <th scope="col" data-action="sort" data-sort-key="mark">Mark</th>
+            <th scope="col" data-action="sort" data-sort-key="amount">Total</th>
+            <th scope="col" data-action="sort" data-sort-key="share">Part</th>
+            <th scope="col" data-action="sort" data-sort-key="description">Description</th>
+            <th scope="col" data-action="sort" data-sort-key="date">Date</th>
+            <th scope="col" data-action="sort" data-sort-key="others">Others</th>
         </tr>
     </thead>
-    <tbody data-list="operation" data-view="viewPersonalOperation">
+    <tbody data-list="operation" data-sort-key="date" data-sort-order="descending" data-view="viewPersonalOperation">
         @foreach (var op in ops)
         {
             @Html.Action("ViewPersonal", "Operation", new { id=op.ID, ownerId=Model.ID });

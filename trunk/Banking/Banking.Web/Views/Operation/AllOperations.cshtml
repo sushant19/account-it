@@ -22,14 +22,14 @@
         <th scope="col" class="checkCol">
             <input type="checkbox" id="selectAll" data-action="selectAll" data-entity="operation" data-view="view"/>
         </th>
-        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="mark" data-sort-key-type="string">Mark</th>
-        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="amount" data-sort-key-type="number">Money,$</th>
-        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="description" data-sort-key-type="string">Description</th>
-        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="date" data-sort-key-type="number">Start&nbsp;Date&nbsp;</th>
-        <th scope="col" data-action="sort" data-sort-list="operation" data-sort-key="participants" data-sort-key-type="number">Participants</th>
+        <th scope="col" data-action="sort" data-sort-key="mark">Mark</th>
+        <th scope="col" data-action="sort" data-sort-key="amount">Money,$</th>
+        <th scope="col" data-action="sort" data-sort-key="description">Description</th>
+        <th scope="col" data-action="sort" data-sort-key="date">Start&nbsp;Date&nbsp;</th>
+        <th scope="col" data-action="sort" data-sort-key="participants">Participants</th>
     </tr>
   </thead>
-  <tbody data-list="operation" data-view="view">
+  <tbody data-list="operation" data-sort-key="date" data-sort-order="descending" data-view="view">
   @foreach (var op in Model)
   {
     @Html.Partial("ViewOperation", op)

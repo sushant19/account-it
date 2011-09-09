@@ -82,8 +82,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivator">
-      <HintPath>..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+    <Reference Include="WebActivator, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivator.1.4.2\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -118,20 +119,18 @@
     <Content Include="Content\styles\freeow.css" />
     <Content Include="Content\styles\main.css" />
     <Content Include="Content\styles\simplemodal.css" />
-    <Content Include="Content\styles\tablesorter.css" />
     <Content Include="Content\styles\zebra_datepicker.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\act.js" />
     <Content Include="Scripts\binding.js" />
     <Content Include="Scripts\crypto-sha1-hmac-pbkdf2-ofb-aes.js" />
     <Content Include="Scripts\crypto-sha256.js" />
-    <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.2.js" />
-    <Content Include="Scripts\jquery-1.6.2.min.js" />
+    <Content Include="Scripts\jquery-1.6.3-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.3.js" />
+    <Content Include="Scripts\jquery-1.6.3.min.js" />
     <Content Include="Scripts\jquery-data.js" />
     <Content Include="Scripts\jquery.freeow.min.js" />
     <Content Include="Scripts\jquery.simplemodal.1.4.1.min.js" />
-    <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\natural-sort.js" />
     <Content Include="Scripts\ui.js" />

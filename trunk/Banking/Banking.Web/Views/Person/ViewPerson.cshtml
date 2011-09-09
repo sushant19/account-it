@@ -4,10 +4,10 @@
     
 <tr data-entity="person" data-view="view" data-id=@Model.ID>
     <td><input type="checkbox" class="itemCheck" data-action="select"/></td>
-    <td><div>@Html.ActionLink(Model.Name, "ViewHistory", new { name = Model.Name })</div></td>
-    <td><div data-action="edit">@Model.GetBalance().ToString(Helper.DecimalFormat)</div></td>
+    <td><div data-sort-key="name">@Html.ActionLink(Model.Name, "ViewHistory", new { name = Model.Name })</div></td>
+    <td><div data-action="edit" data-sort-key="balance">@Model.GetBalance().ToString(Helper.DecimalFormat)</div></td>
     <td>
-        <div class="personDeals">
+        <div data-sort-key="deals" data-sort-value=@Model.Operations.Count class="personDeals">
             <ul>
                 @foreach (var operation in Model.Operations)
                 {
