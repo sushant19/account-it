@@ -92,7 +92,7 @@
         // determining key name and former order for sorting
         var keyName = keyDefined ? options.key : list.attr('data-sort-key');
         if (!isDefined(keyName)) {
-            throw new Error('Undefined key');
+            return;
         }
         var currentOrder = list.attr('data-sort-order');
         if (!validOrder(currentOrder)) {

@@ -23,7 +23,7 @@ namespace Banking.Web.Controllers
         {
             base.Initialize(rc);
             var config = WebConfigurationManager.OpenWebConfiguration("/"); // root
-            string cs = config.ConnectionStrings.ConnectionStrings["BankingDebug"].ConnectionString;
+            string cs = config.ConnectionStrings.ConnectionStrings["BankingRelease"].ConnectionString;
             Storage.Database.Connection.ConnectionString = cs;
             System.Data.Entity.Database.SetInitializer<EFStorage>(null);
         }
