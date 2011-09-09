@@ -3,6 +3,7 @@
 //  jQuery 1.6+ 
 //  jquery-data
 //  act.js
+//  natural-sort.js
 //  ui.js
 
 (function () {
@@ -41,32 +42,24 @@
         var listName = control.attr('data-sort-list');
         var list = $(document).findByData({ list: listName });
         var keyName = control.attr('data-sort-key');
-        var keyType = control.attr('data-sort-key-type');
         var order = control.attr('data-sort-order');
-        // (elem, elem) => -1 or 0 or 1
-        var comparer = function (elem1, elem2) {
-            // needed for order control
-            var multiplier = (order === 'descending') ? 1 : -1;
-            // element => key (string or number)
-            var extractKey = function (elem, type) {
-                var keyContainer = $(elem).findByData({ 'sort-key': keyName });
-                var keyValue = keyContainer.attr('data-sort-value');
-                if (typeof (keyValue) === 'undefined') {
-                    keyValue = keyContainer.html();
-                }
-                return (keyType === 'number') ? Number(keyValue) : keyValue.toLowerCase();
-            };
-            // comparison
-            return (extractKey(elem1) > extractKey(elem2))
-                ? multiplier
-                : -multiplier;
-        };
-        // updating elements
         var elems = $.makeArray(list.children());
-        elems.sort(comparer);
+        var extractKey = function (elem) {
+            var keyContainer = $(elem).findByData({ 'sort-key': keyName });
+            var keyValue = keyContainer.attr('data-sort-value');
+            if (typeof (keyValue) === 'undefined') {
+                keyValue = keyContainer.html();
+            }
+            return keyValue.toLowerCase();
+        };
+        var sorted = naturalSort(elems, extractKey);
         list.empty();
-        for (i in elems) {
-            list.append(elems[i]);
+        for (i in sorted) {
+            if (order === 'descending') {
+                list.append(sorted[i]);
+            } else {
+                list.prepend(sorted[i]);
+            }
         }
         // changing sort order attribute for reversing in future
         if (order === 'descending') {
