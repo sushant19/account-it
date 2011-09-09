@@ -77,41 +77,53 @@
         $('#freeow').freeow("Error", message, defaultOptions);
     }
     // options - object:
-    //      key - string: name of sorting key
+    //      key - string: name of sorting key;
+    //          if not defined, uses data-sort-key
     //      order - string: 'ascending', 'descending', 'current' or 'reverse';
     //          undefined or anything else equals 'current';
     //          'current' for first time equals 'ascending'.
     ui.sortTable = function (options) {
-
-        var optionsDefined = isDefined(options);
-        var keyDefined = optionsDefined && isDefined(options.key);
-        var orderDefined = optionsDefined && isDefined(options.order);
+        // common string literals
+        var ascending = 'ascending';
+        var descending = 'descending';
+        // undefined flags
+        var optionsDefined = !isUndefined(options);
+        var keyDefined = optionsDefined && !isUndefined(options.key);
+        var orderDefined = optionsDefined && !isUndefined(options.order);
         // retrieving list of items
         var list = $('[data-list]').first();
         var items = $.makeArray(list.children());
         // determining key name and former order for sorting
         var keyName = keyDefined ? options.key : list.attr('data-sort-key');
-        if (!isDefined(keyName)) {
+        if (isUndefined(keyName)) {
             return;
         }
         var currentOrder = list.attr('data-sort-order');
         if (!validOrder(currentOrder)) {
-            currentOrder = 'ascending';     // current order is 'ascending' by default
+            currentOrder = ascending;     // current order is 'ascending' by default
         }
         // determining actual order for sorting
         var newOrder;
         if (orderDefined && validOrder(options.order)) {
             newOrder = options.order;
         } else if (orderDefined && options.order === 'reverse') {
-            newOrder = (currentOrder === 'ascending' ? 'descending' : 'ascending');
+            newOrder = (currentOrder === ascending ? descending : ascending);
         } else {
             newOrder = currentOrder;
         }
+        // removing css classes from sorting controls
+        $(document).findByData({ action: 'sort' }).each(function () {
+            $(this).removeClass('headerSortUp').removeClass('headerSortDown');
+        })
+        // adding css classes to current sorting cotrol
+        var sortControl = $(document).findByData({ action: 'sort', 'sort-key': keyName });
+        var sortClass = (newOrder === ascending) ? 'headerSortDown' : 'headerSortUp';
+        sortControl.addClass(sortClass);
         // sorting and updating items
         var sorted = naturalSort(items, extractKey);
         list.empty();
         for (i in sorted) {
-            if (newOrder === 'ascending') {
+            if (newOrder === ascending) {
                 list.append(sorted[i]);
             } else {
                 list.prepend(sorted[i]);
@@ -124,26 +136,27 @@
         function extractKey(item) {
             var keyContainer = $(item).findByData({ 'sort-key': keyName });
             var keyValue = keyContainer.attr('data-sort-value');
-            if (!isDefined(keyValue)) {
+            // if data-sort-value is undefined, than content is used as value
+            if (isUndefined(keyValue)) {
                 keyValue = keyContainer.html();
             }
             return keyValue.toLowerCase();
         };
         // checks for undefined
-        function isDefined(something) {
-            return (typeof (something) !== 'undefined');
+        function isUndefined(something) {
+            return (typeof (something) === 'undefined');
         }
         // valid order names are only 'ascending' and 'descending';
         // 'current' and 'reverse' are just for convenience
         function validOrder(orderName) {
-            return (orderName === 'ascending' || orderName === 'descending');
+            return (orderName === ascending || orderName === descending);
         }
     };
 
     function stickActionsMenu() {
         var target = $(".actionsMenu");
         if (target.length == 0) { return; }
-        var padding = 11;     // 11 cause .actionsMenu_fixed has 10px padding + 1 px for magic o_0
+        var padding = 10;     // 11 cause .actionsMenu_fixed has 10px padding + 1 px for magic o_0
         var topOffset = target.offset().top;
         var leftOffset = target.offset().left;
         var docked = false;
@@ -159,7 +172,7 @@
                     .css("visibility", "hidden"));
                 target.wrap('<div class="actionsMenu_fixed" />');
                 target.parent().css({ top: '0px', left: '0px', right: '0px' })
-                target.css({ top: '0px', left: leftOffset - padding + 'px' })
+                target.css({ top: '0px', left: leftOffset + 'px' })
                 docked = true;
             }
             else if (docked && docOffset <= topOffset - padding) {

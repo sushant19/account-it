@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="tableView tablesorter" id="operations">
+<table class="tableView" id="operations">
 
   <caption>
     <p>Deals</p>
@@ -22,11 +22,11 @@
         <th scope="col" class="checkCol">
             <input type="checkbox" id="selectAll" data-action="selectAll" data-entity="operation" data-view="view"/>
         </th>
-        <th scope="col" data-action="sort" data-sort-key="mark">Mark</th>
-        <th scope="col" data-action="sort" data-sort-key="amount">Money,$</th>
-        <th scope="col" data-action="sort" data-sort-key="description">Description</th>
-        <th scope="col" data-action="sort" data-sort-key="date">Start&nbsp;Date&nbsp;</th>
-        <th scope="col" data-action="sort" data-sort-key="participants">Participants</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="mark">Mark</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="amount">Money,$</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="description">Description</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="date">Start&nbsp;Date&nbsp;</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="participants">Participants</th>
     </tr>
   </thead>
   <tbody data-list="operation" data-sort-key="date" data-sort-order="descending" data-view="view">

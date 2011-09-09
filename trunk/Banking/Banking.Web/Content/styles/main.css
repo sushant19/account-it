@@ -165,11 +165,9 @@ menu li:before {
 .actionsMenu_fixed {
     position: fixed !important;
     background-color: rgba(51, 0, 0, 0.9);
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     z-index: 5;
-}
-.actionsMenu input {
-      
 }
 /* table */
 
