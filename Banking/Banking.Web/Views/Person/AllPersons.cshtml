@@ -18,12 +18,12 @@
 <thead>
   <tr id="headings">
     <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" data-action="selectAll" data-entity="person" data-view="view"/></th>
-    <th scope="col">Name</th>
-    <th scope="col">Balance,$</th>
-    <th scope="col">Deals</th>
+    <th scope="col" data-action="sort" data-sort-key="name">Name</th>
+    <th scope="col" data-action="sort" data-sort-key="balance">Balance,$</th>
+    <th scope="col" data-action="sort" data-sort-key="deals">Deals</th>
   </tr>
 </thead>
-<tbody data-list="person" data-view="view">
+<tbody data-list="person" data-sort-key="name" data-sort-order="ascending" data-view="view">
   @foreach (var man in Model)
   {
     @Html.Partial("ViewPerson", man)

@@ -39,34 +39,8 @@
 
     bindAction('sort', 'click', function () {
         var control = $(this);
-        var listName = control.attr('data-sort-list');
-        var list = $(document).findByData({ list: listName });
-        var keyName = control.attr('data-sort-key');
-        var order = control.attr('data-sort-order');
-        var elems = $.makeArray(list.children());
-        var extractKey = function (elem) {
-            var keyContainer = $(elem).findByData({ 'sort-key': keyName });
-            var keyValue = keyContainer.attr('data-sort-value');
-            if (typeof (keyValue) === 'undefined') {
-                keyValue = keyContainer.html();
-            }
-            return keyValue.toLowerCase();
-        };
-        var sorted = naturalSort(elems, extractKey);
-        list.empty();
-        for (i in sorted) {
-            if (order === 'descending') {
-                list.append(sorted[i]);
-            } else {
-                list.prepend(sorted[i]);
-            }
-        }
-        // changing sort order attribute for reversing in future
-        if (order === 'descending') {
-            control.attr('data-sort-order', 'ascending');
-        } else {
-            control.attr('data-sort-order', 'descending');
-        }
+        var key = control.attr('data-sort-key');
+        ui.sortTable({ key: key, order: 'reverse' });
     });
 
     bindAction('create', 'click', function () {
@@ -91,6 +65,7 @@
                     allViews.remove();
                     refreshDeleteControls();
                     $.modal.close();
+                    ui.sortTable();
                 });
             });
         }
@@ -183,6 +158,7 @@
                 var existingViews = $(document)
                     .findByData({ entity: entityName, view: viewName, id: id });
                 existingViews.replaceWith(response);
+                ui.sortTable();
             });
         });
     }
@@ -199,6 +175,7 @@
             var viewName = list.parseData('view');
             sendRequest(viewName, entityName, { id: id }, function (response) {
                 list.prepend(response);
+                ui.sortTable();
             });
         });
     }

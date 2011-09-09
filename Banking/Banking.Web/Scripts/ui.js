@@ -1,6 +1,7 @@
 ﻿/* dependencies */
 
 //  jQuery 1.6+
+//  jquery-data
 
 (function () {
     var ui = {};
@@ -9,6 +10,7 @@
     $(document).ready(function () {
         stickActionsMenu();
         hideSelfLinks();
+        ui.sortTable();
         //activateTableSorter();
     });
 
@@ -74,6 +76,69 @@
         }
         $('#freeow').freeow("Error", message, defaultOptions);
     }
+    // options - object:
+    //      key - string: name of sorting key
+    //      order - string: 'ascending', 'descending', 'current' or 'reverse';
+    //          undefined or anything else equals 'current';
+    //          'current' for first time equals 'ascending'.
+    ui.sortTable = function (options) {
+
+        var optionsDefined = isDefined(options);
+        var keyDefined = optionsDefined && isDefined(options.key);
+        var orderDefined = optionsDefined && isDefined(options.order);
+        // retrieving list of items
+        var list = $('[data-list]').first();
+        var items = $.makeArray(list.children());
+        // determining key name and former order for sorting
+        var keyName = keyDefined ? options.key : list.attr('data-sort-key');
+        if (!isDefined(keyName)) {
+            throw new Error('Undefined key');
+        }
+        var currentOrder = list.attr('data-sort-order');
+        if (!validOrder(currentOrder)) {
+            currentOrder = 'ascending';     // current order is 'ascending' by default
+        }
+        // determining actual order for sorting
+        var newOrder;
+        if (orderDefined && validOrder(options.order)) {
+            newOrder = options.order;
+        } else if (orderDefined && options.order === 'reverse') {
+            newOrder = (currentOrder === 'ascending' ? 'descending' : 'ascending');
+        } else {
+            newOrder = currentOrder;
+        }
+        // sorting and updating items
+        var sorted = naturalSort(items, extractKey);
+        list.empty();
+        for (i in sorted) {
+            if (newOrder === 'ascending') {
+                list.append(sorted[i]);
+            } else {
+                list.prepend(sorted[i]);
+            }
+        }
+        // updating list attributes according to new sorting
+        list.attr('data-sort-key', keyName);
+        list.attr('data-sort-order', newOrder);
+        // item => string
+        function extractKey(item) {
+            var keyContainer = $(item).findByData({ 'sort-key': keyName });
+            var keyValue = keyContainer.attr('data-sort-value');
+            if (!isDefined(keyValue)) {
+                keyValue = keyContainer.html();
+            }
+            return keyValue.toLowerCase();
+        };
+        // checks for undefined
+        function isDefined(something) {
+            return (typeof (something) !== 'undefined');
+        }
+        // valid order names are only 'ascending' and 'descending';
+        // 'current' and 'reverse' are just for convenience
+        function validOrder(orderName) {
+            return (orderName === 'ascending' || orderName === 'descending');
+        }
+    };
 
     function stickActionsMenu() {
         var target = $(".actionsMenu");
