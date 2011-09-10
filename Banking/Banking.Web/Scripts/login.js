@@ -1,4 +1,4 @@
-﻿(function () {
+ (function () {
     $(document).ready(function () {
         // removing menu
         $("menu").children().each(function () {
@@ -43,6 +43,7 @@
     function enableUI() {
         $("input").each(function () { $(this).removeAttr("disabled"); });
         $("#codeInput").removeClass("loading");
+        $('#codeInput').val('');
         $('#codeInput').focus();
     }
 })();
