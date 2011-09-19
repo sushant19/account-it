@@ -53,7 +53,9 @@
 
     bindAction('delete', 'click', function () {
         var entityName = $(this).parseData('entity');
-        var selected = $(document).findByData({ selected: 'true', entity: entityName });
+        var parent = findParentView(this);
+        var selected = parent.length > 0 ? parent :
+            $(document).findByData({ selected: 'true', entity: entityName });
         var count = selected.length;
         //TODO: rewrite confirmation to modal
         if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {
@@ -84,7 +86,6 @@
         event.preventDefault();
         var view = findParentView(this, 'edit');
         var entityName = view.parseData('entity');
-        view.removeAttr('data-selected'); // delete workaround no longer needed
         var data = act('parse_' + entityName, view); // call by name
         sendRequest('save', entityName, data, function (response) {
             updateEntities(response.affected);
