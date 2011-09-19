@@ -6,8 +6,12 @@
     <td>
         <input type="checkbox" class="itemCheck" data-action="select"/>
     </td>
-    <td><div data-action="edit">@Model.Time.ToString(Helper.BackupTimeFormat)</div></td>
-    <td><div data-action="edit">@Model.Mark</div></td>
-    <td><div data-action="edit">@Model.OperationsCount</div></td>
-    <td><div data-action="edit">@Model.PersonsCount</div></td>
+    <td>
+        <div data-action="edit" data-sort-key="time" data-sort-value=@Model.Time.Ticks>
+            @Model.Time.ToString(Helper.BackupTimeFormat)
+        </div>
+    </td>
+    <td><div data-action="edit" data-sort-key="mark">@Model.Mark</div></td>
+    <td><div data-action="edit" data-sort-key="operations">@Model.OperationsCount</div></td>
+    <td><div data-action="edit" data-sort-key="persons">@Model.PersonsCount</div></td>
 </tr>

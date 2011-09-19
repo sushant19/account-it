@@ -7,7 +7,7 @@
     string date = Model.Date.ToString(Helper.DateFormat);       
 }
 
-<div data-entity="operation" data-view="edit" data-id=@Model.ID data-selected="true">    
+<div data-entity="operation" data-view="edit" data-id=@Model.ID>    
     <form>
         <div>Date</div>
         <div class="datePicker_wrapper">@Html.EditorFor(op => date)</div>
