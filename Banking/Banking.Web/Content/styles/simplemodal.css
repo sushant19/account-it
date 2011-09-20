@@ -10,10 +10,13 @@
     border-radius: 10px;
     padding: 20px;
     color: #ffd;
+    border: 1px solid white;
 }
 .simplemodal-wrap {
 }
-.simplemodal-data {
+.simplemodal-data 
+{
+    width: 300px;
 }
 .simplemodal-data div {
     margin: 10px;
@@ -22,16 +25,23 @@
     margin-left: 20px;
     border-left: 1px solid #ffd;
 }
-.simplemodal-data .editOperationButtons {
-    margin-top: 10px;
-    text-align: center;
-}
 .simplemodal-close {
     width: 24px;
     height: 24px;
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: -8px;
+    left: -8px;
     background-image: url(../images/freeow/close.png);
     cursor: pointer;
+    display:none;
+}
+.simplemodal-container button {
+    width: 90px;
+}
+.simplemodal-container button img{
+    float: left;
+}
+.simplemodal-container .buttons {
+    border-top: 1px solid white;
+    text-align: right;
 }

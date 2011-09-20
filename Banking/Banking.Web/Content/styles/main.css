@@ -79,7 +79,15 @@ h2 {
 	font-size: 3em;
 	text-align: center;
 }
-
+h3 
+{
+    color: white;
+    font-size: 1.3em;
+    border-bottom: 1px solid white;
+}
+button img {
+   vertical-align: bottom;
+}
 /*  navigation block  */
 nav {
     padding: 10px;
