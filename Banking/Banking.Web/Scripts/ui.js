@@ -50,12 +50,17 @@
         $.modal(data, {
             onOpen: function (dialog) {
                 dialog.overlay.fadeIn('normal', function () {
+                    $('.simplemodal-close').css('display', 'none');
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
+                        $('.simplemodal-close').fadeIn('normal');
+                        $('.simplemodal-container').find('input:first').focus();
                     });
                 });
+
             },
             onClose: function (dialog) {
+                $('.simplemodal-close').fadeOut('normal');
                 dialog.data.fadeOut('normal', function () {
                     dialog.container.slideUp('normal', function () {
                         dialog.overlay.fadeOut('normal', function () {
@@ -64,9 +69,11 @@
                     });
                 });
             },
-            closeHTML: '<span></span>'
+            closeHTML: '<span></span>',
+            overlayClose: true
         });
         ui.attachCalendar();
+
     }
 
     ui.showError = function (message, options) {
