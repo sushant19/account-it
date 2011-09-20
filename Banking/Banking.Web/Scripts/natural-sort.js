@@ -6,7 +6,7 @@ function naturalSort(array, extractor) {
     // преобразуем исходный массив в массив сплиттеров
     var splitters = array.map(makeSplitter);
     // сортируем сплиттеры
-    var sorted = splitters.sort(compareSplitters);
+    var sorted = insertionSort(splitters, compareSplitters);
     // возвращаем исходные данные в новом порядке
     return sorted.map(function (splitter) {
         return splitter.item;
@@ -133,4 +133,14 @@ function naturalSort(array, extractor) {
             return c.charCodeAt(0);
         };
     };
+    // сортировка вставками
+    function insertionSort(arr, comparer) {
+        for (var i = 0, j, tmp; i < arr.length; ++i) {
+            tmp = arr[i];
+            for (j = i - 1; j >= 0 && comparer(arr[j], tmp) >= 0; --j)
+                arr[j + 1] = arr[j];
+            arr[j + 1] = tmp;
+        }
+        return arr;    
+    }
 }
