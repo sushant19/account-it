@@ -268,7 +268,7 @@
             }
         }
         var data = {
-            ID: Number(view.attr('data-id')),
+            ID: parseNumber(view.attr('data-id')),
             Date: fields[0].value,
             Amount: fields[1].value,
             Mark: fields[2].value,
@@ -282,7 +282,7 @@
     function parsePerson(view) {
         var fields = view.find('input');
         var data = {
-            ID: Number(view.attr('data-id')),
+            ID: parseNumber(view.attr('data-id')),
             Name: fields[0].value
         }
         return $.param(data, true);
@@ -291,7 +291,7 @@
     function parseBackup(view) {
         var fields = view.find('input');
         var data = {
-            ID: Number(view.attr('data-id')),
+            ID: parseNumber(view.attr('data-id')),
             Mark: fields[0].value
         }
         return $.param(data, true);
@@ -307,6 +307,10 @@
         var id = $(view).parseData('id');
         data.id = id;
         return data;
+    }
+
+    function parseNumber(str) {
+        return Number(str.replace('.', ','));
     }
 
     // returns object with props from 'data-view-params' attribute of the view
