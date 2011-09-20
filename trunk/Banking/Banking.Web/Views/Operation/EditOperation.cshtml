@@ -10,6 +10,10 @@
 <div data-entity="operation" data-view="edit" data-id=@Model.ID>    
     <form>
         <h3>Edit operation</h3>
+        @if (Model.Participants.Count == 0)
+        {
+        <h4>No participants - check someone!</h4>
+        }
         <div>Date</div>
         <div class="datePicker_wrapper">@Html.EditorFor(op => date)</div>
         <div>Amount</div>
