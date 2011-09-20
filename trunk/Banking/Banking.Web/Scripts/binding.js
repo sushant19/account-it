@@ -46,12 +46,15 @@
     bindAction('create', 'click', function () {
         var entityName = $(this).parseData('entity');
         sendRequest('Create', entityName, {}, function (response) {
+
             ui.showModal(response);
+            $(document).findByData({ 'create': 'false' }).each(function () { $(this).detach(); })
         });
 
     });
 
-    bindAction('delete', 'click', function () {
+    bindAction('delete', 'click', function (event) {
+        event.preventDefault();
         var entityName = $(this).parseData('entity');
         var parent = findParentView(this);
         var selected = parent.length > 0 ? parent :
@@ -93,7 +96,8 @@
         });
     });
 
-    bindAction('cancel', 'click', function () {
+    bindAction('cancel', 'click', function (event) {
+        event.preventDefault();
         $.modal.close();
     });
 
