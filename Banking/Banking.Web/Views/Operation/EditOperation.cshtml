@@ -9,6 +9,7 @@
 
 <div data-entity="operation" data-view="edit" data-id=@Model.ID>    
     <form>
+        <h3>Edit operation</h3>
         <div>Date</div>
         <div class="datePicker_wrapper">@Html.EditorFor(op => date)</div>
         <div>Amount</div>
@@ -19,10 +20,11 @@
         <div>@Html.EditorFor(op => op.Description)</div>
         <div>Participiants</div>
         <div class="editOperationPersons">@Html.Action("SelectParticipants", new { op = Model })</div>
-        <div class="editOperationButtons">
-            <input type="submit" value="Save" class="saveButton" data-action="save"/>
-            <input type="button" value="Cancel" class="cancelButton" data-action="cancel"/>
-            <input type="button" value="Delete" class="deleteButton" data-action="delete" data-entity="operation"/>
+       
+        <div class="buttons">
+            <button data-action="cancel"><img src="../../Content/images/cancel.png" /> Cancel</button>
+            <button type="submit" data-action="save"><img src="../../Content/images/save.png" /> Save</button>
+            <button data-action="delete" data-entity="operation" data-create="false"><img src="../../Content/images/delete.png" /> Delete</button>
         </div>
     </form>
 </div> 
