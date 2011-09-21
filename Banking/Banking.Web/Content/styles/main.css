@@ -157,8 +157,11 @@ menu li:before {
 .tableView .checkCol {
     width: 10px;
 }
-.tableView tr div {
+.tableView tr span {
     cursor: pointer;
+}
+.tableView tr span:hover {
+    background-color: rgba(255,255,255,0.1);
 }
 .actionsMenu {
     position: relative;
