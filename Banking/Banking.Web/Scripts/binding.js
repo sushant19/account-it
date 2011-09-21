@@ -310,7 +310,7 @@
     }
 
     function parseNumber(str) {
-        return Number(str.replace('.', ','));
+        return str.replace('.', ',');
     }
 
     // returns object with props from 'data-view-params' attribute of the view

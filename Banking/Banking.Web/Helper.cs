@@ -13,6 +13,16 @@ namespace Banking.Web
     {
         public static string DecimalFormat { get { return "G29"; } }
 
+        public static NumberFormatInfo AmountFormat {
+            get
+            {
+                return new NumberFormatInfo()
+                {
+                    NumberDecimalSeparator = ","
+                };
+            }
+        }
+
         public static DateTimeFormatInfo DateFormat
         {
             get
