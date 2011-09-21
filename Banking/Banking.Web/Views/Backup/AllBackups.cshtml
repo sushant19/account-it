@@ -12,10 +12,8 @@
   <caption>
     <p>Deals</p>
     <div class="actionsMenu">
-    
-        <input type="button" value="Create new" data-action="create" data-entity="backup"/>
-        <input type="button" value="Delete selected" data-action="delete" data-entity="backup" disabled/>
-
+        <button data-action="create" data-entity="backup" id="createBackupButton"><img src="../../Content/images/add.png" /> Create</button>
+        <button data-action="delete" data-entity="backup" id="deleteBackupButton" disabled><img src="../../Content/images/delete.png"> Delete selected</button>
     </div>
   </caption>
   <thead>
@@ -23,10 +21,10 @@
         <th scope="col" class="checkCol">
             <input type="checkbox" id="selectAll" data-action="selectAll" data-entity="backup" data-view="view"/>
         </th>
-        <th scope="col" data-action="sort" data-key="time">Time</th>
-        <th scope="col" data-action="sort" data-key="mark">Mark</th>
-        <th scope="col" data-action="sort" data-key="operations">Operations</th>
-        <th scope="col" data-action="sort" data-key="persons">Persons</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="time">Time</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="mark">Mark</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="operations">Operations</th>
+        <th scope="col" data-action="sort" class="sortable" data-sort-key="persons">Persons</th>
     </tr>
   </thead>
   <tbody data-list="backup" data-sort-key="time" data-sort-order="descending" data-view="view">
