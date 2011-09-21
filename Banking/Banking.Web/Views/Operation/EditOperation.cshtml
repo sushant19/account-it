@@ -10,7 +10,7 @@
 <div data-entity="operation" data-view="edit" data-id=@Model.ID>    
     <form>
         <h3>Edit operation</h3>
-        @if (Model.Participants.Count == 0)
+        @if (Model.HasParticipants())
         {
         <h4>No participants - check someone!</h4>
         }
