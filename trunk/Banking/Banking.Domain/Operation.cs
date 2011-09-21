@@ -23,6 +23,11 @@ namespace Banking.Domain
             return this;
         }
 
+        public bool HasParticipants()
+        {
+            return Participants == null || Participants.Count == 0;
+        }
+
         public string ListParticipants()
         {
             StringBuilder builder = new StringBuilder();
