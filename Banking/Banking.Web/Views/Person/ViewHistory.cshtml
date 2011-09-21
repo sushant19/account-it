@@ -19,18 +19,18 @@
     <caption>
         <p>History</p>
         <p class="actionsMenu">
-            <input type="button" value="Delete selected" data-action="delete" data-entity="operation" disabled/>
+            <button data-action="delete" data-entity="operation" disabled><img src="../../Content/images/delete.png" /> Delete selected</button>
         </p>
     </caption>
     <thead>
         <tr id="headings">
             <th scope="col" class="checkCol"><input type="checkbox" id="selectAll" data-action="selectAll" data-entity="operation" data-view="viewPersonal"/></th>
-            <th scope="col" data-action="sort" data-sort-key="mark">Mark</th>
-            <th scope="col" data-action="sort" data-sort-key="amount">Total</th>
-            <th scope="col" data-action="sort" data-sort-key="share">Part</th>
-            <th scope="col" data-action="sort" data-sort-key="description">Description</th>
-            <th scope="col" data-action="sort" data-sort-key="date">Date</th>
-            <th scope="col" data-action="sort" data-sort-key="others">Others</th>
+            <th scope="col" data-action="sort" class="sortable" data-sort-key="mark">Mark</th>
+            <th scope="col" data-action="sort" class="sortable" data-sort-key="amount">Total</th>
+            <th scope="col" data-action="sort" class="sortable" data-sort-key="share">Part</th>
+            <th scope="col" data-action="sort" class="sortable" data-sort-key="description">Description</th>
+            <th scope="col" data-action="sort" class="sortable" data-sort-key="date">Date</th>
+            <th scope="col" data-action="sort" class="sortable" data-sort-key="others">Others</th>
         </tr>
     </thead>
     <tbody data-list="operation" data-sort-key="date" data-sort-order="descending" data-view="viewPersonalOperation">
