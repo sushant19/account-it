@@ -9,6 +9,8 @@ using Banking.Backup;
 
 namespace Banking.Web.Controllers
 {
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
+    [RequireSecurityCode]
     public class BackupController : BankingControllerBase
     {
         public ViewResult All()
@@ -34,7 +36,8 @@ namespace Banking.Web.Controllers
                 // clearing DB
                 Snapshot backup = Backuper.Load(time);
                 string oldTitle = backup.GetTitle();
-                string newTitle = oldTitle.Contains("Restored backup: ") ? oldTitle :
+                // avoiding titles like "Restored backup: Restored backup..."
+                string newTitle = oldTitle.Contains("!auto:") ? oldTitle :
                     "!auto: Restored backup: " + oldTitle;
                 Snapshot current = CreateSnapshot(newTitle);
                 Backuper.Save(current); // making backup before restore
