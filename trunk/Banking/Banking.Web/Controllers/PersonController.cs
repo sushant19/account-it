@@ -55,7 +55,7 @@ namespace Banking.Web.Controllers
             // trying to retrive or creating new if null id
             var man = Storage.ReadOrCreate<Person>(id);
             // new persons with equal names not allowed
-            if (id == null && Storage.Persons.SingleOrDefault(p => p.Name == name) != null)
+            if (id == null || Storage.Persons.SingleOrDefault(p => p.Name == name) != null)
                 return Error("PersonWithSameNameAlreadyExists");
             // person cannot have any of reserved names
             if (ReservedNames.Contains(name.ToLower()))
