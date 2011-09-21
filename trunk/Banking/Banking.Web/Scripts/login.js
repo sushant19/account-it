@@ -20,7 +20,7 @@
                  // handling response
                  if (!response.error) {
                      // redirect to home
-                     window.location = '/';
+                     window.location = '/operations';
                  } else {
                      ui.handleError(response.error);
                  }
