@@ -6,8 +6,9 @@
         <div>Mark</div>
         <div>@Html.EditorFor(op => op.Mark)</div>
         <div class="buttons">
-            <button data-action="delete" data-entity="backup"><img src="../../Content/images/delete.png"> Delete</button>
+            <button data-action="cancel"><img src="../../Content/images/cancel.png"> Cancel</button>
             <button type="submit" data-action="save"><img src="../../Content/images/save.png"> Save</button>
+            <button data-action="delete" data-entity="backup" data-create="false"><img src="../../Content/images/delete.png"> Delete</button>
             <button data-action="restoreBackup" data-create="false"><img src="../../Content/images/undo.png"> Restore</button>
         </div>
     </form>
