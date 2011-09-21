@@ -270,7 +270,7 @@
         var data = {
             ID: parseNumber(view.attr('data-id')),
             Date: fields[0].value,
-            Amount: fields[1].value,
+            Amount: parseNumber(fields[1].value),
             Mark: fields[2].value,
             Description: fields[3].value,
             Participants: selected,
