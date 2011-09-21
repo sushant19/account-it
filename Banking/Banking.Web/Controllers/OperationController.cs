@@ -87,11 +87,18 @@ namespace Banking.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult Create()
+        public ActionResult Create()
         {
-            Operation op = new Operation();
-            op.Date = DateTime.Today;
-            return PartialView("EditOperation", op);
+            if (Storage.Persons.Count() > 0)
+            {
+                Operation op = new Operation();
+                op.Date = DateTime.Today;
+                return PartialView("EditOperation", op);
+            }
+            else
+            {
+                return Error("NoPersonsDefined");
+            }
         }
 
         [HttpPost]
