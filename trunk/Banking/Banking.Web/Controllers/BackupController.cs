@@ -35,10 +35,7 @@ namespace Banking.Web.Controllers
               
                 // clearing DB
                 Snapshot backup = Backuper.Load(time);
-                string oldTitle = backup.GetTitle();
-                // avoiding titles like "Restored backup: Restored backup..."
-                string newTitle = oldTitle.Contains("!auto:") ? oldTitle :
-                    "!auto: Restored backup: " + oldTitle;
+                string newTitle = "!restore: " + backup.GetTitle();
                 Snapshot current = CreateSnapshot(newTitle);
                 Backuper.Save(current); // making backup before restore
                 foreach (Operation op in current.Operations)

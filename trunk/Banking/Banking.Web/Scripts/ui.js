@@ -25,6 +25,9 @@
             case 'EmptyParticipantsList':
                 ui.showError('Operation should have at least one participant');
                 break;
+            case 'NoPersonsDefined':
+                ui.showError('There are no persons - so create somebody first.');
+                break;
             case 'PersonWithSameNameAlreadyExists':
                 ui.showError('Person with same name already exists.');
                 break;
