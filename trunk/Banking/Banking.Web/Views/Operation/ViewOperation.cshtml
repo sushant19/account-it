@@ -5,17 +5,17 @@
     <td>
         <input type="checkbox" class="itemCheck" data-action="select"/>
     </td>
-    <td><div data-action='edit' data-sort-key="mark">@Model.Mark</div></td>
-    <td><div data-action='edit' data-sort-key="amount">@Model.Amount.ToString(Helper.DecimalFormat)</div></td>
-    <td><div data-action='edit' data-sort-key="description">@Model.Description</div></td>
-    <td><div data-action='edit' data-sort-key="date" data-sort-value=@Model.Date.Ticks>@Model.Date.ToString(Helper.DateFormat)</div></td>
+    <td><span data-action="edit" title="Edit operation" data-sort-key="mark">@Model.Mark</span></td>
+    <td><span data-action="edit" title="Edit operation" data-sort-key="amount">@Model.Amount.ToString(Helper.DecimalFormat)</span></td>
+    <td><span data-action="edit" title="Edit operation" data-sort-key="description">@Model.Description</span></td>
+    <td><span data-action="edit" title="Edit operation" data-sort-key="date" data-sort-value=@Model.Date.Ticks>@Model.Date.ToString(Helper.DateFormat)</span></td>
     <td>
         <div class="operationPersons" data-sort-key="participants" data-sort-value=@Model.Participants.Count>
             <ul>
                 @foreach (var man in Model.Participants)
                 {
                     <li>
-                        <a href="/@man.Name">@man.Name</a>
+                        <a href="/@man.Name" title="Go to @man.Name's page">@man.Name</a>
                         @if (Model.Participants.Last() != man) { Write(","); }
                     </li>
                 }
