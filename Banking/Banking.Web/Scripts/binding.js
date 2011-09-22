@@ -23,13 +23,13 @@
 
     bindAction('selectAll', 'click', function () {
         var currentControl = $(this);
-        var checked = currentControl.attr('checked');
+        var checked = currentControl.prop('checked');
         var entityName = currentControl.parseData('entity');
         var viewName = currentControl.parseData('view');
         var views = $(document).findByData({ view: viewName, entity: entityName }).filter("[data-id]");
         views.each(function () {
             var currentView = $(this);
-            if (checked == 'checked') {
+            if (true == checked) {
                 applySelection(currentView);
             } else {
                 removeSelection(currentView);
