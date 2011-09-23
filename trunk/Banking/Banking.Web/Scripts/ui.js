@@ -17,13 +17,13 @@
     ui.handleError = function (err) {
         switch (err) {
             case 'NotAuthorizedOrSessionExpired':
-                ui.showError('Session expired<form action="../authorize"><button>log in</button></form>', { autoHide: false })
+                ui.showError('Session expired.<form action="../authorize"><button>log in</button></form>', { autoHide: false })
                 break;
             case 'CannotDeletePersonThatHasOperations':
                 ui.showError('Person who has operations cannot be deleted. Uncheck or remove all his / her operations first.');
                 break;
             case 'EmptyParticipantsList':
-                ui.showError('Operation should have at least one participant');
+                ui.showError('Operation should have at least one participant.');
                 break;
             case 'NoPersonsDefined':
                 ui.showError('There are no persons - so create somebody first.');
@@ -32,16 +32,19 @@
                 ui.showError('Person with same name already exists.');
                 break;
             case 'PersonCannotHaveReservedName':
-                ui.showError('This name is reserved');
+                ui.showError('This name is reserved.');
+                break;
+            case 'PersonCannotHaveEmptyName':
+                ui.showError('You can not create person with empty name.');
                 break;
             case 'PersonalOperationNotFound':
-                ui.showError('This person isn\'t participant anymore');
+                ui.showError('This person isn\'t participant anymore.');
                 break;
             case 'ViewNotFound':
-                ui.showError('Requested view not found on the server');
+                ui.showError('Requested view not found on the server.');
                 break;
             case 'InvalidCode':
-                ui.showError('Invalid code');
+                ui.showError('Invalid code.');
                 break;
 
             default:
@@ -227,18 +230,18 @@
         //TODO rewrite this and 2 next functions — add more beaty
     }
     ui.enableControls = function () {
-        $('button').filterByData({ 'action': 'delete', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'save', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'restore', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'create', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'import', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'saveImport', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'restoreBackup', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'delete', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
+        $('button').filterByData({ 'action': 'save', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
+        $('button').filterByData({ 'action': 'restore', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
+        $('button').filterByData({ 'action': 'create', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
+        $('button').filterByData({ 'action': 'import', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
+        $('button').filterByData({ 'action': 'saveImport', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
+        $('button').filterByData({ 'action': 'restoreBackup', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
     }
     function disableButton(button) {
         elem = $(button);
         if (elem.prop('disabled') === false) {
-            $(this).attr('disabled', 'disabled').attr('data-disabled', 'true');
+            elem.attr('disabled', 'disabled').attr('data-disabled', 'true');
         }
     }
 
