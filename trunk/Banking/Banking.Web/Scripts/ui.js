@@ -217,22 +217,29 @@
     }
 
     ui.disableControls = function () {
-        $('button').filterByData({ 'action': 'delete' }).each(function () { $(this).attr('disabled', 'disabled'); });
-        $('button').filterByData({ 'action': 'save' }).each(function () { $(this).attr('disabled', 'disabled'); });
-        $('button').filterByData({ 'action': 'restore' }).each(function () { $(this).attr('disabled', 'disabled'); });
-        $('button').filterByData({ 'action': 'create' }).each(function () { $(this).attr('disabled', 'disabled'); });
-        $('button').filterByData({ 'action': 'import' }).each(function () { $(this).attr('disabled', 'disabled'); });
-        $('button').filterByData({ 'action': 'saveImport' }).each(function () { $(this).attr('disabled', 'disabled'); });
-        $('button').filterByData({ 'action': 'restoreBackup' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'delete' }).each(function () {disableButton(this); });
+        $('button').filterByData({ 'action': 'save' }).each(function () { disableButton(this); });
+        $('button').filterByData({ 'action': 'restore' }).each(function () { disableButton(this); });
+        $('button').filterByData({ 'action': 'create' }).each(function () { disableButton(this); });
+        $('button').filterByData({ 'action': 'import' }).each(function () { disableButton(this); });
+        $('button').filterByData({ 'action': 'saveImport' }).each(function () { disableButton(this); });
+        $('button').filterByData({ 'action': 'restoreBackup' }).each(function () { disableButton(this); });
+        //TODO rewrite this and 2 next functions — add more beaty
     }
     ui.enableControls = function () {
-        $('button').filterByData({ 'action': 'delete' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'save' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'restore' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'create' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'import' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'saveImport' }).each(function () { $(this).removeAttr('disabled'); });
-        $('button').filterByData({ 'action': 'restoreBackup' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'delete', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'save', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'restore', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'create', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'import', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'saveImport', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'restoreBackup', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled'); });
+    }
+    function disableButton(button) {
+        elem = $(button);
+        if (elem.prop('disabled') === false) {
+            $(this).attr('disabled', 'disabled').attr('data-disabled', 'true');
+        }
     }
 
 })();
