@@ -13,11 +13,16 @@
     <td><span data-action="edit" title="Edit operation «@Model.GetTitle()»" data-sort-key="description">@Model.Description</span></td>
     <td><span data-action="edit" title="Edit operation «@Model.GetTitle()»"  data-sort-key="date" data-sort-value=@Model.Date.Ticks>@Model.Date.ToString(Helper.DateFormat)</span></td>
     <td>
-        <ul data-sort-key = "others" data-sort-value=@Model.Others.Count>
-            @foreach (var man in Model.Others)
-            {
-                <li><a href="/@man.Name" title="Go to @man.Name's page">@man.Name</a></li>                
-            }
-        </ul>
+        <div class="operationPersons">
+            <ul data-sort-key = "others" data-sort-value=@Model.Others.Count>
+                @foreach (var man in Model.Others)
+                {
+                    <li>
+                        <a href="/@man.Name" title="Go to @man.Name's page">@man.Name</a>
+                        @if (Model.Others.Last() != man) { Write(","); } 
+                    </li>          
+                }
+            </ul>
+        </div>
     </td>
 </tr>
