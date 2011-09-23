@@ -45,8 +45,9 @@
 
     bindAction('create', 'click', function () {
         var entityName = $(this).parseData('entity');
+        ui.disableControls();
         sendRequest('Create', entityName, {}, function (response) {
-
+            ui.enableControls();
             ui.showModal(response);
             $(document).findByData({ 'create': 'false' }).each(function () { $(this).detach(); })
         });
@@ -62,10 +63,17 @@
         var count = selected.length;
         //TODO: rewrite confirmation to modal
         if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {
-            selected.each(function () {
+            ui.disableControls();
+            selected.each(function (index) {
                 var current = $(this);
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
+
+                    if (index == count - 1) {
+                        ui.enableControls();
+                    }
+                    //last one came back
+
                     var allViews = $(document).findByData({ entity: entityName, id: id });
                     allViews.remove();
                     refreshDeleteControls();
@@ -75,6 +83,7 @@
             });
         }
     });
+
 
     bindAction('edit', 'click', function () {
         var view = findParentView(this);
@@ -90,11 +99,14 @@
         var view = findParentView(this, 'edit');
         var entityName = view.parseData('entity');
         var data = act('parse_' + entityName, view); // call by name
+        ui.disableControls();
         sendRequest('save', entityName, data, function (response) {
             updateEntities(response.affected);
+            ui.enableControls();
             $.modal.close();
         });
     });
+    //Where is handling of ajax errors?
 
     bindAction('cancel', 'click', function (event) {
         event.preventDefault();
@@ -102,7 +114,9 @@
     });
 
     bindAction('import', 'click', function () {
+        ui.disableControls();
         sendRequest('import', 'operation', {}, function (response) {
+            ui.enableControls();
             ui.showModal(response);
         });
     });
@@ -112,7 +126,9 @@
         var view = findParentView(this, 'import');
         var textarea = view.find('textarea');
         var text = textarea.prop('value');
+        ui.disableControls();
         sendRequest('saveImport', 'operation', { text: text }, function (response) {
+            ui.enableControls();
             updateEntities(response.affected);
             view.find('.textLeftMessage').html('Text left below was not recognized');
             textarea.attr('value', response.textLeft);
@@ -120,11 +136,14 @@
     });
 
     bindAction('backup', 'click', function (event) {
+        ui.disableControls();
         sendRequest('create', 'backup', {}, function (response) {
+            ui.enableControls();
             var backups = $(document).findByData({ list: 'backup' });
             backups.prepend(response);
         });
     });
+    //is it used somewhere??? It seems than not!
 
     bindAction('restoreBackup', 'click', function (event) {
         var message = 'Restore backup? All data will be replaced by data from backup, '
@@ -132,7 +151,9 @@
         if (confirm(message)) {
             var view = findParentView($(this));
             var id = view.attr('data-id');
+            ui.disableControls();
             sendRequest('restore', 'backup', { id: id }, function (response) {
+                ui.enableControls();
                 window.location = '/operations';
             });
         }
