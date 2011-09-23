@@ -3,7 +3,8 @@
 <div data-entity="backup" data-view="edit" data-id=@Model.Time.Ticks>  
     <form>    
         <h3>Edit backup</h3>  
-        <div>Mark</div>
+        
+        <label for="Mark">Mark</label>
         <div>@Html.EditorFor(op => op.Mark)</div>
         <div class="buttons">
             <button data-action="cancel"><img src="../../Content/images/cancel.png"> Cancel</button>

@@ -3,7 +3,7 @@
 <div data-entity="person" data-view="edit" data-id=@Model.ID>  
     <form>      
         <h3>Edit person</h3>
-        <div>Name:</div>
+        <label for="Name">Name</label>
         <div>@Html.EditorFor(op => op.Name)</div>
         <div>Balance: $@Math.Round(Model.GetBalance(), 2)</div>
         <div class="buttons">

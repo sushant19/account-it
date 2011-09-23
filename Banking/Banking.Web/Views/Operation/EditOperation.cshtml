@@ -10,16 +10,15 @@
 <div data-entity="operation" data-view="edit" data-id=@Model.ID>    
     <form>
         <h3>Edit operation</h3>
-        <div>Date</div>
+        <label for="date">Date</label>
         <div class="datePicker_wrapper">@Html.EditorFor(op => date)</div>
-        <div>Amount</div>
+        <label for="Amount">Amount</label>
         <div>@Html.EditorFor(op => op.Amount)</div>
-        <div>Mark</div>
-        <div>@Html.EditorFor(op => op.Mark)</div>  
-        <div>Description</div>
+        <label for="Mark">Mark</label>
+        <div>@Html.EditorFor(op => op.Mark)</div> 
+        <label for="Description">Description</label>
         <div>@Html.EditorFor(op => op.Description)</div>
-        <div>Participiants</div>
-        <div class="editOperationPersons">@Html.Action("SelectParticipants", new { op = Model })</div>
+        Participants<div class="editOperationPersons">@Html.Action("SelectParticipants", new { op = Model })</div>
        
         <div class="buttons">
             <button data-action="cancel"><img src="../../Content/images/cancel.png" /> Cancel</button>
