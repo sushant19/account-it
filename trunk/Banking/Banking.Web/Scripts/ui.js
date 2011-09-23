@@ -86,6 +86,7 @@
         }
         $('#freeow').freeow("Error", message, defaultOptions);
     }
+
     // options - object:
     //      key - string: name of sorting key;
     //          if not defined, uses data-sort-key
@@ -213,6 +214,25 @@
             format: 'j.m.Y',
             readonly_element: false
         });
+    }
+
+    ui.disableControls = function () {
+        $('button').filterByData({ 'action': 'delete' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'save' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'restore' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'create' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'import' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'saveImport' }).each(function () { $(this).attr('disabled', 'disabled'); });
+        $('button').filterByData({ 'action': 'restoreBackup' }).each(function () { $(this).attr('disabled', 'disabled'); });
+    }
+    ui.enableControls = function () {
+        $('button').filterByData({ 'action': 'delete' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'save' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'restore' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'create' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'import' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'saveImport' }).each(function () { $(this).removeAttr('disabled'); });
+        $('button').filterByData({ 'action': 'restoreBackup' }).each(function () { $(this).removeAttr('disabled'); });
     }
 
 })();
