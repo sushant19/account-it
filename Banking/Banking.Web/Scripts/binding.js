@@ -221,13 +221,15 @@
         $.post(url, data, function (response) {
             if (response.error) {
                 ui.handleError(response.error);
-                //ui.showError(response.error);
+                ui.enableControls();
+
             } else {
                 successCallback(response);
             }
         }).error(function () {
             ui.handleError('AjaxRequestFailure');
             //ui.showError('Request failed: ' + url);
+            ui.enableControls();
         });
     }
 
