@@ -52,6 +52,8 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult Save(int? id, string name)
         {
+            if (name == "")
+                return Error("PersonCannotHaveEmptyName");
             // trying to retrive or creating new if null id
             var man = Storage.ReadOrCreate<Person>(id);
             // new persons with equal names not allowed
