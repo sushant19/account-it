@@ -84,9 +84,13 @@ h3
     color: white;
     font-size: 1.3em;
     border-bottom: 1px solid white;
+    margin-bottom: 10px;
 }
 button img {
    vertical-align: bottom;
+}
+button:disabled img {
+    opacity: 0.4;
 }
 /*  navigation block  */
 nav {
