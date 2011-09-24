@@ -1,13 +1,14 @@
 ﻿<div data-view="import">
+    <h3>Import</h3>
     <div>Paste text here:</div>
     <div class="textLeftMessage"></div>
     <form>
         <div>
             <textarea cols="120" rows="30" />
         </div>
-        <div>
-            <input type="submit" value="Import" data-action="saveImport" />
-            <input type="button" value="Finish" data-action="cancel" />
+        <div class="buttons">
+            <button data-action="cancel"><img src="../../Content/images/cancel.png" /> Cancel</button>
+            <button type="submit" data-action="saveImport"><img src="../../Content/images/import.png" /> Import</button>
         </div>
     </form>
 </div>
