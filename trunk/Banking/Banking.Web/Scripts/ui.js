@@ -4,9 +4,8 @@
 //  jquery-data
 
 (function () {
-    var ui = {};
+    var ui = { modalOpened: false, overlayed: false };
     this.ui = ui;
-
     $(document).ready(function () {
         stickActionsMenu();
         hideSelfLinks();
@@ -16,6 +15,9 @@
 
     ui.handleError = function (err) {
         switch (err) {
+            case 'AjaxRequestFailure':
+                ui.showError('Server is unreachable')
+                break;
             case 'NotAuthorizedOrSessionExpired':
                 ui.showError('Session expired.<form action="../authorize"><button>log in</button></form>', { autoHide: false })
                 break;
@@ -55,7 +57,8 @@
     ui.showModal = function (data) {
         $.modal(data, {
             onOpen: function (dialog) {
-                dialog.overlay.fadeIn('normal', function () {
+                ui.modalOpened = true;
+                ui.overlay('show', function () {
                     $('.simplemodal-close').css('display', 'none');
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
@@ -66,11 +69,12 @@
 
             },
             onClose: function (dialog) {
+                ui.modalOpened = false;
                 $('.simplemodal-close').fadeOut('normal');
                 dialog.data.fadeOut('normal', function () {
                     dialog.container.slideUp('normal', function () {
-                        dialog.overlay.fadeOut('normal', function () {
-                            $.modal.close(); // must call this!
+                        ui.overlay('hide', function () {
+                            $.modal.close();
                         });
                     });
                 });
@@ -220,7 +224,7 @@
     }
 
     ui.disableControls = function () {
-        $('button').filterByData({ 'action': 'delete' }).each(function () {disableButton(this); });
+        $('button').filterByData({ 'action': 'delete' }).each(function () { disableButton(this); });
         $('button').filterByData({ 'action': 'save' }).each(function () { disableButton(this); });
         $('button').filterByData({ 'action': 'restore' }).each(function () { disableButton(this); });
         $('button').filterByData({ 'action': 'create' }).each(function () { disableButton(this); });
@@ -243,6 +247,65 @@
         if (elem.prop('disabled') === false) {
             elem.attr('disabled', 'disabled').attr('data-disabled', 'true');
         }
+    }
+
+    ui.loading = function (state) {
+        if ('start' === state) {
+            ui.disableControls();
+            ui.overlay('show', function () {
+                var wrapper = $('#loading_wrapper');
+                if(wrapper.length === 0)
+                    $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+                wrapper.stop().slideDown('fast');
+            });
+            var wrapper = $('#loading_wrapper');
+            if (wrapper.length === 0)
+                $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+        }
+        else if ('finish' === state) {
+            ui.enableControls();
+            var message = $('#loading_wrapper');
+            message.stop().slideUp('fast', function () {
+                if (!ui.modalOpened)
+                    ui.overlay('hide');
+                message.remove();
+            });
+        }
+    }
+
+    ui.overlay = function (action, callback) {
+        if ('show' === action && !ui.overlayed) {
+            $('body').append('<div id="overlay"></div>');
+            //                $('#overlay').bind('click', function () {
+            //                    ui.overlay('hide');
+            //                });
+        }
+        if (('show' === action && ui.overlayed) || ('hide' === action && !ui.overlayed)) {
+            if (callback && typeof (callback) === "function") {
+                callback();
+            }
+            return;
+        }
+        var overlay = $('#overlay');
+        if (('show' === action && ui.overlayed) || ('hide' === action && !ui.overlayed)) {
+            if (callback && typeof (callback) === "function") {
+                callback();
+            }
+        }
+        else {
+            overlay.stop().fadeToggle(function () {
+                if (callback && typeof (callback) === "function") {
+                    if (!ui.overlayed)
+                        overlay.remove();
+                    callback();
+                }
+            });
+        }
+        //switch state flga
+        if (ui.overlayed)
+            ui.overlayed = false;
+        else
+            ui.overlayed = true;
     }
 
 })();

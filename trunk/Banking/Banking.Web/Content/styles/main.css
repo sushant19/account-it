@@ -254,3 +254,31 @@ footer {
 .textLeftMessage {
     color:Red;
 }
+
+#overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 998;
+    display: none;
+}
+#loading_message {
+    background-color: Yellow;
+    height: 40px;
+    margin: 0 auto;
+    display: table;
+    vertical-align: middle;
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 999;
+}
+#loading_message img{
+    vertical-align: middle;
+}
+#loading_wrapper {
+    display: none;
+}
