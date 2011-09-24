@@ -45,10 +45,10 @@
 
     bindAction('create', 'click', function () {
         var entityName = $(this).parseData('entity');
-        ui.disableControls();
+        ui.loading('start');
         sendRequest('Create', entityName, {}, function (response) {
-            ui.enableControls();
             ui.showModal(response);
+            ui.loading('finish');
             $(document).findByData({ 'create': 'false' }).each(function () { $(this).detach(); })
         });
 
@@ -63,14 +63,14 @@
         var count = selected.length;
         //TODO: rewrite confirmation to modal
         if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {
-            ui.disableControls();
+            ui.loading('start');
             selected.each(function (index) {
                 var current = $(this);
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
 
                     if (index == count - 1) {
-                        ui.enableControls();
+                        ui.loading('finish');
                     }
                     //last one came back
 
@@ -89,8 +89,10 @@
         var view = findParentView(this);
         var entityName = view.parseData('entity');
         var id = view.parseData('id');
+        ui.loading('start');
         sendRequest('edit', entityName, { id: id }, function (response) {
-            ui.showModal(response);
+            ui.showModal(response); //unfortunatly
+            ui.loading('finish');   //only that order:(
         });
     });
 
@@ -99,14 +101,13 @@
         var view = findParentView(this, 'edit');
         var entityName = view.parseData('entity');
         var data = act('parse_' + entityName, view); // call by name
-        ui.disableControls();
+        ui.loading('start');
         sendRequest('save', entityName, data, function (response) {
             updateEntities(response.affected);
-            ui.enableControls();
+            ui.loading('finish');
             $.modal.close();
         });
     });
-    //Where is handling of ajax errors?
 
     bindAction('cancel', 'click', function (event) {
         event.preventDefault();
@@ -114,10 +115,10 @@
     });
 
     bindAction('import', 'click', function () {
-        ui.disableControls();
+        ui.loading('start');
         sendRequest('import', 'operation', {}, function (response) {
-            ui.enableControls();
             ui.showModal(response);
+            ui.loading('finish');
         });
     });
 
@@ -126,9 +127,9 @@
         var view = findParentView(this, 'import');
         var textarea = view.find('textarea');
         var text = textarea.prop('value');
-        ui.disableControls();
+        ui.loading('start');
         sendRequest('saveImport', 'operation', { text: text }, function (response) {
-            ui.enableControls();
+            ui.loading('finish');
             updateEntities(response.affected);
             view.find('.textLeftMessage').html('Text left below was not recognized');
             textarea.attr('value', response.textLeft);
@@ -136,9 +137,9 @@
     });
 
     bindAction('backup', 'click', function (event) {
-        ui.disableControls();
+        ui.loading('start');
         sendRequest('create', 'backup', {}, function (response) {
-            ui.enableControls();
+            ui.loading('finish');
             var backups = $(document).findByData({ list: 'backup' });
             backups.prepend(response);
         });
@@ -151,9 +152,9 @@
         if (confirm(message)) {
             var view = findParentView($(this));
             var id = view.attr('data-id');
-            ui.disableControls();
+            ui.loading('start');
             sendRequest('restore', 'backup', { id: id }, function (response) {
-                ui.enableControls();
+                ui.loading('finish');
                 window.location = '/operations';
             });
         }
@@ -221,15 +222,14 @@
         $.post(url, data, function (response) {
             if (response.error) {
                 ui.handleError(response.error);
-                ui.enableControls();
+                ui.loading('finish');
 
             } else {
                 successCallback(response);
             }
         }).error(function () {
             ui.handleError('AjaxRequestFailure');
-            //ui.showError('Request failed: ' + url);
-            ui.enableControls();
+            ui.loading('finish');
         });
     }
 
