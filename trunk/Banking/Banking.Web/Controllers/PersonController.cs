@@ -93,7 +93,9 @@ namespace Banking.Web.Controllers
                 BackupIfNecessary("!auto: Deleted person: " + man.Name);
                 Storage.Persons.Remove(man);
                 Storage.SaveChanges();
-                return Json(new { id = id });
+                var affectedData = new List<Person>();
+                affectedData.Add(man);
+                return Json(affectedData.Select(p => new { entity = "person", id = id }).ToList());
             }
             else
                 return Error("PersonNotFound");

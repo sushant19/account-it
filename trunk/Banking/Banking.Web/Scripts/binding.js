@@ -68,14 +68,23 @@
                 var current = $(this);
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
-
+                    //last one came back
                     if (index == count - 1) {
                         ui.loading('finish');
                     }
-                    //last one came back
-
+                    
+                    // removing entities that don't exist anymore
                     var allViews = $(document).findByData({ entity: entityName, id: id });
                     allViews.remove();
+
+                    // updating other affected entities
+                    for (i in response.affected) {
+                        var item = response.affected[i];
+                        if (item.entity !== entityName) {
+                            updateExistingViews(item.entity, item.id);
+                        }
+                    }
+                    
                     refreshDeleteControls();
                     $.modal.close();
                     ui.sortTable();

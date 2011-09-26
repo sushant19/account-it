@@ -109,10 +109,14 @@ namespace Banking.Web.Controllers
             if (op != null)
             {
                 BackupIfNecessary("!auto: Deleted operation: " + op.GetTitle());
+                var affectedData = op.Participants
+                    .Select(p => new { entity = "person", id = p.ID }).ToList();
+                affectedData.Add(new { entity = "operation", id = op.ID });
                 Storage.Operations.Remove(op);
                 Storage.SaveChanges();
+                return Json(new { affected = affectedData });
             }
-            return Json(new { id = id });
+            return Error("IdNotFound");
         }
 
         [HttpPost]
