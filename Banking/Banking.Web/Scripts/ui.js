@@ -10,6 +10,7 @@
         stickActionsMenu();
         hideSelfLinks();
         ui.sortTable();
+        ui.setSubmit();
         //activateTableSorter();
     });
 
@@ -86,7 +87,7 @@
             overlayClose: true
         });
         ui.attachCalendar();
-
+        ui.setFocus();
     }
 
     ui.showError = function (message, options) {
@@ -226,6 +227,18 @@
         });
     }
 
+    ui.setSubmit = function () {
+        $("form input").live('keypress', function (e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                var butt = $('button[type=submit].default')
+                butt.click();
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
     ui.disableControls = function () {
         $('button').filterByData({ 'action': 'delete' }).each(function () { disableButton(this); });
         $('button').filterByData({ 'action': 'save' }).each(function () { disableButton(this); });
@@ -257,7 +270,7 @@
             ui.disableControls();
             ui.overlay('show', function () {
                 var wrapper = $('#loading_wrapper');
-                if(wrapper.length === 0)
+                if (wrapper.length === 0)
                     $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
                 wrapper.stop().slideDown('fast');
             });
@@ -309,6 +322,11 @@
             ui.overlayed = false;
         else
             ui.overlayed = true;
+    }
+
+    ui.setFocus = function () {
+        var focused = $('.focus:last');
+        focused.focus();
     }
 
 })();
