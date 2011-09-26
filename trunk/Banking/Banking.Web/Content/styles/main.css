@@ -255,6 +255,14 @@ footer {
     color:Red;
 }
 
+.hidden 
+{
+    display: inline;
+    visibility:hidden;
+    width:0px;
+    height:0px;
+}
+
 #overlay {
     position: fixed;
     top: 0px;

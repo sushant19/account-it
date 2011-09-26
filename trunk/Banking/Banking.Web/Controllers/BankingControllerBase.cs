@@ -25,7 +25,7 @@ namespace Banking.Web.Controllers
             var config = WebConfigurationManager.OpenWebConfiguration("/"); // root
             string cs = config.ConnectionStrings.ConnectionStrings["BankingDebug"].ConnectionString;
             Storage.Database.Connection.ConnectionString = cs;
-            System.Data.Entity.Database.SetInitializer<EFStorage>(new DropCreateDatabaseAlways<EFStorage>());
+            System.Data.Entity.Database.SetInitializer<EFStorage>(null);
         }
 
         protected EFStorage Storage = new EFStorage();
