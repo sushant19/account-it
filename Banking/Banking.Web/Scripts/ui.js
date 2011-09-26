@@ -45,6 +45,9 @@
             case 'ViewNotFound':
                 ui.showError('Requested view not found on the server.');
                 break;
+            case 'IdNotFound':
+                ui.showError('Entity with given ID not found on the server.');
+                break;
             case 'InvalidCode':
                 ui.showError('Invalid code.');
                 break;
