@@ -7,9 +7,9 @@
         <div>@Html.EditorFor(op => op.Name)</div>
         <div>Balance: $@Math.Round(Model.GetBalance(), 2)</div>
         <div class="buttons">
-            <button data-action="cancel"><img src="../../Content/images/cancel.png" /> Cancel</button>
+            <button type="button" data-action="cancel"><img src="../../Content/images/cancel.png" /> Cancel</button>
             <button type="submit" data-action="save" class="default"><img src="../../Content/images/save.png" /> Save</button>
-            <button data-action="delete" data-entity="person" data-create="false"><img src="../../Content/images/delete.png" /> Delete</button>
+            <button type="button" data-action="delete" data-entity="person" data-create="false"><img src="../../Content/images/delete.png" /> Delete</button>
         </div>
     </form>
 </div> 
