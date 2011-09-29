@@ -10,8 +10,6 @@
         stickActionsMenu();
         hideSelfLinks();
         ui.sortTable();
-        ui.setSubmit();
-        //activateTableSorter();
     });
 
     ui.handleError = function (err) {
@@ -227,17 +225,6 @@
         });
     }
 
-    ui.setSubmit = function () {
-        $("form input").live('keypress', function (e) {
-            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-                var butt = $('button[type=submit].default')
-                butt.click();
-                return false;
-            } else {
-                return true;
-            }
-        });
-    }
 
     ui.disableControls = function () {
         $('button').filterByData({ 'action': 'delete' }).each(function () { disableButton(this); });
@@ -266,6 +253,7 @@
     }
 
     ui.loading = function (state) {
+        console.log('loading: entered with state "' + state + '", overlay: ' + ui.overlayed);
         if ('start' === state) {
             ui.disableControls();
             ui.overlay('show', function () {
