@@ -12,6 +12,61 @@
         ui.sortTable();
     });
 
+    ui.overlayNew = new Toggle('OFF', true, {
+        on: function (onComplete) {
+            console.log('overlay ON handler started');
+            var overlay = $('#overlay');
+            // creating overlay node if it's not present
+            if (overlay.length === 0) {
+                $('body').append('<div id="overlay"></div>');
+                overlay = $('#overlay');
+            }
+            overlay.stop().fadeIn('slow', function () {
+                console.log('overlay ON handler completed');
+                onComplete();
+            });
+        },
+        off: function (onComplete) {
+            console.log('overlay OFF handler started');
+            var overlay = $('#overlay');
+            overlay.stop().fadeOut('slow', function () {
+                console.log('overlay OFF handler completed');
+                onComplete();
+            });
+        }
+    });
+
+    ui.loadingNew = new Toggle('OFF', true, {
+        on: function (onComplete) {
+            ui.disableControls();
+            ui.overlayNew.on(function () {
+                console.log('callback from loading start');
+                var wrapper = $('#loading_wrapper');
+                if (wrapper.length === 0)
+                    $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+                wrapper.stop().slideDown('fast');
+            });
+            var wrapper = $('#loading_wrapper');
+            if (wrapper.length === 0)
+                $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+        },
+        off: function (onComplete) {
+            ui.enableControls();
+            var message = $('#loading_wrapper');
+            message.stop().slideUp('fast', function () {
+                if (!ui.modalOpened) {
+                    ui.overlayNew.off(function () {
+                        console.log('callback from loding finish');
+                        message.remove();
+                    });
+                } else {
+                    console.log('callback from loding finish');
+                    message.remove();
+                }
+            });
+        }
+    });
+
     ui.handleError = function (err) {
         switch (err) {
             case 'AjaxRequestFailure':
@@ -60,11 +115,16 @@
         $.modal(data, {
             onOpen: function (dialog) {
                 ui.modalOpened = true;
-                ui.overlay('show', function () {
+                ui.overlayNew.on(function () {
+                    console.log('callback from showModal onOpen');
+                    // hiding close button
                     $('.simplemodal-close').css('display', 'none');
+                    // showing content
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
+                        //showing close button
                         $('.simplemodal-close').fadeIn('normal');
+                        // setting focus
                         $('.simplemodal-container').find('input:first').focus();
                     });
                 });
@@ -75,7 +135,8 @@
                 $('.simplemodal-close').fadeOut('normal');
                 dialog.data.fadeOut('normal', function () {
                     dialog.container.slideUp('normal', function () {
-                        ui.overlay('hide', function () {
+                        ui.overlayNew.off(function () {
+                            console.log('callback from showModal onClose');
                             $.modal.close();
                         });
                     });
@@ -225,38 +286,32 @@
         });
     }
 
-
+    // disables buttons that are not already disabled
     ui.disableControls = function () {
-        $('button').filterByData({ 'action': 'delete' }).each(function () { disableButton(this); });
-        $('button').filterByData({ 'action': 'save' }).each(function () { disableButton(this); });
-        $('button').filterByData({ 'action': 'restore' }).each(function () { disableButton(this); });
-        $('button').filterByData({ 'action': 'create' }).each(function () { disableButton(this); });
-        $('button').filterByData({ 'action': 'import' }).each(function () { disableButton(this); });
-        $('button').filterByData({ 'action': 'saveImport' }).each(function () { disableButton(this); });
-        $('button').filterByData({ 'action': 'restoreBackup' }).each(function () { disableButton(this); });
-        //TODO rewrite this and 2 next functions — add more beaty
-    }
-    ui.enableControls = function () {
-        $('button').filterByData({ 'action': 'delete', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-        $('button').filterByData({ 'action': 'save', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-        $('button').filterByData({ 'action': 'restore', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-        $('button').filterByData({ 'action': 'create', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-        $('button').filterByData({ 'action': 'import', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-        $('button').filterByData({ 'action': 'saveImport', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-        $('button').filterByData({ 'action': 'restoreBackup', 'disabled': 'true' }).each(function () { $(this).removeAttr('disabled').removeAttr('data-disabled'); });
-    }
-    function disableButton(button) {
-        elem = $(button);
-        if (elem.prop('disabled') === false) {
-            elem.attr('disabled', 'disabled').attr('data-disabled', 'true');
+        $('button').filter('[data-action]').each(function () {
+            disable($(this));
+        });
+
+        function disable(button) {
+            if (button.prop('disabled') === false) {
+                button.attr('disabled', 'disabled').attr('data-disabled', 'true');
+            }
         }
     }
 
+    // enables previously disabled buttons
+    ui.enableControls = function () {
+        $('button').filter('[data-action]').filter('[data-disabled]')
+            .removeAttr('disabled')
+            .removeAttr('data-disabled');
+    }
+
     ui.loading = function (state) {
-        console.log('loading: entered with state "' + state + '", overlay: ' + ui.overlayed);
+        //console.log('loading: entered with state "' + state + '", overlay: ' + ui.overlayed);
         if ('start' === state) {
             ui.disableControls();
-            ui.overlay('show', function () {
+            ui.overlayNew.on(function () {
+                console.log('callback from loading start');
                 var wrapper = $('#loading_wrapper');
                 if (wrapper.length === 0)
                     $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
@@ -270,33 +325,34 @@
             ui.enableControls();
             var message = $('#loading_wrapper');
             message.stop().slideUp('fast', function () {
-                if (!ui.modalOpened)
-                    ui.overlay('hide');
-                message.remove();
+                if (!ui.modalOpened) {
+                    ui.overlayNew.off(function () {
+                        console.log('callback from loding finish');
+                        message.remove();
+                    });
+                }
             });
         }
     }
 
     ui.overlay = function (action, callback) {
+        // overlay hidden, show requested
         if ('show' === action && !ui.overlayed) {
             $('body').append('<div id="overlay"></div>');
             //                $('#overlay').bind('click', function () {
             //                    ui.overlay('hide');
             //                });
         }
+        // no state change needed - only callback
         if (('show' === action && ui.overlayed) || ('hide' === action && !ui.overlayed)) {
             if (callback && typeof (callback) === "function") {
                 callback();
             }
             return;
         }
-        var overlay = $('#overlay');
-        if (('show' === action && ui.overlayed) || ('hide' === action && !ui.overlayed)) {
-            if (callback && typeof (callback) === "function") {
-                callback();
-            }
-        }
+        // state change needed - switching...
         else {
+            var overlay = $('#overlay');
             overlay.stop().fadeToggle(function () {
                 if (callback && typeof (callback) === "function") {
                     if (!ui.overlayed)
@@ -304,12 +360,13 @@
                     callback();
                 }
             });
+            //switching state flags
+            if (ui.overlayed)
+                ui.overlayed = false;
+            else
+                ui.overlayed = true;
         }
-        //switch state flga
-        if (ui.overlayed)
-            ui.overlayed = false;
-        else
-            ui.overlayed = true;
+
     }
 
     ui.setFocus = function () {
