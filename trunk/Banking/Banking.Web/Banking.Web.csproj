@@ -134,6 +134,7 @@
     <Content Include="Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\natural-sort.js" />
+    <Content Include="Scripts\toggle.js" />
     <Content Include="Scripts\ui.js" />
     <Content Include="Scripts\zebra_datepicker.js" />
     <Content Include="Web.config">

@@ -11,6 +11,7 @@ using System.IO;
 using Banking.Domain;
 using Banking.EFData;
 using Banking.Import;
+using System.Threading;
 
 namespace Banking.Web.Controllers
 {
@@ -59,6 +60,7 @@ namespace Banking.Web.Controllers
         public ActionResult Save(int? id, string date, string amount,
             string mark, string description, int[] participants)
         {
+            Thread.Sleep(2000);
             var dateTime = DateTime.Parse(date, Helper.DateFormat);
             // operation should have at least one participant
             var amountValue = Decimal.Parse(amount, Helper.AmountFormat);
