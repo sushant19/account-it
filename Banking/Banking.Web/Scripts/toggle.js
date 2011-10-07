@@ -20,7 +20,7 @@ function Toggle(initialState, allowInterrupt, handlers) {
     var allow = allowInterrupt;
     // publishing handlers
     this.onHandler = handlers.on;
-    this.offHandler = handlers.on;
+    this.offHandler = handlers.off;
     // state property
     this.state = function () {
         return currentState;
