@@ -42,13 +42,15 @@
             ui.overlayNew.on(function () {
                 console.log('callback from loading start');
                 var wrapper = $('#loading_wrapper');
-                if (wrapper.length === 0)
+                if (wrapper.length === 0) {
                     $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
-                wrapper.stop().slideDown('fast');
+                    wrapper = $('#loading_wrapper');
+                }
+                wrapper.stop().slideDown('fast', function () {   
+                    onComplete();
+                });
             });
-            var wrapper = $('#loading_wrapper');
-            if (wrapper.length === 0)
-                $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+
         },
         off: function (onComplete) {
             ui.enableControls();
@@ -63,6 +65,7 @@
                     console.log('callback from loding finish');
                     message.remove();
                 }
+                onComplete();
             });
         }
     });

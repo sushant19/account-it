@@ -53,6 +53,7 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult Edit(int id)
         {
+            Thread.Sleep(2000);
             return GetView("EditOperation", id);
         }
 
@@ -92,6 +93,7 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public ActionResult Create()
         {
+            Thread.Sleep(2000);
             if (Storage.Persons.Count() > 0)
             {
                 Operation op = new Operation();

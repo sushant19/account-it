@@ -107,6 +107,7 @@
     <Content Include="Content\images\bg_bt_lt.jpg" />
     <Content Include="Content\images\bg_tp_rt.png" />
     <Content Include="Content\images\calendar_icon.png" />
+    <Content Include="Content\images\enter.png" />
     <Content Include="Content\images\freeow\close.png" />
     <Content Include="Content\images\freeow\notice.png" />
     <Content Include="Content\images\freeow\pushpin.png" />
