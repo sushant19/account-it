@@ -27,17 +27,25 @@ function Toggle(initialState, allowInterrupt, handlers) {
     }
     // callback queue
     var callbacks = new Queue();
+    // how many times was changeState() called; used in proceed();
+    var changeCounter = 0;
     // from, allowed, through, to - states
     // callback is called when handler is complete
     function changeState(from, allowed, through, to, handler, callback) {
-        console.log("changeState called; current state: " + currentState + "; next state: " + to);
+        //console.log("changeState called; current state: " + currentState + "; next state: " + to);
         // state change possible
         if (currentState === from || (allow && currentState === allowed)) {
-            console.log("setting transition state: " + through);
+            changeCounter++;
+            //console.log("setting transition state: " + through);
             currentState = through;
+            // interruption - so clearing callbacks queue
+            if (currentState === allowed) {
+                callbacks.empty();
+            }
             callbacks.add(callback);
+            // executing handler or whenComplete
             if (typeof (handler) === 'function') {
-                handler(whenComplete);
+                handler(proceed);
             } else {
                 whenComplete();
             }
@@ -45,12 +53,25 @@ function Toggle(initialState, allowInterrupt, handlers) {
         } else if (currentState === through) {
             callbacks.add(callback);
         // state is already desired
-        } else if (currentState === to) {
+        } else if (currentState === to && typeof(callback) === 'function') {
             callback();
+        }
+        var callId = changeCounter;
+        // executes given function or whenComplete only if there was no interruption
+        function proceed(func) {
+            // interruption check
+            var a;
+            if (callId === changeCounter) {
+                if (typeof (func) === 'function') {
+                    func();
+                } else {
+                    whenComplete();
+                }
+            }
         }
         // callback wrapper, also changes state to final
         function whenComplete() {
-            console.log("setting final state: " + to);
+            //console.log("setting final state: " + to);
             currentState = to;
             callbacks.callAll();
             callbacks.empty();
