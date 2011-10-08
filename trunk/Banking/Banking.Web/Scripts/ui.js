@@ -13,7 +13,7 @@
     });
 
     ui.overlayNew = new Toggle('OFF', true, {
-        on: function (onComplete) {
+        on: function (proceed) {
             console.log('overlay ON handler started');
             var overlay = $('#overlay');
             // creating overlay node if it's not present
@@ -22,50 +22,69 @@
                 overlay = $('#overlay');
             }
             overlay.stop().fadeIn('slow', function () {
-                console.log('overlay ON handler completed');
-                onComplete();
+                proceed(function () {
+                    console.log('overlay ON handler completed');
+                    proceed();
+                });
             });
         },
-        off: function (onComplete) {
+        off: function (proceed) {
             console.log('overlay OFF handler started');
             var overlay = $('#overlay');
             overlay.stop().fadeOut('slow', function () {
-                console.log('overlay OFF handler completed');
-                onComplete();
+                proceed(function () {
+                    console.log('overlay OFF handler completed');
+                    proceed();
+                });
             });
         }
     });
 
     ui.loadingNew = new Toggle('OFF', true, {
-        on: function (onComplete) {
+        on: function (proceed) {
+            console.log('loading ON handler started');
             ui.disableControls();
             ui.overlayNew.on(function () {
-                console.log('callback from loading start');
-                var wrapper = $('#loading_wrapper');
-                if (wrapper.length === 0) {
-                    $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
-                    wrapper = $('#loading_wrapper');
-                }
-                wrapper.stop().slideDown('fast', function () {   
-                    onComplete();
+                proceed(function () {
+                    console.log('overlay callback from loading ON');
+                    var wrapper = $('#loading_wrapper');
+                    if (wrapper.length === 0) {
+                        $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+                        wrapper = $('#loading_wrapper');
+                    }
+                    wrapper.stop().slideDown('fast', function () {
+                        proceed(function () {
+                            console.log('loading ON handler completed');
+                            proceed();
+                        });
+                    });
                 });
             });
 
         },
-        off: function (onComplete) {
+        off: function (proceed) {
+            console.log('loading OFF handler started');
             ui.enableControls();
             var message = $('#loading_wrapper');
             message.stop().slideUp('fast', function () {
-                if (!ui.modalOpened) {
-                    ui.overlayNew.off(function () {
+                proceed(function () {
+                    if (!ui.modalOpened) {
+                        ui.overlayNew.off(function () {
+                            proceed(function () {
+                                console.log('callback from loding finish');
+                                message.remove();
+                                console.log('loading OFF handler completed');
+                                proceed();
+                            });
+                        });
+                    } else {
                         console.log('callback from loding finish');
                         message.remove();
-                    });
-                } else {
-                    console.log('callback from loding finish');
-                    message.remove();
-                }
-                onComplete();
+                        console.log('loading OFF handler completed');
+                        proceed();
+                    }
+                });
+
             });
         }
     });
