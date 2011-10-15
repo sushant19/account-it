@@ -126,6 +126,7 @@ namespace Banking.Web.Controllers
         [HttpPost]
         public PartialViewResult Import()
         {
+            //Thread.Sleep(2000);
             return PartialView("ImportOperations");
         }
 
