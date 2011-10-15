@@ -34,6 +34,7 @@ function Toggle(initialState, allowInterrupt, handlers) {
     function changeState(from, allowed, through, to, handler, callback) {
         //console.log("changeState called; current state: " + currentState + "; next state: " + to);
         // state change possible
+        var callId = changeCounter;
         if (currentState === from || (allow && currentState === allowed)) {
             changeCounter++;
             //console.log("setting transition state: " + through);
@@ -54,9 +55,10 @@ function Toggle(initialState, allowInterrupt, handlers) {
             callbacks.add(callback);
         // state is already desired
         } else if (currentState === to && typeof(callback) === 'function') {
-            callback();
+            callbacks.add(callback);
+            whenComplete();
         }
-        var callId = changeCounter;
+        callId = changeCounter;
         // executes given function or whenComplete only if there was no interruption
         function proceed(func) {
             // interruption check

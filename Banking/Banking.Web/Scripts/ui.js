@@ -12,6 +12,52 @@
         ui.sortTable();
     });
 
+    function callBack(func) {
+        if (typeof (func) === 'function') {
+            func();
+        }
+    }
+    ui.overlay3 = new Servant({
+        on: function (onComplete) {
+            var overlay = $('#overlay');
+            // creating overlay node if it's not present
+            if (overlay.length === 0) {
+                $('body').append('<div id="overlay"></div>');
+                overlay = $('#overlay');
+            }
+            overlay.stop().fadeIn('slow', function () {
+                onComplete();
+            });
+        },
+        off: function () {
+            var overlay = $('#overlay');
+            overlay.stop().fadeOut('slow');
+        }
+    });
+
+    ui.loading3 = new Servant({
+        on: function () {
+            ui.disableControls();
+            ui.overLoading = ui.overlay3.require(function () {
+                var wrapper = $('#loading_wrapper');
+                if (wrapper.length === 0) {
+                    $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
+                    wrapper = $('#loading_wrapper');
+                }
+                wrapper.stop().slideDown('fast');
+            });
+
+        },
+        off: function () {
+            ui.enableControls();
+            var message = $('#loading_wrapper');
+            message.stop().slideUp('fast', function () {
+                ui.overLoading.release();
+            });
+
+        }
+    });
+
     ui.overlayNew = new Toggle('OFF', true, {
         on: function (proceed) {
             console.log('overlay ON handler started');
@@ -71,7 +117,7 @@
                     if (!ui.modalOpened) {
                         ui.overlayNew.off(function () {
                             proceed(function () {
-                                console.log('callback from loding finish');
+                                console.log('callback from loading finish');
                                 message.remove();
                                 console.log('loading OFF handler completed');
                                 proceed();
@@ -137,17 +183,14 @@
         $.modal(data, {
             onOpen: function (dialog) {
                 ui.modalOpened = true;
-                ui.overlayNew.on(function () {
-                    console.log('callback from showModal onOpen');
-                    // hiding close button
+                ui.overModal = ui.overlay3.require(function () {
+                    console.log('Overlay available in showModal onOpen');
                     $('.simplemodal-close').css('display', 'none');
-                    // showing content
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
-                        //showing close button
                         $('.simplemodal-close').fadeIn('normal');
-                        // setting focus
                         $('.simplemodal-container').find('input:first').focus();
+                        console.log('Modal visible');
                     });
                 });
 
@@ -155,12 +198,12 @@
             onClose: function (dialog) {
                 ui.modalOpened = false;
                 $('.simplemodal-close').fadeOut('normal');
+                console.log('Modal will hide now...');
                 dialog.data.fadeOut('normal', function () {
                     dialog.container.slideUp('normal', function () {
-                        ui.overlayNew.off(function () {
-                            console.log('callback from showModal onClose');
-                            $.modal.close();
-                        });
+                        ui.overModal.release();
+                        console.log('Overlay released in showModal onClose');
+                        $.modal.close();
                     });
                 });
             },

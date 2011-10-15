@@ -45,10 +45,8 @@
 
     bindAction('create', 'click', function () {
         var entityName = $(this).parseData('entity');
-        ui.loadingNew.on();
         sendRequest('Create', entityName, {}, function (response) {
             ui.showModal(response);
-            ui.loadingNew.off();
             $(document).findByData({ 'create': 'false' }).each(function () { $(this).detach(); })
         });
 
@@ -63,16 +61,10 @@
         var count = selected.length;
         //TODO: rewrite confirmation to modal
         if (confirm('Delete ' + count + ' ' + entityName + ' forever?')) {
-            ui.loadingNew.on();
             selected.each(function (index) {
                 var current = $(this);
                 var id = current.attr('data-id');
                 sendRequest('Delete', entityName, { id: id }, function (response) {
-                    //last one came back
-                    if (index == count - 1) {
-                        ui.loadingNew.off();
-                    }
-                    
                     // removing entities that don't exist anymore
                     var allViews = $(document).findByData({ entity: entityName, id: id });
                     allViews.remove();
@@ -84,7 +76,7 @@
                             updateExistingViews(item.entity, item.id);
                         }
                     }
-                    
+
                     refreshDeleteControls();
                     $.modal.close();
                     ui.sortTable();
@@ -98,10 +90,8 @@
         var view = findParentView(this);
         var entityName = view.parseData('entity');
         var id = view.parseData('id');
-        ui.loadingNew.on();
         sendRequest('edit', entityName, { id: id }, function (response) {
             ui.showModal(response); //unfortunatly
-            ui.loadingNew.off();   //only that order:(
         });
     });
 
@@ -110,10 +100,8 @@
         var view = findParentView(this, 'edit');
         var entityName = view.parseData('entity');
         var data = act('parse_' + entityName, view); // call by name
-        ui.loadingNew.on();
         sendRequest('save', entityName, data, function (response) {
             updateEntities(response.affected);
-            ui.loadingNew.off();
             $.modal.close();
         });
     });
@@ -124,10 +112,8 @@
     });
 
     bindAction('import', 'click', function () {
-        ui.loadingNew.on();
         sendRequest('import', 'operation', {}, function (response) {
             ui.showModal(response);
-            ui.loadingNew.off();
         });
     });
 
@@ -136,9 +122,7 @@
         var view = findParentView(this, 'import');
         var textarea = view.find('textarea');
         var text = textarea.prop('value');
-        ui.loadingNew.on();
         sendRequest('saveImport', 'operation', { text: text }, function (response) {
-            ui.loadingNew.off();
             updateEntities(response.affected);
             view.find('.textLeftMessage').html('Text left below was not recognized');
             textarea.attr('value', response.textLeft);
@@ -146,9 +130,7 @@
     });
 
     bindAction('backup', 'click', function (event) {
-        ui.loadingNew.on();
         sendRequest('create', 'backup', {}, function (response) {
-            ui.loadingNew.off();
             var backups = $(document).findByData({ list: 'backup' });
             backups.prepend(response);
         });
@@ -161,9 +143,7 @@
         if (confirm(message)) {
             var view = findParentView($(this));
             var id = view.attr('data-id');
-            ui.loadingNew.on();
             sendRequest('restore', 'backup', { id: id }, function (response) {
-                ui.loadingNew.off();
                 window.location = '/operations';
             });
         }
@@ -227,18 +207,18 @@
 
     // Posts data to /{controller}/{action} and handles response.error
     function sendRequest(action, controller, data, successCallback) {
+        var loading = ui.loading3.require();
         var url = '/' + controller + '/' + action;
         $.post(url, data, function (response) {
             if (response.error) {
                 ui.handleError(response.error);
-                ui.loadingNew.off();
-
             } else {
                 successCallback(response);
             }
+        }).complete(function () {
+            loading.release();
         }).error(function () {
             ui.handleError('AjaxRequestFailure');
-            ui.loadingNew.off();
         });
     }
 
