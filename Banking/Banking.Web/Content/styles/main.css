@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+ @charset "utf-8";
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -153,7 +153,7 @@ menu li:before {
 	padding-bottom: 3px;
 	border-bottom: 2px dotted #222;
 	font-size: 1.2em;
-	vertical-align: middle;
+	vertical-align: bottom;
 }
 .tableView .operationPersons li, .tableView .personDeals li {
     display: inline-block;
