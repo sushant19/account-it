@@ -4,6 +4,7 @@
 //  jquery-data
 
 (function () {
+    var ui = {};
     this.ui = ui;
     $(document).ready(function () {
         stickActionsMenu();
@@ -52,7 +53,6 @@
             $('#loading_wrapper').stop().slideUp('fast');
             ui.enableControls();
             ui.overLoading.release();
-
         }
     });
 
@@ -75,10 +75,10 @@
         if (errName === 'NotAuthorizedOrSessionExpired') {
             ui.showError('Session expired.<form action="../authorize"><button>log in</button></form>',
                 { autoHide: false });
-        // showing error explanations
+            // showing error explanations
         } else if (explanations[errName]) {
             ui.showError(explanations[errName]);
-        // handling unknown errors
+            // handling unknown errors
         } else {
             ui.showError(errName);
         }
