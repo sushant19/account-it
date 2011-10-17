@@ -11,7 +11,6 @@ function Servant(handlers) {
     }
     // executes callback as soon as servant is available
     this.require = function (callback, about) {
-        console.log('required ' + about);
         // creating requirement
         var req = new Requirement(callback, onRelease, about);
         // registering requirement
@@ -22,7 +21,6 @@ function Servant(handlers) {
             handlers.on(onAvailable);
             // fulfilling immediately
         } else if (true === available) {
-            console.log('fulfilled ' + req.about);
             req.fulfill();
         }
         return req;
@@ -31,7 +29,6 @@ function Servant(handlers) {
             available = true;
             // fulfilling all requirements
             for (var i in requirements) {
-                console.log('fulfilled ' + req.about);
                 requirements[i].fulfill();
             }
             fulfillScheduled = false;

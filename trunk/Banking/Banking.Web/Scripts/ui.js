@@ -18,7 +18,6 @@
     }
     ui.overlay3 = new Servant({
         on: function (onComplete) {
-            console.log('overlay ON handler called');
             var overlay = $('#overlay');
             // creating overlay node if it's not present
             if (overlay.length === 0) {
@@ -30,7 +29,6 @@
             });
         },
         off: function () {
-            console.log('overlay OFF handler called');
             var overlay = $('#overlay');
             overlay.stop().fadeOut('slow');
         }
@@ -39,9 +37,7 @@
     ui.loading3 = new Servant({
         on: function (onComplete) {
             ui.disableControls();
-            console.log('loading ON handler called');
             ui.overLoading = ui.overlay3.require(function () {
-                console.log('overlay for loading available');
                 if ($('#loading_wrapper').length === 0) {
                     $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
                 }
@@ -53,8 +49,6 @@
         },
         off: function () {
             var wrapper = $('#loading_wrapper');
-            console.log('loading OFF handler called; wrapper is :');
-            console.log(wrapper);
             $('#loading_wrapper').stop().slideUp('fast');
             ui.enableControls();
             ui.overLoading.release();
@@ -63,6 +57,7 @@
     });
 
     ui.handleError = function (errName) {
+        // map { errName: explanation }
         var explanations = {
             InvalidCode: 'Invalid code',
             AjaxRequestFailure: 'Server is unreachable',
@@ -76,12 +71,14 @@
             ViewNotFound: 'Requested view not found on server',
             IdNotFound: 'Entity with given ID not found on server'
         }
-
+        // handling special cases
         if (errName === 'NotAuthorizedOrSessionExpired') {
             ui.showError('Session expired.<form action="../authorize"><button>log in</button></form>',
                 { autoHide: false });
+        // showing error explanations
         } else if (explanations[errName]) {
             ui.showError(explanations[errName]);
+        // handling unknown errors
         } else {
             ui.showError(errName);
         }
@@ -92,13 +89,11 @@
             onOpen: function (dialog) {
                 ui.modalOpened = true;
                 ui.overModal = ui.overlay3.require(function () {
-                    console.log('Overlay available in showModal onOpen');
                     $('.simplemodal-close').css('display', 'none');
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
                         $('.simplemodal-close').fadeIn('normal');
                         $('.simplemodal-container').find('input:first').focus();
-                        console.log('Modal visible');
                     });
                 }, 'overlay from modal');
 
@@ -107,11 +102,9 @@
                 ui.modalOpened = false;
                 $('.Zebra_DatePicker').css('display', 'none');
                 $('.simplemodal-close').fadeOut('normal');
-                console.log('Modal will hide now...');
                 dialog.data.fadeOut('normal', function () {
                     dialog.container.slideUp('normal', function () {
                         ui.overModal.release();
-                        console.log('Overlay released in showModal onClose');
                         $.modal.close();
                     });
                 });
