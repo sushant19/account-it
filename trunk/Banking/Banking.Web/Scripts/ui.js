@@ -19,6 +19,7 @@
     }
     ui.overlay3 = new Servant({
         on: function (onComplete) {
+            console.log('overlay ON handler called');
             var overlay = $('#overlay');
             // creating overlay node if it's not present
             if (overlay.length === 0) {
@@ -30,111 +31,38 @@
             });
         },
         off: function () {
+            console.log('overlay OFF handler called');
             var overlay = $('#overlay');
             overlay.stop().fadeOut('slow');
         }
     });
 
     ui.loading3 = new Servant({
-        on: function () {
+        on: function (onComplete) {
             ui.disableControls();
+            console.log('loading ON handler called');
             ui.overLoading = ui.overlay3.require(function () {
-                var wrapper = $('#loading_wrapper');
-                if (wrapper.length === 0) {
+                console.log('overlay for loading available');
+                if ($('#loading_wrapper').length === 0) {
                     $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
-                    wrapper = $('#loading_wrapper');
                 }
-                wrapper.stop().slideDown('fast');
-            });
+                $('#loading_wrapper').stop().slideDown('fast', function () {
+                    onComplete();
+                });
+            }, 'overlay from loading');
 
         },
         off: function () {
+            var wrapper = $('#loading_wrapper');
+            console.log('loading OFF handler called; wrapper is :');
+            console.log(wrapper);
+            $('#loading_wrapper').stop().slideUp('fast');
             ui.enableControls();
-            var message = $('#loading_wrapper');
-            message.stop().slideUp('fast', function () {
-                ui.overLoading.release();
-            });
+            ui.overLoading.release();
 
         }
     });
-
-    ui.overlayNew = new Toggle('OFF', true, {
-        on: function (proceed) {
-            console.log('overlay ON handler started');
-            var overlay = $('#overlay');
-            // creating overlay node if it's not present
-            if (overlay.length === 0) {
-                $('body').append('<div id="overlay"></div>');
-                overlay = $('#overlay');
-            }
-            overlay.stop().fadeIn('slow', function () {
-                proceed(function () {
-                    console.log('overlay ON handler completed');
-                    proceed();
-                });
-            });
-        },
-        off: function (proceed) {
-            console.log('overlay OFF handler started');
-            var overlay = $('#overlay');
-            overlay.stop().fadeOut('slow', function () {
-                proceed(function () {
-                    console.log('overlay OFF handler completed');
-                    proceed();
-                });
-            });
-        }
-    });
-
-    ui.loadingNew = new Toggle('OFF', true, {
-        on: function (proceed) {
-            console.log('loading ON handler started');
-            ui.disableControls();
-            ui.overlayNew.on(function () {
-                proceed(function () {
-                    console.log('overlay callback from loading ON');
-                    var wrapper = $('#loading_wrapper');
-                    if (wrapper.length === 0) {
-                        $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
-                        wrapper = $('#loading_wrapper');
-                    }
-                    wrapper.stop().slideDown('fast', function () {
-                        proceed(function () {
-                            console.log('loading ON handler completed');
-                            proceed();
-                        });
-                    });
-                });
-            });
-
-        },
-        off: function (proceed) {
-            console.log('loading OFF handler started');
-            ui.enableControls();
-            var message = $('#loading_wrapper');
-            message.stop().slideUp('fast', function () {
-                proceed(function () {
-                    if (!ui.modalOpened) {
-                        ui.overlayNew.off(function () {
-                            proceed(function () {
-                                console.log('callback from loading finish');
-                                message.remove();
-                                console.log('loading OFF handler completed');
-                                proceed();
-                            });
-                        });
-                    } else {
-                        console.log('callback from loding finish');
-                        message.remove();
-                        console.log('loading OFF handler completed');
-                        proceed();
-                    }
-                });
-
-            });
-        }
-    });
-
+    //TODO: refactor error handling below
     ui.handleError = function (err) {
         switch (err) {
             case 'AjaxRequestFailure':
@@ -192,7 +120,7 @@
                         $('.simplemodal-container').find('input:first').focus();
                         console.log('Modal visible');
                     });
-                });
+                }, 'overlay from modal');
 
             },
             onClose: function (dialog) {
@@ -369,69 +297,6 @@
         $('button').filter('[data-action]').filter('[data-disabled]')
             .removeAttr('disabled')
             .removeAttr('data-disabled');
-    }
-
-    ui.loading = function (state) {
-        //console.log('loading: entered with state "' + state + '", overlay: ' + ui.overlayed);
-        if ('start' === state) {
-            ui.disableControls();
-            ui.overlayNew.on(function () {
-                console.log('callback from loading start');
-                var wrapper = $('#loading_wrapper');
-                if (wrapper.length === 0)
-                    $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
-                wrapper.stop().slideDown('fast');
-            });
-            var wrapper = $('#loading_wrapper');
-            if (wrapper.length === 0)
-                $('#overlay').append('<div id="loading_wrapper"><div id="loading_message"><img src="../../Content/images/pacman_small.gif"> Loading...</div></div>');
-        }
-        else if ('finish' === state) {
-            ui.enableControls();
-            var message = $('#loading_wrapper');
-            message.stop().slideUp('fast', function () {
-                if (!ui.modalOpened) {
-                    ui.overlayNew.off(function () {
-                        console.log('callback from loding finish');
-                        message.remove();
-                    });
-                }
-            });
-        }
-    }
-
-    ui.overlay = function (action, callback) {
-        // overlay hidden, show requested
-        if ('show' === action && !ui.overlayed) {
-            $('body').append('<div id="overlay"></div>');
-            //                $('#overlay').bind('click', function () {
-            //                    ui.overlay('hide');
-            //                });
-        }
-        // no state change needed - only callback
-        if (('show' === action && ui.overlayed) || ('hide' === action && !ui.overlayed)) {
-            if (callback && typeof (callback) === "function") {
-                callback();
-            }
-            return;
-        }
-        // state change needed - switching...
-        else {
-            var overlay = $('#overlay');
-            overlay.stop().fadeToggle(function () {
-                if (callback && typeof (callback) === "function") {
-                    if (!ui.overlayed)
-                        overlay.remove();
-                    callback();
-                }
-            });
-            //switching state flags
-            if (ui.overlayed)
-                ui.overlayed = false;
-            else
-                ui.overlayed = true;
-        }
-
     }
 
     ui.setFocus = function () {

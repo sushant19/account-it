@@ -207,7 +207,7 @@
 
     // Posts data to /{controller}/{action} and handles response.error
     function sendRequest(action, controller, data, successCallback) {
-        var loading = ui.loading3.require();
+        var loading = ui.loading3.require(null, 'loading from sendRequest');
         var url = '/' + controller + '/' + action;
         $.post(url, data, function (response) {
             if (response.error) {

@@ -10,44 +10,51 @@ function Servant(handlers) {
         return requirements;
     }
     // executes callback as soon as servant is available
-    this.require = function (onAvailable) {
-        // call onAvailable or do nothing if it's not a function
-        var callback = (typeof (onAvailable) === 'function') ?
-            onAvailable : function () { };
+    this.require = function (callback, about) {
+        console.log('required ' + about);
         // creating requirement
-        var req = new Requirement(callback, function () {
-            // if all requirements are released...
-            if (requirements.every(function (item) {
-                return (true === item.released);
-            })) {
-                // ... then servant is free
-                requirements = [];      // cleaning 
-                available = false;      // leaving
-                handlers.off();         // waving goodbye :)
-            }
-        });
+        var req = new Requirement(callback, onRelease, about);
         // registering requirement
         requirements.push(req);
         // scheduling requirements fulfill when available
         if (false === available && false === fulfillScheduled) {
-            handlers.on(function () {
-                available = true;               // just came
-                // fulfilling all requirements
-                for (var i in requirements) {
-                    requirements[i].fulfill();
-                }
-                // avoiding repetition
-                fulfillScheduled = false;
-            });
-        // fulfilling immediately
+            fulfillScheduled = true;
+            handlers.on(onAvailable);
+            // fulfilling immediately
         } else if (true === available) {
+            console.log('fulfilled ' + req.about);
             req.fulfill();
         }
         return req;
+        // is executed when servant comes
+        function onAvailable() {
+            available = true;
+            // fulfilling all requirements
+            for (var i in requirements) {
+                console.log('fulfilled ' + req.about);
+                requirements[i].fulfill();
+            }
+            fulfillScheduled = false;
+        }
+        // is executed when requirement is released
+        function onRelease() {
+            if (requirements.every(isReleased)) {
+                requirements = [];      // cleaning
+                fulfillScheduled = false;
+                available = false;      // leaving
+                handlers.off();         // waving goodbye :)
+            }
+        }
+        // checks release state of requirement
+        function isReleased(requirement) {
+            return (true === requirement.released);
+        }
+
     }
 
     // Constructs new Requirement
-    function Requirement(onAvailable, onRelease) {
+    function Requirement(onAvailable, onRelease, about) {
+        this.about = about;
         // flags
         this.fulfilled = false;
         this.released = false;
@@ -55,18 +62,23 @@ function Servant(handlers) {
         this.fulfill = function () {
             if (false === this.fulfilled) {
                 this.fulfilled = true;
-                onAvailable();
+                callIfFunc(onAvailable);
             }
         }
-        
         // executes onRelease (only once)
         this.release = function () {
-            // released considered fulfilled, too
-            this.fulfilled = true;
             if (false === this.released) {
+                this.fulfilled = true;
                 this.released = true;
                 onRelease();
             }
+        }
+    }
+
+    // calls func if it's a function
+    function callIfFunc(f) {
+        if (typeof (f) === 'function') {
+            f();
         }
     }
 }
