@@ -125,6 +125,7 @@
             },
             onClose: function (dialog) {
                 ui.modalOpened = false;
+                $('.Zebra_DatePicker').css('display', 'none');
                 $('.simplemodal-close').fadeOut('normal');
                 console.log('Modal will hide now...');
                 dialog.data.fadeOut('normal', function () {
