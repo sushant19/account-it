@@ -124,8 +124,10 @@
         var text = textarea.prop('value');
         sendRequest('saveImport', 'operation', { text: text }, function (response) {
             updateEntities(response.affected);
-            view.find('.textLeftMessage').html('Text left below was not recognized');
-            textarea.attr('value', response.textLeft);
+            if (!response.allTextRecognized) {
+                view.find('.textLeftMessage').html('Text left below was not recognized:');
+                textarea.attr('value', response.textLeft);
+            }
         });
     });
 

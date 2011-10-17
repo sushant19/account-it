@@ -134,7 +134,10 @@ namespace Banking.Web.Controllers
             Storage.SaveChanges();
             var affectedData = parsed.Operations
                 .Select(op => new { entity = "operation", id = op.ID });
-            return Json(new { affected = affectedData, textLeft = parsed.TextLeft });
+            if (String.IsNullOrWhiteSpace(parsed.TextLeft))
+                return Json(new { affected = affectedData, allTextRecognized = true });
+            else
+                return Json(new { affected = affectedData, textLeft = parsed.TextLeft });
         }
 
         public PartialViewResult SelectParticipants(Operation op)
