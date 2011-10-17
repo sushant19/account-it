@@ -4,7 +4,6 @@
 //  jquery-data
 
 (function () {
-    var ui = { modalOpened: false, overlayed: false };
     this.ui = ui;
     $(document).ready(function () {
         stickActionsMenu();
@@ -62,48 +61,29 @@
 
         }
     });
-    //TODO: refactor error handling below
-    ui.handleError = function (err) {
-        switch (err) {
-            case 'AjaxRequestFailure':
-                ui.showError('Server is unreachable')
-                break;
-            case 'NotAuthorizedOrSessionExpired':
-                ui.showError('Session expired.<form action="../authorize"><button>log in</button></form>', { autoHide: false })
-                break;
-            case 'CannotDeletePersonThatHasOperations':
-                ui.showError('Person who has operations cannot be deleted. Uncheck or remove all his / her operations first.');
-                break;
-            case 'EmptyParticipantsList':
-                ui.showError('Operation should have at least one participant.');
-                break;
-            case 'NoPersonsDefined':
-                ui.showError('There are no persons - so create somebody first.');
-                break;
-            case 'PersonWithSameNameAlreadyExists':
-                ui.showError('Person with same name already exists.');
-                break;
-            case 'PersonCannotHaveReservedName':
-                ui.showError('This name is reserved.');
-                break;
-            case 'PersonCannotHaveEmptyName':
-                ui.showError('You can not create person with empty name.');
-                break;
-            case 'PersonalOperationNotFound':
-                ui.showError('This person isn\'t participant anymore.');
-                break;
-            case 'ViewNotFound':
-                ui.showError('Requested view not found on the server.');
-                break;
-            case 'IdNotFound':
-                ui.showError('Entity with given ID not found on the server.');
-                break;
-            case 'InvalidCode':
-                ui.showError('Invalid code.');
-                break;
 
-            default:
-                ui.showError(err);
+    ui.handleError = function (errName) {
+        var explanations = {
+            InvalidCode: 'Invalid code',
+            AjaxRequestFailure: 'Server is unreachable',
+            CannotDeletePersonThatHasOperations: 'Person who has operations cannot be deleted.',
+            EmptyParticipantsList: 'Operation should have at least one participant.',
+            NoPersonsDefined: 'There are no persons. Create somebody first.',
+            PersonWithSameNameAlreadyExists: 'Person with same name already exists.',
+            PersonCannotHaveReservedName: 'This name is reserved.',
+            PersonCannotHaveEmptyName: 'Empty name is not allowed.',
+            PersonalOperationNotFound: 'This person isn\'t participant anymore.',
+            ViewNotFound: 'Requested view not found on server',
+            IdNotFound: 'Entity with given ID not found on server'
+        }
+
+        if (errName === 'NotAuthorizedOrSessionExpired') {
+            ui.showError('Session expired.<form action="../authorize"><button>log in</button></form>',
+                { autoHide: false });
+        } else if (explanations[errName]) {
+            ui.showError(explanations[errName]);
+        } else {
+            ui.showError(errName);
         }
     }
 
