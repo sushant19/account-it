@@ -2,7 +2,7 @@
     $.fn.parseData = function (name) {
         return this.attr('data-' + name);
     }
-
+    //TODO: maybe rewrite to using filterByData?
     $.fn.findByData = function (values) {
         var matched = null;
         for (name in values) {
