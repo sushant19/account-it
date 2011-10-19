@@ -1,4 +1,4 @@
-﻿/* dependencies */
+ /* dependencies */
 
 //  jQuery 1.6+
 //  jquery-data
@@ -93,7 +93,7 @@
                     dialog.container.slideDown('normal', function () {
                         dialog.data.fadeIn('normal');
                         $('.simplemodal-close').fadeIn('normal');
-                        $('.simplemodal-container').find('input:first').focus();
+                        $('.simplemodal-container').find('form :input:visible:first').focus();
                     });
                 }, 'overlay from modal');
 
